@@ -1,0 +1,81 @@
+<!-- Контент страницы Login (без header/footer) -->
+<h1>Вход</h1>
+<div class="row">
+    <div class="col-md-4">
+        <section>
+            <form
+                id="account"
+                method="post"
+                @submit.prevent="handleLoginSubmit"
+            >
+                <h2>Используйте локальную учетную запись для входа.</h2>
+                <hr />
+
+                <auth-input
+                    v-model="loginData.email"
+                    type="email"
+                    name="LoginInput.Email"
+                    label="Email"
+                    placeholder="name@example.com"
+                    autocomplete="username"
+                    :required="true"
+                />
+
+                <auth-input
+                    v-model="loginData.password"
+                    type="password"
+                    name="LoginInput.Password"
+                    label="Пароль"
+                    placeholder="password"
+                    autocomplete="current-password"
+                    :required="true"
+                />
+
+                <auth-checkbox
+                    v-model="loginData.rememberMe"
+                    name="LoginInput.RememberMe"
+                    label="Запомнить меня"
+                />
+
+                <div>
+                    <auth-button
+                        button-id="login-submit"
+                        type="submit"
+                        label="Войти"
+                        variant="primary"
+                        size="lg"
+                        :full-width="true"
+                    />
+                </div>
+
+                <div>
+                    <p>
+                        <a
+                            id="forgot-password"
+                            href="/forgot-password"
+                        >
+                            Забыли пароль?
+                        </a>
+                    </p>
+                    <p>
+                        <a
+                            id="register"
+                            href="/signup"
+                        >
+                            Зарегистрироваться
+                        </a>
+                    </p>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <h3>Используйте другой сервис для входа.</h3>
+            <hr />
+            <p class="text-muted">Внешние провайдеры не настроены</p>
+        </section>
+    </div>
+</div>
+

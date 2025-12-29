@@ -1,0 +1,14 @@
+﻿@using FunSun.Auth.Pages
+@model ICollection<FunSun.Auth.Pages.BasePageModel.StatusMessage>
+
+@foreach(var item in Model)
+{
+    if (item.Status == BasePageModel.StatusMessage.StatusEnum.Success)
+    {
+        <p class="text-success">@item.Message</p>
+    }
+    else
+    {
+        <p class="text-danger">@item.Message</p>
+    }
+}

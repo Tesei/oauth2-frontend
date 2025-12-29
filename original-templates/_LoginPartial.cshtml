@@ -1,0 +1,27 @@
+@using FunSun.Auth.Domain.Entities.Users
+@using FunSun.Auth.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using OpenIddict.Server.AspNetCore
+
+@inject SignInManager<FsUser> SignInManager
+@inject UserManager<FsUser> UserManager
+
+<ul class="navbar-nav">
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <li class="nav-item">
+        <form id="logoutForm" class="form-inline" asp-page="/Logout/Index" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Выйти</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" id="register" href="@Url.PageWithoutNormalizeQuery("/SignUp/Index", new { returnUrl = Context.Request.Query["returnUrl"] })">Зарегистрироваться</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" id="login" href="@Url.PageWithoutNormalizeQuery("/Login/Index", new { returnUrl = Context.Request.Query["returnUrl"] })">Войти</a>
+    </li>
+}
+</ul>

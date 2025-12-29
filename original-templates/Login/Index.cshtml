@@ -1,0 +1,108 @@
+﻿@page
+@using FunSun.Auth.Extensions
+@using FunSun.Auth.Pages.Login
+@inject IHtmlLocalizer<IndexModel> Localizer
+@model IndexModel
+@{
+    ViewData["Title"] = Localizer["Title"];
+}
+
+<h1>@Localizer["Title"]</h1>
+<div class="row">
+    <div class="col-md-4">
+        <section>
+            <form id="account" method="post">
+                <h2>@Localizer["LocalAccountPrompt"]</h2>
+                <hr />
+                <partial name="_StatusMessage" for="StatusMessages" />
+                
+                @* Было: <div class="form-floating mb-3">...</div> *@
+                @* Стало: Vue компонент *@
+                <auth-input 
+                    v-model="loginInput.email"
+                    type="email"
+                    name="LoginInput.Email"
+                    :label="'@Localizer["EmailLabel"]'"
+                    placeholder="name@example.com"
+                    autocomplete="username"
+                    :required="true"
+                />
+
+                @* Было: <div class="form-floating mb-3">...</div> *@
+                @* Стало: Vue компонент *@
+                <auth-input 
+                    v-model="loginInput.password"
+                    type="password"
+                    name="LoginInput.Password"
+                    :label="'@Localizer["PasswordLabel"]'"
+                    placeholder="password"
+                    autocomplete="current-password"
+                    :required="true"
+                />
+
+                @* Было: <div class="checkbox mb-3">...</div> *@
+                @* Стало: Vue компонент *@
+                <auth-checkbox
+                    v-model="loginInput.rememberMe"
+                    name="LoginInput.RememberMe"
+                    :label="'@Localizer["RememberMeLabel"]'"
+                />
+
+                <div>
+                    @* Было: <button ... *@
+                    @* Стало: Vue компонент *@
+                    <auth-button
+                        button-id="login-submit"
+                        type="submit"
+                        :label="'@Localizer["LoginButton"]'"
+                        variant="primary"
+                        size="lg"
+                        :full-width="true"
+                    />
+                </div>
+                <div>
+                    <p>
+                        <a id="forgot-password" href="@Url.PageWithoutNormalizeQuery("/ForgotPassword/Index", new { returnUrl = HttpContext.Request.Query["returnUrl"] })">@Localizer["ForgotPasswordLink"]</a>
+                    </p>
+                    <p>
+                        <a id="register" href="@Url.PageWithoutNormalizeQuery("/SignUp/Index", new { returnUrl = HttpContext.Request.Query["returnUrl"] })">@Localizer["RegisterLink"]</a>
+                    </p>
+                </div>
+            </form>
+        </section>
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <h3>@Localizer["ExternalServicesPrompt"]</h3>
+            <hr />
+            @{
+                <form id="external-account" asp-page="/ExternalLogin/Index" method="post" class="form-horizontal">
+                    <input type="hidden" name="returnUrl" value="@HttpContext.Request.Query["returnUrl"]" />
+                    <div>
+                        <p>
+                            @foreach (var provider in Model.ExternalLogins.Schemes)
+                            {
+                                @* Можно заменить на Vue компонент если нужно *@
+                                <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="@Localizer["ExternalLoginButton", provider.DisplayName]">@provider.DisplayName</button>
+                            }
+                        </p>
+                    </div>
+                </form>
+            }
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Инициализация данных для Vue компонентов
+        // v-model привязывается к этим данным
+        window.vueAuthData = {
+            loginInput: {
+                email: '',
+                password: '',
+                rememberMe: false
+            }
+        };
+    </script>
+}

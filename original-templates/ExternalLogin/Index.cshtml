@@ -1,0 +1,66 @@
+﻿@page
+@using FunSun.Auth.Pages.ExternalLogin
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject IHtmlLocalizer<IndexModel> Localizer
+@model IndexModel
+@{
+    ViewData["Title"] = Localizer["Title"];
+    ViewData["HideLoginPartial"] = true;
+}
+<div>
+    <h1>@Localizer["Title"]</h1>
+    <h2 id="external-login-title">@Localizer["ProviderTitle", Model.ProviderDisplayName]</h2>
+    <hr />
+
+    <p id="external-login-description" class="text-info">
+        @Localizer["ProviderDescription", Model.ProviderDisplayName]
+    </p>
+
+    <div class="row">
+        <div class="col-md-4">
+            <partial name="_StatusMessage" for="StatusMessages" />
+            <form asp-page-handler="Confirmation" method="post">
+                <input type="hidden" name="returnUrl" value="@HttpContext.Request.Query["returnUrl"]" />
+                <input type="hidden" asp-for="ProviderDisplayName" />
+                <input type="hidden" asp-for="ReadOnlyEmailInput" />
+                <input type="hidden" asp-for="ReadOnlyPhoneInput" />
+                <div class="form-floating mb-3">
+                    <input
+                        asp-for="RegisterData.Email"
+                        class="form-control"
+                        autocomplete="email"
+                        placeholder="@Localizer["InputEmailPlaceholder"]"
+                        readonly="@(Model.ReadOnlyEmailInput ? "readonly" : null )"/>
+                    <label asp-for="RegisterData.Email" class="form-label"></label>
+                </div>
+                @if (!Model.ReadOnlyEmailInput)
+                {
+                    <div class="form-floating mb-3">
+                        <input
+                            asp-for="RegisterData.ConfirmEmail"
+                            class="form-control"
+                            autocomplete="email"
+                            placeholder="@Localizer["InputEmailPlaceholder"]"
+                            onpaste="return false"
+                            oncopy="return false"
+                            oncut="return false"
+                            ondrop="return false"
+                            oncontextmenu="return false"
+                            onkeydown="if ((event.ctrlKey || event.metaKey) && (event.key === 'v' || event.key === 'V')) event.preventDefault();"/>
+                        <label asp-for="RegisterData.ConfirmEmail" class="form-label"></label>
+                    </div>
+                }
+                <div class="form-floating mb-3">
+                    <input
+                        asp-for="RegisterData.Phone"
+                        class="form-control"
+                        autocomplete="phone"
+                        placeholder="@Localizer["InputPhonePlaceholder"]"
+                        readonly="@(Model.ReadOnlyPhoneInput ? "readonly" : null )"/>
+                    <label asp-for="RegisterData.Phone" class="form-label"></label>
+                </div>
+                <button type="submit" class="w-100 btn btn-lg btn-primary">@Localizer["RegisterButton"]</button>
+            </form>
+        </div>
+    </div>
+</div>

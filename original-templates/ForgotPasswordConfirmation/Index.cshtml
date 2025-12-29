@@ -1,0 +1,12 @@
+﻿@page
+@using FunSun.Auth.Pages.ForgotPasswordConfirmation
+@inject IHtmlLocalizer<IndexModel> Localizer
+@model IndexModel
+@{
+    ViewData["Title"] = Localizer["Title"];
+}
+
+<h1>@Localizer["Title"]</h1>
+<p>
+    @Localizer["Description"]
+</p>

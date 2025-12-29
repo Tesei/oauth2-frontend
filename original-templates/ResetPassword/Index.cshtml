@@ -1,0 +1,34 @@
+﻿@page
+@using FunSun.Auth.Pages.ResetPassword
+@inject IHtmlLocalizer<IndexModel> Localizer
+@model IndexModel
+@{
+    ViewData["Title"] = Localizer["Title"];
+}
+
+<h1>@Localizer["ResetPasswordHeader"]</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            @foreach (var error in Model.Errors)
+            {
+                <p class="text-danger">@error</p>
+            }
+            <input asp-for="ResetPasswordInput.Code" type="hidden" />
+            <div class="form-floating mb-3">
+                <input asp-for="ResetPasswordInput.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="ResetPasswordInput.Email" class="form-label">@Localizer["EmailLabel"]</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="ResetPasswordInput.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Введите ваш пароль" />
+                <label asp-for="ResetPasswordInput.Password" class="form-label">@Localizer["PasswordLabel"]</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="ResetPasswordInput.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Подтвердите ваш пароль" />
+                <label asp-for="ResetPasswordInput.ConfirmPassword" class="form-label">@Localizer["ConfirmPasswordLabel"]</label>
+            </div>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">@Localizer["ResetButton"]</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+﻿@page
+@using FunSun.Auth.Pages.Signup
+@inject IHtmlLocalizer<IndexModel> Localizer
+@model IndexModel
+@{
+ViewData["Title"] = Localizer["Title"];
+}
+
+<h1>@Localizer["RegisterHeader"]</h1>
+
+<div class="row">
+    <partial name="_StatusMessage" for="StatusMessages" />
+    <div class="col-md-4">
+        <form id="registerForm" method="post">
+            <h2>@Localizer["CreateAccountPrompt"]</h2>
+            <hr/>
+            @foreach (var error in Model.Errors)
+            {
+                <p class="text-danger">@error</p>
+            }
+            <div class="form-floating mb-3">
+                <input asp-for="SignUpInput.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com"/>
+                <label asp-for="SignUpInput.Email">@Localizer["EmailLabel"]</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="SignUpInput.Phone" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com"/>
+                <label asp-for="SignUpInput.Phone">@Localizer["PhoneLabel"]</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="SignUpInput.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password"/>
+                <label asp-for="SignUpInput.Password">@Localizer["PasswordLabel"]</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="SignUpInput.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password"/>
+                <label asp-for="SignUpInput.ConfirmPassword">@Localizer["ConfirmPasswordLabel"]</label>
+            </div>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">@Localizer["RegisterButton"]</button>
+        </form>
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <h3>@Localizer["ExternalRegisterPrompt"]</h3>
+            <hr/>
+            <form id="external-account" asp-page="/ExternalLogin/Index" method="post" class="form-horizontal">
+                <div>
+                    <p>
+                        @foreach (var provider in Model.ExternalLogins.Schemes)
+                        {
+                            <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="@Localizer["LoginWithProviderTitle", provider.DisplayName]">@provider.DisplayName</button>
+                        }
+                    </p>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>

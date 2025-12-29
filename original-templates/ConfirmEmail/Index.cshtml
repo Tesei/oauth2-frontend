@@ -1,0 +1,29 @@
+﻿@page
+@using FunSun.Auth.Pages.ConfirmEmail
+@inject IStringLocalizer<IndexModel> Localizer
+@model IndexModel
+@{
+    ViewData["Title"] = Localizer["Title"];
+}
+
+<div class="col-md-4">
+    <section>
+        <form id="confirmEmail" method="post">
+            <h2>@Localizer["EmailConfirmationPrompt"]</h2>
+            
+            @foreach (var error in Model.Errors)
+            {
+                <p class="text-danger">@error</p>
+            }
+
+            <input asp-for="ConfirmEmailInput.UserId" type="hidden"/>
+            <div class="form-floating mb-3">
+                <input asp-for="ConfirmEmailInput.Code" class="form-control" aria-required="true" />
+                <label asp-for="ConfirmEmailInput.Code" class="form-label">@Localizer["CodeLabel"]</label>
+            </div>
+            <div>
+                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">@Localizer["ConfirmButton"]</button>
+            </div>
+        </form>
+    </section>
+</div>
