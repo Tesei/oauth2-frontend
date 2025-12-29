@@ -46,9 +46,8 @@ const emit = defineEmits<{
     'update:modelValue': [value: string]
 }>()
 
-const inputId = computed(() => {
-    return `input-${props.name || Math.random().toString(36).substr(2, 9)}`
-})
+let idCounter = 0
+const inputId = computed(() => `input-${props.name || ++idCounter}`)
 
 const handleInput = (event: Event) => {
     const target = event.target as HTMLInputElement

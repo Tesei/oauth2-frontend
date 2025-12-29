@@ -35,9 +35,8 @@ const emit = defineEmits<{
     'update:modelValue': [value: boolean]
 }>()
 
-const checkboxId = computed(() => {
-    return `checkbox-${props.name || Math.random().toString(36).substr(2, 9)}`
-})
+let idCounter = 0
+const checkboxId = computed(() => `checkbox-${props.name || ++idCounter}`)
 
 const handleChange = (event: Event) => {
     const target = event.target as HTMLInputElement

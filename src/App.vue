@@ -57,7 +57,10 @@ import { ref } from 'vue'
 const email = ref('')
 const checked = ref(false)
 
-const showAlert = (msg: string) => alert(msg)
+const showAlert = (msg: string) => {
+    // eslint-disable-next-line no-alert
+    alert(msg)
+}
 </script>
 
 <style scoped>
