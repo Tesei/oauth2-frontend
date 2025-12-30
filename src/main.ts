@@ -2,11 +2,14 @@ import { createApp } from 'vue'
 import './shared/config/styles.css'
 import DemoApp from './App.vue'
 
+// Импортируем пакеты
+import '@fun-sun/vue-components/vue-components.css'
+import '@fun-sun/style/dist/style.css'
+
 // Импортируем компоненты
 import AuthInput from './shared/ui/auth/AuthInput.vue'
 import AuthButton from './shared/ui/auth/AuthButton.vue'
 import AuthCheckbox from './shared/ui/auth/AuthCheckbox.vue'
-
 // Создаем приложение для демо
 const app = createApp(DemoApp)
 
