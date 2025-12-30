@@ -1,98 +1,65 @@
 <!DOCTYPE html>
 <html lang="ru">
-    <head>
-        <meta charset="UTF-8" />
+  <head>
+    <meta charset="UTF-8" />
         <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0"
         />
         <title>FunSun.Auth</title>
-
-        <!-- Bootstrap CSS -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-        />
         
+        <!-- Стили Header и Footer (скопированы в public) -->
+        <link rel="stylesheet" href="/css/header.css" />
+        <link rel="stylesheet" href="/css/footer.css" />
+
         <style>
             body {
-                background-color: #f8f9fa;
                 margin: 0;
             }
-            
-            /* Небольшие стили для интеграции */
-            main {
-                min-height: calc(100vh - 300px);
-            }
         </style>
-    </head>
-    <body>
+  </head>
+  <body>
         <div id="app">
-            <!-- Header из @fun-sun/header -->
-            <header-block />
-
-            <!-- Main Content -->
-            <div class="container">
-                <main
-                    role="main"
-                    class="pb-1"
-                >
-                    <div id="page-content">
-                        <!-- Контент страницы загружается сюда -->
-                    </div>
-                </main>
-            </div>
-
-            <!-- Footer из @fun-sun/footer -->
-            <app-footer />
+            <!-- App.vue рендерится здесь -->
         </div>
 
         <!-- Vue App -->
         <script type="module">
             import { createApp } from 'vue'
             import { createPinia } from 'pinia'
+            import { createRouter, createWebHistory } from 'vue-router'
+            import App from '/src/App.vue'
             
-            // Импорт UI компонентов auth
-            import AuthInput from '/src/shared/ui/auth/AuthInput.vue'
-            import AuthButton from '/src/shared/ui/auth/AuthButton.vue'
-            import AuthCheckbox from '/src/shared/ui/auth/AuthCheckbox.vue'
-            
-            // Импорт Header и Footer из npm
-            import { HeaderBlock } from '@fun-sun/header'
-            import { AppFooter } from '@fun-sun/footer'
+            // Импорт всего через index.ts (централизованно)
+            import {
+                AuthInput,
+                AuthButton,
+                AuthCheckbox,
+                HeaderBlock,
+                AppFooter,
+                vOutside
+            } from '/src/index.ts'
 
-            const app = createApp({
-                data() {
-                    return {
-                        loginData: {
-                            email: '',
-                            password: '',
-                            rememberMe: false,
-                        },
-                        signupData: {
-                            email: '',
-                            password: '',
-                            confirmPassword: '',
-                        },
-                    }
-                },
-                methods: {
-                    handleLoginSubmit() {
-                        console.log('Login:', this.loginData)
-                        // eslint-disable-next-line no-alert
-                        alert(`Email: ${this.loginData.email}`)
-                    },
-                    handleSignupSubmit() {
-                        console.log('Signup:', this.signupData)
-                        // eslint-disable-next-line no-alert
-                        alert(`Email: ${this.signupData.email}`)
-                    },
-                },
-            })
+            // Создаем приложение с App.vue
+            const app = createApp(App)
 
             // Инициализируем Pinia (нужна для Header/Footer)
             const pinia = createPinia()
             app.use(pinia)
+            
+            // Создаем простой роутер (нужен для Footer)
+            const router = createRouter({
+                history: createWebHistory(),
+                routes: [
+                    { path: '/', redirect: '/login' },
+                    { path: '/login', component: { template: '<div></div>' } },
+                    { path: '/signup', component: { template: '<div></div>' } }
+                ]
+            })
+            app.use(router)
+            
+            // Регистрируем директиву click-outside (используется в Header/Footer)
+            app.directive('click-outside', vOutside)
             
             // Регистрируем Header и Footer
             app.component('HeaderBlock', HeaderBlock)
@@ -104,22 +71,6 @@
             app.component('AuthCheckbox', AuthCheckbox)
 
             app.mount('#app')
-
-            // Простой роутер
-            async function loadPage(pageName) {
-                const response = await fetch(`/pages/${pageName}.html`)
-                const html = await response.text()
-                document.getElementById('page-content').innerHTML = html
-            }
-
-            const path = window.location.pathname
-            if (path.includes('login')) {
-                loadPage('login')
-            } else if (path.includes('signup')) {
-                loadPage('signup')
-            } else {
-                loadPage('login')
-            }
         </script>
-    </body>
+  </body>
 </html>
