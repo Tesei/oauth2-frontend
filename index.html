@@ -56,10 +56,7 @@
             
             // === Header приложение ===
             const headerApp = createApp(HeaderBlock, {
-                locale: 'ru',  // Локаль (обязательно)
-                activeTab: null,  // Активная вкладка
-                compareList: [],  // Список сравнения
-                countFavorite: 0  // Количество избранного
+                locale: 'ru',           // Локаль (обязательно)
             })
             headerApp.use(pinia)
             headerApp.use(router)
