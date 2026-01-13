@@ -1,81 +1,238 @@
-<!-- Login страница с веб-компонентами (FSD: pages/login) -->
-<h1>Вход</h1>
-<div class="row">
-    <div class="col-md-4">
-        <section>
-            <form
-                id="account"
-                method="post"
-            >
-                <h2>Используйте локальную учетную запись для входа.</h2>
-                <hr />
+<!-- Login страница с формой в центре (FSD: pages/login) -->
 
-                <!-- Веб-компоненты из @fun-sun/vue-components -->
-                
-                <!-- Email поле -->
-                <web-input
-                    name="LoginInput.Email"
-                    type="email"
-                    placeholder="name@example.com"
-                    label="Email"
-                    autocomplete="username"
-                    required="true"
-                ></web-input>
+<!-- Контейнер для центрирования -->
+<div class="login-container">
+    <!-- Заголовок (над карточкой) -->
+    <h2 class="login-title">Войдите в профиль</h2>
 
-                <!-- Password поле -->
-                <web-input-password
-                    name="LoginInput.Password"
-                    placeholder="password"
-                    label="Пароль"
-                    autocomplete="current-password"
-                    required="true"
-                ></web-input-password>
+    <!-- Карточка с формой - ВСЕ внутри! -->
+    <div class="login-card">
+        <form
+            id="account"
+            method="post"
+        >
+            <!-- Email поле -->
+            <web-input
+                class="mb-20"
+                name="LoginInput.Email"
+                type="email"
+                placeholder="name@example.com"
+                label="Email"
+                autocomplete="username"
+                required="true"
+            ></web-input>
+            <!-- Атрибуты для CSHTML:
+                 value="@Model.Email" - значение от бэкенда
+                 label="@Localizer["EmailLabel"]" - перевод лейбла
+                 error-text="@Model.Errors.Email" - текст ошибки валидации
+            -->
 
-                <!-- Remember Me checkbox -->
-                <web-checkbox
-                    name="LoginInput.RememberMe"
-                    label="Запомнить меня"
-                ></web-checkbox>
+            <!-- Password поле -->
+            <web-input-password
+                name="LoginInput.Password"
+                placeholder="password"
+                label="Пароль"
+                autocomplete="current-password"
+                required="true"
+            ></web-input-password>
+            <!-- Атрибуты для CSHTML:
+                 value="@Model.Password" - значение от бэкенда
+                 label="@Localizer["PasswordLabel"]" - перевод лейбла
+                 error-text="@Model.Errors.Password" - текст ошибки валидации
+            -->
 
-                <!-- Submit button -->
-                <div>
-                    <web-button
-                        id="login-submit"
-                        type="submit"
-                        custom-class="w-100"
-                    >
-                        Войти
-                    </web-button>
-                </div>
+            <!-- Ссылка "Не помню пароль" (слева под инпутами) -->
+            <div class="login-forgot-left mt-8 mb-32">
+                <a
+                        class=" c-gray"
+                    id="forgot-password"
+                    href="/forgot-password"
+                >
+                    Не помню пароль
+                </a>
+            </div>
 
-                <!-- Links -->
-                <div>
-                    <p>
-                        <a
-                            id="forgot-password"
-                            href="/forgot-password"
-                        >
-                            Забыли пароль?
-                        </a>
-                    </p>
-                    <p>
-                        <a
-                            id="register"
-                            href="/signup"
-                        >
-                            Зарегистрироваться как новый пользователь
-                        </a>
-                    </p>
-                </div>
-            </form>
-        </section>
+            <!-- Submit button -->
+            <div class="login-submit">
+                <web-button
+                    id="login-submit"
+                    type="submit"
+                    class="button_yellow w-100p"
+                >
+                    Войти
+                </web-button>
+                <!-- Атрибуты для CSHTML:
+                     class="button_yellow w-100p" - желтая кнопка на всю ширину
+                     disabled="@Model.IsSubmitting" - заблокировать кнопку
+                     loading="@Model.IsLoading" - показать прелоадер
+                     Текст: @Localizer["LoginButton"] - перевод текста кнопки
+                -->
+            </div>
+
+            <!-- Разделитель "или" с линиями -->
+            <div class="login-divider">
+                <span class="login-divider-line"></span>
+                <span class="login-divider-text">или</span>
+                <span class="login-divider-line"></span>
+            </div>
+
+            <!-- Кнопки входа через соцсети (черные с иконками) -->
+            <div class="login-social-buttons">
+                <web-button
+                    class="bg-black c-white radius-12 w-100p "
+                    custom-class="login-social-btn"
+                >
+                    <span>Войти с</span>
+                    <img
+                        src="/icons/yandex.svg"
+                        alt="Yandex"
+                        width="24"
+                        height="24"
+                    />
+                </web-button>
+
+                <web-button
+                    class="bg-black c-white radius-12 w-100p "
+                    custom-class="login-social-btn"
+                >
+                    <span>Войти с</span>
+                    <img
+                        src="/icons/wildberries.svg"
+                        alt="Wildberries"
+                        width="40"
+                        height="20"
+                    />
+                </web-button>
+                <!-- Для CSHTML:
+                     @foreach (var provider in Model.ExternalLogins.Schemes) {
+                         <web-button 
+                             name="provider" 
+                             value="@provider.Name"
+                             custom-class="login-social-btn"
+                         >
+                             <span>Войти с</span>
+                             <svg>иконка провайдера</svg>
+                         </web-button>
+                     }
+                -->
+            </div>
+
+            <!-- Ссылка на регистрацию -->
+            <div class="login-register">
+                <a
+                    id="register"
+                    href="/signup"
+                    class="c-cornflower"
+                >
+                    Зарегистрироваться
+                </a>
+            </div>
+        </form>
     </div>
-
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Используйте другой сервис для входа.</h3>
-            <hr />
-            <p class="text-muted">Внешние провайдеры не настроены</p>
-        </section>
-    </div>
+    <!-- /Карточка -->
 </div>
+
+<!-- Стили для Login страницы -->
+<style>
+    /* Контейнер для центрирования карточки */
+    .login-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 60vh;
+        padding: 40px 20px;
+    }
+
+    /* Заголовок (над карточкой) */
+    .login-title {
+        margin: 0 0 24px 0;
+        font-size: 32px;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    /* Карточка с формой (визуально как модалка) */
+    .login-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        max-width: 500px;
+        width: 100%;
+    }
+
+    /* Ссылка "Не помню пароль" (слева под инпутами) */
+    .login-forgot-left {
+        text-align: left;
+    }
+
+    .login-forgot-left a {
+        font-size: 14px;
+        text-decoration: none;
+        /* Цвет задается через утилитарный класс c-gray или другой */
+    }
+
+    .login-forgot-left a:hover {
+        text-decoration: underline;
+    }
+
+    /* Контейнер кнопки submit */
+    .login-submit {
+        margin-bottom: 16px;
+    }
+
+    /* Разделитель "или" с линиями */
+    .login-divider {
+        display: flex;
+        align-items: center;
+        margin: 24px 0;
+        gap: 12px;
+    }
+
+    .login-divider-line {
+        flex: 1;
+        height: 1px;
+        background: #dbe0e5;
+    }
+
+    .login-divider-text {
+        color: #7e8389;
+        font-size: 14px;
+    }
+
+    /* Кнопки соцсетей (черные с иконками) - в одну строку */
+    .login-social-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    /* Дополнительные стили для кнопок соцсетей */
+    .login-social-btn {
+        flex: 1;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        justify-content: center !important;
+        background: #000000 !important;
+        color: #ffffff !important;
+    }
+
+    /* Ссылка на регистрацию */
+    .login-register {
+        text-align: center;
+        margin-top: 24px;
+        font-size: 16px;
+    }
+
+    .login-register a {
+        text-decoration: none;
+        /* Цвет задается через утилитарный класс c-cornflower или другой */
+    }
+
+    .login-register a:hover {
+        text-decoration: underline;
+    }
+</style>
