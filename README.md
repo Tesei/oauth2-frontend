@@ -1,129 +1,86 @@
-# FunSun Auth - Vue 3 + TypeScript
+# OAuth2 Frontend - FunSun Auth
 
-Vue компоненты для интеграции в ASP.NET Core CSHTML шаблоны.
+Проект авторизации с использованием Vue 3 + TypeScript и веб-компонентов.
+
+## 🏗️ Архитектура
+
+### Гибридный подход:
+
+**Header/Footer** - Vue компоненты (из @fun-sun/header, @fun-sun/footer)  
+**Auth формы** - Веб-компоненты (из @fun-sun/vue-components)
+
+### Структура (FSD):
+
+```
+src/
+├── pages/login/          # Страница Login (HTML с веб-компонентами)
+│   └── index.html
+├── App.vue              # Главный компонент (Header + Main + Footer)
+└── index.ts             # Точка входа (стили + экспорты)
+```
 
 ## 🚀 Запуск
 
 ```bash
 npm install
-npm run dev
+npm run dev  # http://localhost:5176/login
 ```
 
-Откроется: **http://localhost:5173/login**
+## 🎯 Как работает
 
-## 📂 Структура проекта
+### 1. index.html → App.vue
+- Header (Vue компонент)
+- Main с `<div v-html>` (загружает HTML страницы)
+- Footer (Vue компонент)
 
+### 2. pages/login/index.html
+- Чистый HTML
+- Веб-компоненты: `<web-input>`, `<web-button>`, `<web-checkbox>`
+- Работают без Vue app!
+
+## 📦 Веб-компоненты
+
+Используются из `@fun-sun/vue-components`:
+
+```html
+<web-input
+    name="LoginInput.Email"
+    type="email"
+    label="Email"
+></web-input>
+
+<web-button type="submit">Войти</web-button>
+
+<web-checkbox
+    name="RememberMe"
+    label="Запомнить меня"
+></web-checkbox>
 ```
-oauth2-frontend/
-├── index.html              # 🎯 Главный HTML (header/footer/Vue app)
-├── pages/                  # Контент страниц
-│   └── login.html         # Контент Login (без header/footer)
-│
-├── src/shared/ui/auth/    # Vue компоненты
-│   ├── AuthInput.vue
-│   ├── AuthButton.vue
-│   └── AuthCheckbox.vue
-│
-└── original-templates/     # Reference CSHTML файлы
-```
-
-## 🎯 Архитектура
-
-### Главный файл - `index.html`:
-- Header (один раз)
-- `<div id="page-content">` - сюда загружается контент
-- Footer (один раз)
-- Vue app инициализация
-
-### Контент страниц - `pages/*.html`:
-- Только контент (без header/footer)
-- Vue компоненты
-- Логика формы
 
 ## 📝 Создание новой страницы
 
-### Шаг 1: Создай файл контента
 ```bash
-touch pages/signup.html
-```
+# 1. Создай HTML в pages/
+touch src/pages/signup/index.html
 
-### Шаг 2: Напиши контент
-```html
-<!-- pages/signup.html -->
-<h1>Регистрация</h1>
-<form @submit.prevent="handleSignupSubmit">
-    <auth-input v-model="signupData.email" label="Email" />
-    <auth-button type="submit" label="Зарегистрироваться" />
-</form>
-```
+# 2. Используй веб-компоненты
+<web-input name="Email" label="Email"></web-input>
 
-### Шаг 3: Добавь данные в `index.html`
-```javascript
-signupData: {
-    email: '',
-    password: ''
-}
-```
-
-### Шаг 4: Добавь роут в `index.html`
-```javascript
-else if (path.includes('signup')) {
+# 3. Добавь роут в App.vue
+if (path.includes('signup')) {
     loadPage('signup')
 }
 ```
 
-## 🔌 Интеграция Header/Footer из npm
-
-В `index.html`:
-```javascript
-import { Header, Footer } from '@fun-sun/vue-components'
-app.component('AppHeader', Header)
-app.component('AppFooter', Footer)
-```
-
-Замени:
-```html
-<header>...</header>  →  <app-header />
-<footer>...</footer>  →  <app-footer />
-```
-
-## 📋 Команды
+## 🔧 Команды
 
 ```bash
 npm run dev        # Разработка
 npm run build      # Сборка
-npm run lint       # Проверка кода
+npm run lint       # Проверка
 npm run format     # Форматирование
-```
-
-## 💡 Доступные компоненты
-
-### AuthInput
-```html
-<auth-input 
-    v-model="data.field"
-    type="email"
-    label="Email"
-/>
-```
-
-### AuthButton
-```html
-<auth-button
-    type="submit"
-    label="Войти"
-    variant="primary"
-/>
-```
-
-### AuthCheckbox
-```html
-<auth-checkbox
-    v-model="data.flag"
-    label="Запомнить меня"
-/>
 ```
 
 ---
 
-**Проект готов к разработке!** 🎉
+**Статус:** Login страница готова с веб-компонентами ✅

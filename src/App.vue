@@ -2,8 +2,7 @@
     <div>
         <!-- Main Content -->
         <div class="container">
-            <slot>
-            </slot>
+            <slot> </slot>
             <main
                 role="main"
                 class="pb-1"
@@ -48,9 +47,9 @@ const handleSignupSubmit = () => {
     alert(`Email: ${signupData.value.email}`)
 }
 
-// Загрузка контента страницы
+// Загрузка контента страницы (FSD: pages/)
 const loadPage = async (pageName: string) => {
-    const response = await fetch(`/pages/${pageName}.html`)
+    const response = await fetch(`/src/pages/${pageName}/index.html`)
     const html = await response.text()
     pageContent.value = html
 }

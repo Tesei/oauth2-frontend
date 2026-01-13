@@ -19,22 +19,14 @@
         </style>
   </head>
   <body>
-        <!--        <div id="app">-->
-        <!--            &lt;!&ndash; App.vue рендерится здесь &ndash;&gt;-->
-        <!--        </div>-->
+        <!-- Header (Vue компонент) -->
+        <header id="header"></header>
 
-        <header id="header">
-            <!-- App.vue рендерится здесь -->
-        </header>
+        <!-- Main (HTML с веб-компонентами) -->
+        <main id="main"></main>
 
-        <main id="main">
-                <h1>TEST</h1>
-            <!-- App.vue рендерится здесь -->
-        </main>
-
-        <footer id="footer">
-            <!-- App.vue рендерится здесь -->
-        </footer>
+        <!-- Footer (Vue компонент) -->
+        <footer id="footer"></footer>
 
         <!-- Vue App -->
         <script type="module">
@@ -44,26 +36,15 @@
             import App from '/src/App.vue'
 
             // Импорт всего через index.ts (централизованно)
-            import {
-                AuthInput,
-                AuthButton,
-                AuthCheckbox,
-                HeaderBlock,
-                AppFooter,
-                vOutside
-            } from '/src/index.ts'
-
-            // Создаем приложение с App.vue
-            // const app = createApp(App)
-            const header = createApp(HeaderBlock)
-            const main = createApp(App)
-            const footer = createApp(AppFooter)
-
-            // Инициализируем Pinia (нужна для Header/Footer)
-            const pinia = createPinia()
-            main.use(pinia)
+            import { HeaderBlock, AppFooter, vOutside } from '/src/index.ts'
             
-            // Создаем простой роутер (нужен для Footer)
+            // Импорт веб-компонентов (автоматически регистрируются)
+            import '@fun-sun/vue-components/web-components'
+
+            // Создаем Pinia (общая для всех приложений)
+            const pinia = createPinia()
+            
+            // Создаем Router (общий для всех приложений)
             const router = createRouter({
                 history: createWebHistory(),
                 routes: [
@@ -72,23 +53,45 @@
                     { path: '/signup', component: { template: '<div></div>' } }
                 ]
             })
-            main.use(router)
             
-            // Регистрируем директиву click-outside (используется в Header/Footer)
-            main.directive('click-outside', vOutside)
+            // === Header приложение ===
+            const headerApp = createApp(HeaderBlock, {
+                locale: 'ru',  // Локаль (обязательно)
+                activeTab: null,  // Активная вкладка
+                compareList: [],  // Список сравнения
+                countFavorite: 0  // Количество избранного
+            })
+            headerApp.use(pinia)
+            headerApp.use(router)
+            headerApp.directive('click-outside', vOutside)
+            headerApp.mount('#header')
             
-            // Регистрируем Header и Footer
-            main.component('HeaderBlock', HeaderBlock)
-            main.component('AppFooter', AppFooter)
+            // === Main приложение (для загрузки HTML с веб-компонентами) ===
+            const mainApp = createApp({
+                data() {
+                    return {
+                        content: ''
+                    }
+                },
+                mounted() {
+                    const path = window.location.pathname
+                    const pageName = path.includes('signup') ? 'signup' : 'login'
+                    
+                    fetch(`/src/pages/${pageName}/index.html`)
+                        .then(res => res.text())
+                        .then(html => {
+                            document.getElementById('main').innerHTML = html
+                        })
+                }
+            })
+            mainApp.mount('#main')
             
-            // Регистрируем Auth компоненты
-            main.component('AuthInput', AuthInput)
-            main.component('AuthButton', AuthButton)
-            main.component('AuthCheckbox', AuthCheckbox)
-
-            header.mount('#header')
-            main.mount('#main')
-            footer.mount('#footer')
+            // === Footer приложение ===
+            const footerApp = createApp(AppFooter)
+            footerApp.use(pinia)
+            footerApp.use(router)
+            footerApp.directive('click-outside', vOutside)
+            footerApp.mount('#footer')
         </script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-<!-- Контент страницы Login (без header/footer) -->
+<!-- Login страница с веб-компонентами (FSD: pages/login) -->
 <h1>Вход</h1>
 <div class="row">
     <div class="col-md-4">
@@ -6,48 +6,49 @@
             <form
                 id="account"
                 method="post"
-                @submit.prevent="handleLoginSubmit"
             >
                 <h2>Используйте локальную учетную запись для входа.</h2>
                 <hr />
 
-                <auth-input
-                    v-model="loginData.email"
-                    type="email"
+                <!-- Веб-компоненты из @fun-sun/vue-components -->
+                
+                <!-- Email поле -->
+                <web-input
                     name="LoginInput.Email"
-                    label="Email"
+                    type="email"
                     placeholder="name@example.com"
+                    label="Email"
                     autocomplete="username"
-                    :required="true"
-                />
+                    required="true"
+                ></web-input>
 
-                <auth-input
-                    v-model="loginData.password"
-                    type="password"
+                <!-- Password поле -->
+                <web-input-password
                     name="LoginInput.Password"
-                    label="Пароль"
                     placeholder="password"
+                    label="Пароль"
                     autocomplete="current-password"
-                    :required="true"
-                />
+                    required="true"
+                ></web-input-password>
 
-                <auth-checkbox
-                    v-model="loginData.rememberMe"
+                <!-- Remember Me checkbox -->
+                <web-checkbox
                     name="LoginInput.RememberMe"
                     label="Запомнить меня"
-                />
+                ></web-checkbox>
 
+                <!-- Submit button -->
                 <div>
-                    <auth-button
-                        button-id="login-submit"
+                    <web-button
+                        id="login-submit"
                         type="submit"
-                        label="Войти"
-                        variant="primary"
-                        size="lg"
-                        :full-width="true"
-                    />
+                        custom-class="w-100"
+                    >
+                        Войти
+                    </web-button>
                 </div>
 
+                <!-- Links -->
                 <div>
                     <p>
                         <a
@@ -62,7 +63,7 @@
                             id="register"
                             href="/signup"
                         >
-                            Зарегистрироваться
+                            Зарегистрироваться как новый пользователь
                         </a>
                     </p>
                 </div>
@@ -78,4 +79,3 @@
         </section>
     </div>
 </div>
-
