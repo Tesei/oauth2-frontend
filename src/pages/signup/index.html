@@ -1,0 +1,220 @@
+<div class="login-container">
+    <!-- @Localizer["Title"] -->
+    <h2 class="login-title">test TEST test</h2>
+
+    <div class="login-card">
+        <form
+            id="account"
+            method="post"
+        >
+            <!-- ОТСУТСТВУЕТ: <partial name="_StatusMessage" for="StatusMessages" /> -->
+            <!-- Для CSHTML нужно добавить здесь, если требуется показывать статус сообщения -->
+
+            <!-- CSHTML: label="@Localizer['EmailLabel']" value="@Model.Email" error-text="@Model.Errors.Email" -->
+            <web-input
+                class="mb-20"
+                name="LoginInput.Email"
+                type="email"
+                placeholder="name@example.com"
+                label="Email"
+                autocomplete="username"
+                required
+            ></web-input>
+
+            <!-- CSHTML: label="@Localizer['PasswordLabel']" placeholder="@Localizer['PasswordPlaceholder']" value="@Model.Password" error-text="@Model.Errors.Password" -->
+            <web-input-password
+                name="LoginInput.Password"
+                placeholder="password"
+                label="Пароль"
+                autocomplete="current-password"
+                required
+            ></web-input-password>
+
+            <!-- ОТСУТСТВУЕТ: Remember Me checkbox (закомментирован - нет в дизайне) -->
+            <!-- Если нужно для CSHTML - раскомментировать:
+            <web-checkbox
+                name="LoginInput.RememberMe"
+                label="@Localizer["RememberMeLabel"]"
+                checked="@Model.RememberMe"
+            ></web-checkbox>
+            -->
+
+            <!-- CSHTML: href="@Url.PageWithoutNormalizeQuery("/ForgotPassword/Index", ...)" текст: @Localizer["ForgotPasswordLink"] -->
+            <div class="login-forgot-left mt-8 mb-32">
+                <a
+                    class="c-gray"
+                    id="forgot-password"
+                    href="/forgot-password"
+                >
+                    Не помню пароль
+                </a>
+            </div>
+
+            <!-- CSHTML: class доп.атрибуты disabled="@Model.IsSubmitting" loading="@Model.IsLoading", текст: @Localizer["LoginButton"] -->
+            <div class="login-submit">
+                <web-button
+                    id="login-submit"
+                    type="submit"
+                    class="button_yellow w-100p"
+                >
+                    Войти
+                </web-button>
+            </div>
+
+            <div class="login-divider">
+                <span class="login-divider-line"></span>
+                <span class="login-divider-text">или</span>
+                <span class="login-divider-line"></span>
+            </div>
+
+            <!-- External Providers - @foreach (var provider in Model.ExternalLogins.Schemes) -->
+            <div class="login-social-buttons">
+                <web-button
+                    class="bg-black c-white radius-12 w-100p"
+                    custom-class="login-social-btn"
+                >
+                    <span>Войти с</span>
+                    <img
+                        src="/icons/yandex.svg"
+                        alt="Yandex"
+                        width="24"
+                        height="24"
+                    />
+                </web-button>
+
+                <web-button
+                    class="bg-black c-white radius-12 w-100p"
+                    custom-class="login-social-btn"
+                >
+                    <span>Войти с</span>
+                    <img
+                        src="/icons/wildberries.svg"
+                        alt="Wildberries"
+                        width="40"
+                        height="20"
+                    />
+                </web-button>
+            </div>
+            <!-- CSHTML: динамические провайдеры из Model.ExternalLogins.Schemes
+                 @foreach (var provider in Model.ExternalLogins.Schemes) {
+                     <web-button 
+                         name="provider" 
+                         value="@provider.Name"
+                         title="@Localizer["ExternalLoginButton", provider.DisplayName]"
+                     >
+                         <span>Войти с</span>
+                         <img src="/icons/@(provider.Name.ToLower()).svg" />
+                     </web-button>
+                 }
+            -->
+
+            <!-- CSHTML: href="@Url.PageWithoutNormalizeQuery("/SignUp/Index", ...)" текст: @Localizer["RegisterLink"] -->
+            <div class="login-register">
+                <a
+                    id="register"
+                    href="/signup"
+                    class="c-cornflower"
+                >
+                    Зарегистрироваться
+                </a>
+            </div>
+
+            <!-- ОТСУТСТВУЕТ: Секция "Используйте другой сервис для входа" (была справа в двух колонках) -->
+            <!-- В дизайне кнопки соцсетей внутри основной формы, поэтому отдельная секция не нужна -->
+        </form>
+    </div>
+</div>
+
+<!-- Стили -->
+<style>
+    .login-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 60vh;
+        padding: 40px 20px;
+    }
+
+    .login-title {
+        margin: 0 0 24px 0;
+        font-size: 32px;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .login-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        max-width: 500px;
+        width: 100%;
+    }
+
+    .login-forgot-left {
+        text-align: left;
+    }
+
+    .login-forgot-left a {
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+    .login-forgot-left a:hover {
+        text-decoration: underline;
+    }
+
+    .login-submit {
+        margin-bottom: 16px;
+    }
+
+    .login-divider {
+        display: flex;
+        align-items: center;
+        margin: 24px 0;
+        gap: 12px;
+    }
+
+    .login-divider-line {
+        flex: 1;
+        height: 1px;
+        background: #dbe0e5;
+    }
+
+    .login-divider-text {
+        color: #7e8389;
+        font-size: 14px;
+    }
+
+    .login-social-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .login-social-btn {
+        flex: 1;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        justify-content: center !important;
+        background: #000000 !important;
+        color: #ffffff !important;
+    }
+
+    .login-register {
+        text-align: center;
+        margin-top: 24px;
+        font-size: 16px;
+    }
+
+    .login-register a {
+        text-decoration: none;
+    }
+
+    .login-register a:hover {
+        text-decoration: underline;
+    }
+</style>

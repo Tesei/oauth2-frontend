@@ -1,86 +1,577 @@
-# OAuth2 Frontend - FunSun Auth
+# OAuth2 Frontend - Техническая документация
 
-Проект авторизации с использованием Vue 3 + TypeScript и веб-компонентов.
+Проект авторизации для интеграции в ASP.NET Core с использованием Vue 3, TypeScript и веб-компонентов.
 
-## 🏗️ Архитектура
+---
 
-### Гибридный подход:
-
-**Header/Footer** - Vue компоненты (из @fun-sun/header, @fun-sun/footer)  
-**Auth формы** - Веб-компоненты (из @fun-sun/vue-components)
-
-### Структура (FSD):
-
-```
-src/
-├── pages/login/          # Страница Login (HTML с веб-компонентами)
-│   └── index.html
-├── App.vue              # Главный компонент (Header + Main + Footer)
-└── index.ts             # Точка входа (стили + экспорты)
-```
-
-## 🚀 Запуск
+## 🚀 Быстрый старт
 
 ```bash
+# Установка зависимостей
 npm install
-npm run dev  # http://localhost:5176/login
-```
 
-## 🎯 Как работает
+# Запуск dev сервера
+npm run dev
 
-### 1. index.html → App.vue
-- Header (Vue компонент)
-- Main с `<div v-html>` (загружает HTML страницы)
-- Footer (Vue компонент)
-
-### 2. pages/login/index.html
-- Чистый HTML
-- Веб-компоненты: `<web-input>`, `<web-button>`, `<web-checkbox>`
-- Работают без Vue app!
-
-## 📦 Веб-компоненты
-
-Используются из `@fun-sun/vue-components`:
-
-```html
-<web-input
-    name="LoginInput.Email"
-    type="email"
-    label="Email"
-></web-input>
-
-<web-button type="submit">Войти</web-button>
-
-<web-checkbox
-    name="RememberMe"
-    label="Запомнить меня"
-></web-checkbox>
-```
-
-## 📝 Создание новой страницы
-
-```bash
-# 1. Создай HTML в pages/
-touch src/pages/signup/index.html
-
-# 2. Используй веб-компоненты
-<web-input name="Email" label="Email"></web-input>
-
-# 3. Добавь роут в App.vue
-if (path.includes('signup')) {
-    loadPage('signup')
-}
-```
-
-## 🔧 Команды
-
-```bash
-npm run dev        # Разработка
-npm run build      # Сборка
-npm run lint       # Проверка
-npm run format     # Форматирование
+# Откроется: http://localhost:5174/login
 ```
 
 ---
 
-**Статус:** Login страница готова с веб-компонентами ✅
+## 🏗️ Архитектура проекта
+
+### Гибридный подход (3 независимых приложения)
+
+Проект использует **3 отдельных Vue приложения**, которые монтируются в разные контейнеры:
+
+```
+┌────────────────────────────────────┐
+│  <header id="header">              │ ← HeaderApp (Vue)
+│    @fun-sun/header                 │
+└────────────────────────────────────┘
+
+┌────────────────────────────────────┐
+│  <main id="main">                  │ ← MainApp (Vue)
+│    └── загружает HTML              │
+│        └── веб-компоненты          │
+└────────────────────────────────────┘
+
+┌────────────────────────────────────┐
+│  <footer id="footer">              │ ← FooterApp (Vue)
+│    @fun-sun/footer                 │
+└────────────────────────────────────┘
+```
+
+**Почему так:**
+- **Header/Footer** - сложные (меню, поиск, корзина) → используем готовые Vue компоненты из npm
+- **Main (формы)** - простые, часто меняются → используем веб-компоненты (работают из HTML)
+
+---
+
+## 📂 Структура проекта (FSD)
+
+```
+oauth2-frontend/
+├── index.html              # Точка входа (3 Vue app)
+│
+├── src/
+│   ├── pages/             # Страницы (HTML + веб-компоненты)
+│   │   └── login/
+│   │       └── index.html # Login страница
+│   │
+│   ├── App.vue            # Компонент загрузки страниц
+│   ├── index.ts           # Главный файл (стили + экспорты)
+│   │
+│   └── shared/            # Переиспользуемый код
+│       ├── config/        # Конфигурация
+│       │   └── styles.css # Глобальные стили
+│       └── ui/icons/      # SVG иконки
+│
+├── public/                # Статические файлы
+│   ├── icons/            # SVG иконки соцсетей
+│   └── css/              # CSS Header/Footer
+│
+├── original-templates/    # Reference CSHTML файлы
+│
+└── package.json          # Зависимости
+```
+
+---
+
+## 🔄 Как работает (пошагово)
+
+### 1. Браузер открывает `index.html`
+
+```html
+<body>
+    <header id="header"></header>
+    <main id="main"></main>
+    <footer id="footer"></footer>
+    
+    <script type="module">
+        // Создается 3 Vue приложения
+    </script>
+</body>
+```
+
+### 2. Создаются 3 Vue приложения
+
+```javascript
+// Header app
+const headerApp = createApp(HeaderBlock, { locale: 'ru' })
+headerApp.mount('#header')
+
+// Main app (загружает HTML)
+const mainApp = createApp(App)
+mainApp.mount('#main')
+
+// Footer app
+const footerApp = createApp(AppFooter)
+footerApp.mount('#footer')
+```
+
+### 3. Main загружает HTML страницу
+
+```javascript
+// App.vue
+fetch('/src/pages/login/index.html')
+    .then(html => вставляет в DOM)
+```
+
+### 4. Веб-компоненты работают автоматически
+
+```html
+<!-- pages/login/index.html -->
+<web-input name="Email" />   ← Работает сразу!
+<web-button>Войти</web-button>
+```
+
+**Не нужен Vue app!** Веб-компоненты автоматически регистрируются при импорте!
+
+---
+
+## 📦 Веб-компоненты
+
+### Что это?
+
+**Веб-компоненты** - это кастомные HTML теги (как `<input>`, `<button>`, но свои).
+
+Работают **прямо из HTML** без необходимости создавать Vue приложение!
+
+### Доступные компоненты
+
+Из пакета `@fun-sun/vue-components`:
+
+```html
+<!-- Поля ввода -->
+<web-input type="email" label="Email" name="Email" />
+<web-input-password label="Пароль" name="Password" />
+
+<!-- Кнопка -->
+<web-button class="button_yellow">Войти</web-button>
+
+<!-- Чекбокс -->
+<web-checkbox label="Запомнить меня" name="RememberMe" />
+```
+
+### Передача данных
+
+**Все через HTML атрибуты:**
+
+```html
+<web-input
+    name="LoginInput.Email"      ← Имя для формы
+    label="Email"                ← Текст лейбла
+    placeholder="test@mail.com"  ← Плейсхолдер
+    value="john@example.com"     ← Значение
+    error-text="Неверный email"  ← Текст ошибки
+    disabled                     ← Заблокировать
+    required                     ← Обязательное поле
+/>
+```
+
+---
+
+## 🎨 Стили
+
+### Подключены автоматически
+
+Все стили импортируются в `src/index.ts`:
+
+```typescript
+import '@fun-sun/vue-components/vue-components.css'  // Стили компонентов
+import '@fun-sun/vue-components/web-components.css'  // Стили веб-компонентов
+import '@fun-sun/style/dist/style.css'               // UI Kit базовые стили
+```
+
+### Утилитарные классы
+
+Из `@fun-sun/style` доступны готовые классы:
+
+```html
+<!-- Цвета -->
+<div class="bg-black c-white">Черный фон, белый текст</div>
+<a class="c-cornflower">Синяя ссылка</a>
+
+<!-- Отступы -->
+<div class="mt-8 mb-16 px-24">margin-top: 8px, margin-bottom: 16px, padding: 0 24px</div>
+
+<!-- Размеры -->
+<button class="w-100p">width: 100%</button>
+
+<!-- Радиусы -->
+<div class="radius-12">border-radius: 12px</div>
+
+<!-- Кнопки -->
+<web-button class="button_yellow">Желтая кнопка</web-button>
+<web-button class="button_transparent">Прозрачная кнопка</web-button>
+```
+
+### Кастомные стили страниц
+
+Каждая страница может иметь свои стили внутри `<style>`:
+
+```html
+<!-- pages/login/index.html -->
+<div class="login-card">...</div>
+
+<style>
+    .login-card {
+        background: white;
+        border-radius: 16px;
+        padding: 40px;
+    }
+</style>
+```
+
+---
+
+## 📝 Создание новой страницы
+
+### Шаг 1: Создай HTML файл
+
+```bash
+mkdir -p src/pages/signup
+touch src/pages/signup/index.html
+```
+
+### Шаг 2: Напиши разметку с веб-компонентами
+
+```html
+<!-- src/pages/signup/index.html -->
+<div class="signup-container">
+    <h2>Регистрация</h2>
+    
+    <div class="signup-card">
+        <form method="post">
+            <web-input
+                name="Email"
+                type="email"
+                label="Email"
+                required
+            />
+            
+            <web-input-password
+                name="Password"
+                label="Пароль"
+                required
+            />
+            
+            <web-button
+                type="submit"
+                class="button_yellow w-100p"
+            >
+                Зарегистрироваться
+            </web-button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .signup-container { /* стили */ }
+    .signup-card { /* стили */ }
+</style>
+```
+
+### Шаг 3: Добавь роут в App.vue
+
+```typescript
+// src/App.vue
+onMounted(() => {
+    const path = window.location.pathname
+    if (path.includes('login')) {
+        loadPage('login')
+    } else if (path.includes('signup')) {
+        loadPage('signup')  // ← Добавить
+    }
+})
+```
+
+### Шаг 4: Добавь роут в Router (index.html)
+
+```javascript
+const router = createRouter({
+    routes: [
+        { path: '/login', component: { template: '<div></div>' } },
+        { path: '/signup', component: { template: '<div></div>' } }  // ← Добавить
+    ]
+})
+```
+
+### Шаг 5: Открой в браузере
+
+```
+http://localhost:5174/signup
+```
+
+---
+
+## 🔗 Интеграция с CSHTML
+
+### Как передавать данные из бэкенда
+
+Веб-компоненты работают через HTML атрибуты:
+
+```cshtml
+@page
+@model LoginModel
+
+<web-input
+    name="LoginInput.Email"
+    label="@Localizer["EmailLabel"]"           ← Переводы
+    value="@Model.Email"                       ← Значение от модели
+    error-text="@Model.Errors.Email"           ← Ошибки валидации
+    placeholder="@Localizer["EmailPlaceholder"]"
+/>
+
+<web-button
+    type="submit"
+    class="button_yellow w-100p"
+    disabled="@Model.IsSubmitting"             ← Динамическое состояние
+    loading="@Model.IsLoading"
+>
+    @Localizer["LoginButton"]                  ← Перевод текста
+</web-button>
+```
+
+### Dynamic External Providers
+
+```cshtml
+@foreach (var provider in Model.ExternalLogins.Schemes)
+{
+    <web-button
+        name="provider"
+        value="@provider.Name"
+        class="bg-black c-white radius-12"
+    >
+        <span>Войти с</span>
+        <img src="/icons/@(provider.Name.ToLower()).svg" />
+    </web-button>
+}
+```
+
+---
+
+## 🛠️ Разработка
+
+### Команды
+
+```bash
+npm run dev        # Dev сервер с hot reload
+npm run build      # Production сборка
+npm run preview    # Просмотр production сборки
+npm run lint       # ESLint проверка
+npm run lint:fix   # ESLint автоисправление
+npm run format     # Prettier форматирование
+```
+
+### Правила кода
+
+**ESLint:**
+- `indent: 4` (4 пробела)
+- `quotes: 'single'` (одинарные кавычки)
+- `semi: never` (без точек с запятой)
+
+**Prettier:**
+- `tabWidth: 4`
+- `singleQuote: true`
+- `singleAttributePerLine: true`
+
+### Hot Reload
+
+При изменении файлов проект автоматически перезагружается:
+- `src/**/*.vue` - Vue компоненты
+- `src/**/*.ts` - TypeScript файлы
+- `src/pages/**/*.html` - HTML страницы (через Ctrl+R в браузере)
+
+---
+
+## 🔧 Настройка пакетов @fun-sun
+
+### Переустановка пакета (если нужна новая версия)
+
+```bash
+# 1. Удалить из package.json строку
+"@fun-sun/style": "^1.0.3"
+
+# 2. Удалить папку
+rm -rf node_modules/@fun-sun/style
+
+# 3. Установить заново
+npm install @fun-sun/style@latest
+```
+
+### Обновление всех пакетов
+
+```bash
+npm install @fun-sun/header@latest @fun-sun/footer@latest @fun-sun/style@latest @fun-sun/vue-components@latest
+```
+
+---
+
+## 📋 Структура файлов
+
+### index.html - точка входа
+
+Создает 3 Vue приложения и монтирует их:
+
+```javascript
+const headerApp = createApp(HeaderBlock, { locale: 'ru' })
+const mainApp = createApp(App)
+const footerApp = createApp(AppFooter)
+
+headerApp.mount('#header')
+mainApp.mount('#main')
+footerApp.mount('#footer')
+```
+
+### App.vue - загрузчик HTML
+
+Загружает HTML страницы через fetch:
+
+```vue
+<template>
+    <div v-html="pageContent"></div>
+</template>
+
+<script setup>
+const loadPage = async (name) => {
+    const html = await fetch(`/src/pages/${name}/index.html`)
+    pageContent.value = await html.text()
+}
+</script>
+```
+
+### pages/*/index.html - страницы
+
+HTML файлы с веб-компонентами и стилями:
+
+```html
+<div class="page-container">
+    <web-input />
+    <web-button />
+</div>
+
+<style>
+    .page-container { /* стили */ }
+</style>
+```
+
+---
+
+## 🎯 Принципы работы
+
+### Почему 3 отдельных приложения?
+
+**Проблема:** Vue при `mount` **ЗАМЕНЯЕТ** содержимое контейнера.
+
+**Решение:** 3 независимых контейнера → Header/Footer не перерисовываются при смене Main!
+
+### Почему веб-компоненты для форм?
+
+**Проблема:** Vue компоненты **не работают из чистого HTML** (нужен Vue app).
+
+**Решение:** Веб-компоненты = обычные HTML теги → работают везде!
+
+```html
+<!-- Работает в любом HTML! -->
+<web-input name="Email" />
+```
+
+**Для CSHTML:** Бэкенд может легко передавать данные через атрибуты!
+
+---
+
+## 🔍 Отладка
+
+### Проверка загрузки стилей
+
+**DevTools → Network → CSS:**
+- `index-*.css` (~302 KB) - все стили подключены?
+
+**DevTools → Elements:**
+- Есть ли классы `.button_yellow`, `.bg-black` и т.д.?
+
+### Проверка веб-компонентов
+
+**DevTools → Console:**
+- Ошибки типа "Failed to resolve directive" → не зарегистрирована директива
+- Ошибки типа "Expected Boolean, got String" → использовать `required` вместо `required="true"`
+
+**DevTools → Elements:**
+- `<web-input>` превращается в структуру с `<input>` внутри?
+
+### Проверка загрузки страниц
+
+**DevTools → Network:**
+- `/src/pages/login/index.html` загружается? (200 OK)
+
+**DevTools → Console:**
+- Ошибки fetch? CORS?
+
+---
+
+## 🐛 Частые проблемы
+
+### Header/Footer не отображаются
+
+**Причина:** Не переданы обязательные props
+
+**Решение:**
+```javascript
+const headerApp = createApp(HeaderBlock, {
+    locale: 'ru'  // Обязательно!
+})
+```
+
+### Веб-компоненты не работают
+
+**Причина:** Не импортированы
+
+**Решение:** Проверить что в `index.html` есть:
+```javascript
+import '@fun-sun/vue-components/web-components'
+```
+
+### Форма не отображается
+
+**Причина:** HTML страница не загружается
+
+**Решение:** Проверить путь в `App.vue`:
+```javascript
+fetch('/src/pages/login/index.html')  // Правильный путь?
+```
+
+### Стили не применяются
+
+**Причина:** CSS не подключен
+
+**Решение:** Проверить `src/index.ts`:
+```typescript
+import '@fun-sun/style/dist/style.css'
+```
+
+---
+
+## 📚 Полезные ссылки
+
+- [Vue 3 Documentation](https://vuejs.org/)
+- [TypeScript Documentation](https://www.typescriptlang.org/)
+- [Vite Documentation](https://vitejs.dev/)
+- [Web Components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components)
+
+---
+
+## 🎯 Статус проекта
+
+- ✅ Архитектура настроена
+- ✅ Header/Footer интегрированы
+- ✅ Веб-компоненты работают
+- ✅ Login страница готова
+- ⏳ Signup страница
+- ⏳ ForgotPassword страница
+- ⏳ Остальные страницы
+
+---
+
+**Проект готов к разработке и демонстрации!** 🚀
