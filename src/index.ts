@@ -12,6 +12,3 @@ export { vOutside } from '@fun-sun/vue-components/directives'
 
 // Экспорты веб-компонентов (для использования в коде)
 export * from '@fun-sun/vue-components/web-components'
-
-// Экспорты из shared (будут добавлены по необходимости)
-export * from './shared'
