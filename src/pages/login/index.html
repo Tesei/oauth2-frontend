@@ -1,17 +1,16 @@
-<!-- Login страница с формой в центре (FSD: pages/login) -->
-
-<!-- Контейнер для центрирования -->
 <div class="login-container">
-    <!-- Заголовок (над карточкой) -->
+    <!-- @Localizer["Title"] -->
     <h2 class="login-title">Войдите в профиль</h2>
 
-    <!-- Карточка с формой - ВСЕ внутри! -->
     <div class="login-card">
         <form
             id="account"
             method="post"
         >
-            <!-- Email поле -->
+            <!-- ОТСУТСТВУЕТ: <partial name="_StatusMessage" for="StatusMessages" /> -->
+            <!-- Для CSHTML нужно добавить здесь, если требуется показывать статус сообщения -->
+
+            <!-- CSHTML: label="@Localizer['EmailLabel']" value="@Model.Email" error-text="@Model.Errors.Email" -->
             <web-input
                 class="mb-20"
                 name="LoginInput.Email"
@@ -19,32 +18,31 @@
                 placeholder="name@example.com"
                 label="Email"
                 autocomplete="username"
-                required="true"
+                required
             ></web-input>
-            <!-- Атрибуты для CSHTML:
-                 value="@Model.Email" - значение от бэкенда
-                 label="@Localizer["EmailLabel"]" - перевод лейбла
-                 error-text="@Model.Errors.Email" - текст ошибки валидации
-            -->
 
-            <!-- Password поле -->
+            <!-- CSHTML: label="@Localizer['PasswordLabel']" placeholder="@Localizer['PasswordPlaceholder']" value="@Model.Password" error-text="@Model.Errors.Password" -->
             <web-input-password
                 name="LoginInput.Password"
                 placeholder="password"
                 label="Пароль"
                 autocomplete="current-password"
-                required="true"
+                required
             ></web-input-password>
-            <!-- Атрибуты для CSHTML:
-                 value="@Model.Password" - значение от бэкенда
-                 label="@Localizer["PasswordLabel"]" - перевод лейбла
-                 error-text="@Model.Errors.Password" - текст ошибки валидации
+
+            <!-- ОТСУТСТВУЕТ: Remember Me checkbox (закомментирован - нет в дизайне) -->
+            <!-- Если нужно для CSHTML - раскомментировать:
+            <web-checkbox
+                name="LoginInput.RememberMe"
+                label="@Localizer["RememberMeLabel"]"
+                checked="@Model.RememberMe"
+            ></web-checkbox>
             -->
 
-            <!-- Ссылка "Не помню пароль" (слева под инпутами) -->
+            <!-- CSHTML: href="@Url.PageWithoutNormalizeQuery("/ForgotPassword/Index", ...)" текст: @Localizer["ForgotPasswordLink"] -->
             <div class="login-forgot-left mt-8 mb-32">
                 <a
-                        class=" c-gray"
+                    class="c-gray"
                     id="forgot-password"
                     href="/forgot-password"
                 >
@@ -52,7 +50,7 @@
                 </a>
             </div>
 
-            <!-- Submit button -->
+            <!-- CSHTML: class доп.атрибуты disabled="@Model.IsSubmitting" loading="@Model.IsLoading", текст: @Localizer["LoginButton"] -->
             <div class="login-submit">
                 <web-button
                     id="login-submit"
@@ -61,25 +59,18 @@
                 >
                     Войти
                 </web-button>
-                <!-- Атрибуты для CSHTML:
-                     class="button_yellow w-100p" - желтая кнопка на всю ширину
-                     disabled="@Model.IsSubmitting" - заблокировать кнопку
-                     loading="@Model.IsLoading" - показать прелоадер
-                     Текст: @Localizer["LoginButton"] - перевод текста кнопки
-                -->
             </div>
 
-            <!-- Разделитель "или" с линиями -->
             <div class="login-divider">
                 <span class="login-divider-line"></span>
                 <span class="login-divider-text">или</span>
                 <span class="login-divider-line"></span>
             </div>
 
-            <!-- Кнопки входа через соцсети (черные с иконками) -->
+            <!-- External Providers - @foreach (var provider in Model.ExternalLogins.Schemes) -->
             <div class="login-social-buttons">
                 <web-button
-                    class="bg-black c-white radius-12 w-100p "
+                    class="bg-black c-white radius-12 w-100p"
                     custom-class="login-social-btn"
                 >
                     <span>Войти с</span>
@@ -92,7 +83,7 @@
                 </web-button>
 
                 <web-button
-                    class="bg-black c-white radius-12 w-100p "
+                    class="bg-black c-white radius-12 w-100p"
                     custom-class="login-social-btn"
                 >
                     <span>Войти с</span>
@@ -103,21 +94,21 @@
                         height="20"
                     />
                 </web-button>
-                <!-- Для CSHTML:
-                     @foreach (var provider in Model.ExternalLogins.Schemes) {
-                         <web-button 
-                             name="provider" 
-                             value="@provider.Name"
-                             custom-class="login-social-btn"
-                         >
-                             <span>Войти с</span>
-                             <svg>иконка провайдера</svg>
-                         </web-button>
-                     }
-                -->
             </div>
+            <!-- CSHTML: динамические провайдеры из Model.ExternalLogins.Schemes
+                 @foreach (var provider in Model.ExternalLogins.Schemes) {
+                     <web-button 
+                         name="provider" 
+                         value="@provider.Name"
+                         title="@Localizer["ExternalLoginButton", provider.DisplayName]"
+                     >
+                         <span>Войти с</span>
+                         <img src="/icons/@(provider.Name.ToLower()).svg" />
+                     </web-button>
+                 }
+            -->
 
-            <!-- Ссылка на регистрацию -->
+            <!-- CSHTML: href="@Url.PageWithoutNormalizeQuery("/SignUp/Index", ...)" текст: @Localizer["RegisterLink"] -->
             <div class="login-register">
                 <a
                     id="register"
@@ -127,14 +118,15 @@
                     Зарегистрироваться
                 </a>
             </div>
+
+            <!-- ОТСУТСТВУЕТ: Секция "Используйте другой сервис для входа" (была справа в двух колонках) -->
+            <!-- В дизайне кнопки соцсетей внутри основной формы, поэтому отдельная секция не нужна -->
         </form>
     </div>
-    <!-- /Карточка -->
 </div>
 
-<!-- Стили для Login страницы -->
+<!-- Стили -->
 <style>
-    /* Контейнер для центрирования карточки */
     .login-container {
         display: flex;
         flex-direction: column;
@@ -144,7 +136,6 @@
         padding: 40px 20px;
     }
 
-    /* Заголовок (над карточкой) */
     .login-title {
         margin: 0 0 24px 0;
         font-size: 32px;
@@ -152,7 +143,6 @@
         font-weight: 600;
     }
 
-    /* Карточка с формой (визуально как модалка) */
     .login-card {
         background: white;
         border-radius: 16px;
@@ -162,7 +152,6 @@
         width: 100%;
     }
 
-    /* Ссылка "Не помню пароль" (слева под инпутами) */
     .login-forgot-left {
         text-align: left;
     }
@@ -170,19 +159,16 @@
     .login-forgot-left a {
         font-size: 14px;
         text-decoration: none;
-        /* Цвет задается через утилитарный класс c-gray или другой */
     }
 
     .login-forgot-left a:hover {
         text-decoration: underline;
     }
 
-    /* Контейнер кнопки submit */
     .login-submit {
         margin-bottom: 16px;
     }
 
-    /* Разделитель "или" с линиями */
     .login-divider {
         display: flex;
         align-items: center;
@@ -201,7 +187,6 @@
         font-size: 14px;
     }
 
-    /* Кнопки соцсетей (черные с иконками) - в одну строку */
     .login-social-buttons {
         display: flex;
         flex-direction: row;
@@ -209,7 +194,6 @@
         margin-bottom: 16px;
     }
 
-    /* Дополнительные стили для кнопок соцсетей */
     .login-social-btn {
         flex: 1;
         display: flex !important;
@@ -220,7 +204,6 @@
         color: #ffffff !important;
     }
 
-    /* Ссылка на регистрацию */
     .login-register {
         text-align: center;
         margin-top: 24px;
@@ -229,7 +212,6 @@
 
     .login-register a {
         text-decoration: none;
-        /* Цвет задается через утилитарный класс c-cornflower или другой */
     }
 
     .login-register a:hover {

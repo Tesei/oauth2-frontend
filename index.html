@@ -63,24 +63,8 @@
             headerApp.directive('click-outside', vOutside)
             headerApp.mount('#header')
             
-            // === Main приложение (для загрузки HTML с веб-компонентами) ===
-            const mainApp = createApp({
-                data() {
-                    return {
-                        content: ''
-                    }
-                },
-                mounted() {
-                    const path = window.location.pathname
-                    const pageName = path.includes('signup') ? 'signup' : 'login'
-                    
-                    fetch(`/src/pages/${pageName}/index.html`)
-                        .then(res => res.text())
-                        .then(html => {
-                            document.getElementById('main').innerHTML = html
-                        })
-                }
-            })
+            // === Main приложение (используем App.vue) ===
+            const mainApp = createApp(App)
             mainApp.mount('#main')
             
             // === Footer приложение ===
