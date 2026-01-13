@@ -1,10 +1,9 @@
 <template>
     <div>
-        <!-- Header из @fun-sun/header -->
-        <header-block />
-
         <!-- Main Content -->
         <div class="container">
+            <slot>
+            </slot>
             <main
                 role="main"
                 class="pb-1"
@@ -15,9 +14,6 @@
                 ></div>
             </main>
         </div>
-
-        <!-- Footer из @fun-sun/footer -->
-        <app-footer />
     </div>
 </template>
 

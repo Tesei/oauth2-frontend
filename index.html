@@ -19,9 +19,22 @@
         </style>
   </head>
   <body>
-        <div id="app">
+        <!--        <div id="app">-->
+        <!--            &lt;!&ndash; App.vue рендерится здесь &ndash;&gt;-->
+        <!--        </div>-->
+
+        <header id="header">
             <!-- App.vue рендерится здесь -->
-        </div>
+        </header>
+
+        <main id="main">
+                <h1>TEST</h1>
+            <!-- App.vue рендерится здесь -->
+        </main>
+
+        <footer id="footer">
+            <!-- App.vue рендерится здесь -->
+        </footer>
 
         <!-- Vue App -->
         <script type="module">
@@ -29,7 +42,7 @@
             import { createPinia } from 'pinia'
             import { createRouter, createWebHistory } from 'vue-router'
             import App from '/src/App.vue'
-            
+
             // Импорт всего через index.ts (централизованно)
             import {
                 AuthInput,
@@ -41,11 +54,14 @@
             } from '/src/index.ts'
 
             // Создаем приложение с App.vue
-            const app = createApp(App)
+            // const app = createApp(App)
+            const header = createApp(HeaderBlock)
+            const main = createApp(App)
+            const footer = createApp(AppFooter)
 
             // Инициализируем Pinia (нужна для Header/Footer)
             const pinia = createPinia()
-            app.use(pinia)
+            main.use(pinia)
             
             // Создаем простой роутер (нужен для Footer)
             const router = createRouter({
@@ -56,21 +72,23 @@
                     { path: '/signup', component: { template: '<div></div>' } }
                 ]
             })
-            app.use(router)
+            main.use(router)
             
             // Регистрируем директиву click-outside (используется в Header/Footer)
-            app.directive('click-outside', vOutside)
+            main.directive('click-outside', vOutside)
             
             // Регистрируем Header и Footer
-            app.component('HeaderBlock', HeaderBlock)
-            app.component('AppFooter', AppFooter)
+            main.component('HeaderBlock', HeaderBlock)
+            main.component('AppFooter', AppFooter)
             
             // Регистрируем Auth компоненты
-            app.component('AuthInput', AuthInput)
-            app.component('AuthButton', AuthButton)
-            app.component('AuthCheckbox', AuthCheckbox)
+            main.component('AuthInput', AuthInput)
+            main.component('AuthButton', AuthButton)
+            main.component('AuthCheckbox', AuthCheckbox)
 
-            app.mount('#app')
+            header.mount('#header')
+            main.mount('#main')
+            footer.mount('#footer')
         </script>
   </body>
 </html>
