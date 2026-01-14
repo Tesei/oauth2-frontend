@@ -13,7 +13,7 @@
     },
     "dependencies": {
         "@fun-sun/footer": "^1.1.19",
-        "@fun-sun/header": "^1.4.4",
+        "@fun-sun/header": "^1.4.5",
         "@fun-sun/style": "^1.0.3",
         "@fun-sun/vue-components": "^2.0.0",
         "pinia": "^2.2.0",

@@ -9,8 +9,8 @@
         <title>FunSun.Auth</title>
         
         <!-- Стили Header и Footer (скопированы в public) -->
-        <link rel="stylesheet" href="/css/header.css" />
         <link rel="stylesheet" href="/css/footer.css" />
+        <link rel="stylesheet" href="/css/header.css" />
 
         <style>
             body {
@@ -57,6 +57,7 @@
             // === Header приложение ===
             const headerApp = createApp(HeaderBlock, {
                 locale: 'ru',           // Локаль (обязательно)
+
             })
             headerApp.use(pinia)
             headerApp.use(router)

@@ -1,35 +1,31 @@
-<div class="flex flex-d-c jc-center ai-c px-20 py-40 bg-gray-5">
+<div class="login-page flex flex-d-c jc-center ai-c px-20 py-40 bg-gray-5 md3-p-16">
     <!-- @Localizer["Title"] -->
-    <h2 class="m-0 mb-24">Войдите в профиль</h2>
+    <h2 class="login-page__title m-0 mb-24 md3-mb-32">Войдите в профиль</h2>
 
-    <div class="bg-white radius-16 shadow-5dp py-32 px-24 w-100p">
+    <div class="login-page__card bg-white radius-16 shadow-5dp py-32 px-24 w-100p md3-py-24 md3-px-16">
         <form
             id="account"
             method="post"
         >
-            <!-- ОТСУТСТВУЕТ: <partial name="_StatusMessage" for="StatusMessages" /> -->
-            <!-- Для CSHTML нужно добавить здесь, если требуется показывать статус сообщения -->
 
-            <!-- CSHTML: label="@Localizer['EmailLabel']" value="@Model.Email" error-text="@Model.Errors.Email" -->
+            <!-- required можно поставить если нужно (убрал из-за того что звездочка подставляется" /> -->
             <web-input
-                class="mb-20"
+                class="mb-20 md3-mb-16"
                 name="LoginInput.Email"
                 type="email"
                 placeholder="name@example.com"
                 label="Email"
                 autocomplete="username"
-                required
                 model-value="fstravel@mail.ru"
                 error-text="текст ошибки"
             ></web-input>
 
-            <!-- CSHTML: label="@Localizer['PasswordLabel']" placeholder="@Localizer['PasswordPlaceholder']" value="@Model.Password" error-text="@Model.Errors.Password" -->
+            <!-- required можно поставить если нужно (убрал из-за того что звездочка подставляется" /> -->
             <web-input-password
                 name="LoginInput.Password"
                 placeholder="password"
                 label="Пароль"
                 autocomplete="current-password"
-                required
                 error-text="текст ошибки"
             ></web-input-password>
 
@@ -53,16 +49,12 @@
                 </a>
             </div>
 
-            <web-alert class="mb-4 mt-8">
+            <web-alert class="mb-4 mt-8 md3-mt-16">
                 <span slot="subtitle">
-                    <!--костыль снизу для соответсвия дизайну, все что
-                    в span первом по иерархии - можно удалить, как и класс и атрибут стиля -->
-                    <span
-                        style="max-width: 350px"
-                        class="block"
-                    >
-                        <span class="alert-subtitle flex jc-center"> Превышено количество попыток </span>
-                        <span> ввода пароля. Ваша учетная запись заблокирована на 15 минут </span>
+                    <!-- Desktop: текст с ограничением ширины, Mobile: обычный текст -->
+                    <span class="login-page__alert-text block">
+                        <span class="login-page__alert-title flex jc-center">Превышено количество попыток</span>
+                        <span>ввода пароля. Ваша учетная запись заблокирована на 15 минут</span>
                     </span>
 
                     <br />
@@ -71,11 +63,12 @@
             </web-alert>
 
             <!-- CSHTML: class доп.атрибуты disabled="@Model.IsSubmitting" loading="@Model.IsLoading", текст: @Localizer["LoginButton"] -->
-            <div class="login-submit mt-32">
+            <div class="login-submit mt-32 md3-mt-20">
                 <web-button
                     id="login-submit"
                     type="submit"
                     class="button_yellow w-100p"
+                    disabled
                 >
                     Войти
                 </web-button>
@@ -88,12 +81,9 @@
             </div>
 
             <!-- External Providers - @foreach (var provider in Model.ExternalLogins.Schemes) -->
-            <div
-                class="flex flex-d-r mb-16"
-                style="gap: 12px"
-            >
+            <div class="login-page__social flex flex-d-r md3-flex-d-c mb-16">
                 <web-button
-                    class="bg-black c-white radius-12 w-100p"
+                    class="login-social-btn c-white radius-8 w-100p"
                     custom-class="login-social-btn"
                 >
                     <img
@@ -103,14 +93,17 @@
                         width="24"
                         height="24"
                     />
-                    <span>Войти с</span>
+                    <!--костыль снизу для соответсвия дизайну, все что
+                    в span первом по иерархии - можно удалить, как и класс и атрибут стиля -->
+                    <span class="login-social-btn__text login-social-btn__text-desktop">Войти с Яндекс ID</span>
+                    <span class="login-social-btn__text login-social-btn__text-mobile ">Яндекс ID</span>
                 </web-button>
 
                 <web-button
-                    class="bg-black c-white radius-12 w-100p"
+                    class="login-social-btn c-white radius-8 w-100p"
                     custom-class="login-social-btn"
                 >
-                    <span>Войти с</span>
+                    <span class="login-social-btn__text">Войти с</span>
                     <img
                         class="ml-8"
                         src="/icons/wildberries.svg"
@@ -135,7 +128,7 @@
 
             <!-- CSHTML: href="@Url.PageWithoutNormalizeQuery("/SignUp/Index", ...)" текст: @Localizer["RegisterLink"] -->
             <div
-                class="mt-20"
+                class="login_register mt-20"
                 style="text-align: center"
             >
                 <a
@@ -153,38 +146,45 @@
     </div>
 </div>
 
-<!-- Минимальные стили (то что нельзя заменить утилитарными классами) -->
+<!-- Стили страницы Login (БЭМ методология) -->
 <style>
-    /* Контейнер страницы */
-    .flex.flex-d-c.jc-center {
+    /* Блок: login-page */
+    .login-page {
         min-height: 60vh;
     }
 
-    /* Заголовок */
-    h2.m-0.mb-24 {
+    /* Элемент: заголовок */
+    .login-page__title {
         font-size: 36px;
         font-weight: 600;
         line-height: 48px;
         text-align: center;
     }
 
-    /* Карточка */
-    .bg-white.radius-16 {
+    /* Элемент: карточка */
+    .login-page__card {
         max-width: 524px;
     }
 
-    /* Ссылки */
-    a {
-        text-decoration: none;
-        font-size: 14px;
+    /* Элемент: текст alert (Desktop - с ограничением ширины) */
+    .login-page__alert-text {
+        max-width: 350px;
     }
 
-    a:hover {
-        text-decoration: underline;
+    /* Элемент: кнопки соцсетей */
+    .login-page__social {
+        gap: 12px;
     }
 
-    /* Регистрация */
-    div[style*='text-align: center'] a {
+    .login-social-btn {
+        background: #000000;
+
+    }
+    .login-social-btn .button {
+        padding: 16px 24px;
+    }
+
+    .c-cornflower {
         font-size: 16px;
     }
 
@@ -207,11 +207,52 @@
         font-size: 14px;
     }
 
-    /* Кнопки соцсетей */
+    /* Текст кнопок: по умолчанию показываем desktop */
+    .login-social-btn__text-desktop {
+        display: inline;
+    }
+    .login-social-btn__text-mobile {
+        display: none;
+    }
+
+    /* Модификатор для кнопок соцсетей */
     .login-social-btn {
         flex: 1;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
     }
+
+    @media (max-width: 1023px) {
+        .login-page__title {
+            font-size: 24px;
+            line-height: 32px;
+        }
+        .login-page__social {
+            gap: 20px;
+        }
+        .c-cornflower {
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 22px;
+        }
+
+        .login-social-btn__text {
+            font-size: 17px;
+        }
+        
+        /* Alert: убираем ограничение ширины, текст одной строкой */
+        .login-page__alert-text {
+            max-width: none;
+        }
+        /* Яндекс: скрываем длинный текст, показываем короткий */
+        .login-social-btn__text-desktop {
+            display: none;
+        }
+        .login-social-btn__text-mobile {
+            display: inline;
+        }
+    }
+
 </style>
