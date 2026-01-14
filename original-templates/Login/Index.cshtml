@@ -1,4 +1,4 @@
-﻿@page
+@page
 @using FunSun.Auth.Extensions
 @using FunSun.Auth.Pages.Login
 @inject IHtmlLocalizer<IndexModel> Localizer
@@ -15,50 +15,22 @@
                 <h2>@Localizer["LocalAccountPrompt"]</h2>
                 <hr />
                 <partial name="_StatusMessage" for="StatusMessages" />
-                
-                @* Было: <div class="form-floating mb-3">...</div> *@
-                @* Стало: Vue компонент *@
-                <auth-input 
-                    v-model="loginInput.email"
-                    type="email"
-                    name="LoginInput.Email"
-                    :label="'@Localizer["EmailLabel"]'"
-                    placeholder="name@example.com"
-                    autocomplete="username"
-                    :required="true"
-                />
-
-                @* Было: <div class="form-floating mb-3">...</div> *@
-                @* Стало: Vue компонент *@
-                <auth-input 
-                    v-model="loginInput.password"
-                    type="password"
-                    name="LoginInput.Password"
-                    :label="'@Localizer["PasswordLabel"]'"
-                    placeholder="password"
-                    autocomplete="current-password"
-                    :required="true"
-                />
-
-                @* Было: <div class="checkbox mb-3">...</div> *@
-                @* Стало: Vue компонент *@
-                <auth-checkbox
-                    v-model="loginInput.rememberMe"
-                    name="LoginInput.RememberMe"
-                    :label="'@Localizer["RememberMeLabel"]'"
-                />
-
+                <div class="form-floating mb-3">
+                    <input asp-for="LoginInput.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <label asp-for="LoginInput.Email" class="form-label">@Localizer["EmailLabel"]</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="LoginInput.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                    <label asp-for="LoginInput.Password" class="form-label">@Localizer["PasswordLabel"]</label>
+                </div>
+                <div class="checkbox mb-3">
+                    <label asp-for="LoginInput.RememberMe" class="form-label">
+                        <input class="form-check-input" asp-for="LoginInput.RememberMe" />
+                        @Localizer["RememberMeLabel"]
+                    </label>
+                </div>
                 <div>
-                    @* Было: <button ... *@
-                    @* Стало: Vue компонент *@
-                    <auth-button
-                        button-id="login-submit"
-                        type="submit"
-                        :label="'@Localizer["LoginButton"]'"
-                        variant="primary"
-                        size="lg"
-                        :full-width="true"
-                    />
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">@Localizer["LoginButton"]</button>
                 </div>
                 <div>
                     <p>
@@ -82,7 +54,6 @@
                         <p>
                             @foreach (var provider in Model.ExternalLogins.Schemes)
                             {
-                                @* Можно заменить на Vue компонент если нужно *@
                                 <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="@Localizer["ExternalLoginButton", provider.DisplayName]">@provider.DisplayName</button>
                             }
                         </p>
@@ -93,16 +64,3 @@
     </div>
 </div>
 
-@section Scripts {
-    <script>
-        // Инициализация данных для Vue компонентов
-        // v-model привязывается к этим данным
-        window.vueAuthData = {
-            loginInput: {
-                email: '',
-                password: '',
-                rememberMe: false
-            }
-        };
-    </script>
-}

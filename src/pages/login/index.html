@@ -1,8 +1,8 @@
-<div class="login-container">
+<div class="flex flex-d-c jc-center ai-c px-20 py-40 bg-gray-5">
     <!-- @Localizer["Title"] -->
-    <h2 class="login-title">Войдите в профиль</h2>
+    <h2 class="m-0 mb-24">Войдите в профиль</h2>
 
-    <div class="login-card">
+    <div class="bg-white radius-16 shadow-5dp py-32 px-24 w-100p">
         <form
             id="account"
             method="post"
@@ -19,6 +19,8 @@
                 label="Email"
                 autocomplete="username"
                 required
+                model-value="fstravel@mail.ru"
+                error-text="текст ошибки"
             ></web-input>
 
             <!-- CSHTML: label="@Localizer['PasswordLabel']" placeholder="@Localizer['PasswordPlaceholder']" value="@Model.Password" error-text="@Model.Errors.Password" -->
@@ -28,6 +30,7 @@
                 label="Пароль"
                 autocomplete="current-password"
                 required
+                error-text="текст ошибки"
             ></web-input-password>
 
             <!-- ОТСУТСТВУЕТ: Remember Me checkbox (закомментирован - нет в дизайне) -->
@@ -40,7 +43,7 @@
             -->
 
             <!-- CSHTML: href="@Url.PageWithoutNormalizeQuery("/ForgotPassword/Index", ...)" текст: @Localizer["ForgotPasswordLink"] -->
-            <div class="login-forgot-left mt-8 mb-32">
+            <div class="mt-8">
                 <a
                     class="c-gray"
                     id="forgot-password"
@@ -50,8 +53,25 @@
                 </a>
             </div>
 
+            <web-alert class="mb-4 mt-8">
+                <span slot="subtitle">
+                    <!--костыль снизу для соответсвия дизайну, все что
+                    в span первом по иерархии - можно удалить, как и класс и атрибут стиля -->
+                    <span
+                        style="max-width: 350px"
+                        class="block"
+                    >
+                        <span class="alert-subtitle flex jc-center"> Превышено количество попыток </span>
+                        <span> ввода пароля. Ваша учетная запись заблокирована на 15 минут </span>
+                    </span>
+
+                    <br />
+                    <p class="font-button_S c-gray">14:58 мин</p>
+                </span>
+            </web-alert>
+
             <!-- CSHTML: class доп.атрибуты disabled="@Model.IsSubmitting" loading="@Model.IsLoading", текст: @Localizer["LoginButton"] -->
-            <div class="login-submit">
+            <div class="login-submit mt-32">
                 <web-button
                     id="login-submit"
                     type="submit"
@@ -68,18 +88,22 @@
             </div>
 
             <!-- External Providers - @foreach (var provider in Model.ExternalLogins.Schemes) -->
-            <div class="login-social-buttons">
+            <div
+                class="flex flex-d-r mb-16"
+                style="gap: 12px"
+            >
                 <web-button
                     class="bg-black c-white radius-12 w-100p"
                     custom-class="login-social-btn"
                 >
-                    <span>Войти с</span>
                     <img
+                        class="mr-12"
                         src="/icons/yandex.svg"
                         alt="Yandex"
                         width="24"
                         height="24"
                     />
+                    <span>Войти с</span>
                 </web-button>
 
                 <web-button
@@ -88,6 +112,7 @@
                 >
                     <span>Войти с</span>
                     <img
+                        class="ml-8"
                         src="/icons/wildberries.svg"
                         alt="Wildberries"
                         width="40"
@@ -109,7 +134,10 @@
             -->
 
             <!-- CSHTML: href="@Url.PageWithoutNormalizeQuery("/SignUp/Index", ...)" текст: @Localizer["RegisterLink"] -->
-            <div class="login-register">
+            <div
+                class="mt-20"
+                style="text-align: center"
+            >
                 <a
                     id="register"
                     href="/signup"
@@ -125,54 +153,46 @@
     </div>
 </div>
 
-<!-- Стили -->
+<!-- Минимальные стили (то что нельзя заменить утилитарными классами) -->
 <style>
-    .login-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+    /* Контейнер страницы */
+    .flex.flex-d-c.jc-center {
         min-height: 60vh;
-        padding: 40px 20px;
     }
 
-    .login-title {
-        margin: 0 0 24px 0;
-        font-size: 32px;
-        text-align: center;
+    /* Заголовок */
+    h2.m-0.mb-24 {
+        font-size: 36px;
         font-weight: 600;
+        line-height: 48px;
+        text-align: center;
     }
 
-    .login-card {
-        background: white;
-        border-radius: 16px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        padding: 40px;
-        max-width: 500px;
-        width: 100%;
+    /* Карточка */
+    .bg-white.radius-16 {
+        max-width: 524px;
     }
 
-    .login-forgot-left {
-        text-align: left;
-    }
-
-    .login-forgot-left a {
-        font-size: 14px;
+    /* Ссылки */
+    a {
         text-decoration: none;
+        font-size: 14px;
     }
 
-    .login-forgot-left a:hover {
+    a:hover {
         text-decoration: underline;
     }
 
-    .login-submit {
-        margin-bottom: 16px;
+    /* Регистрация */
+    div[style*='text-align: center'] a {
+        font-size: 16px;
     }
 
+    /* Разделитель "или" */
     .login-divider {
         display: flex;
         align-items: center;
-        margin: 24px 0;
+        margin: 20px 0;
         gap: 12px;
     }
 
@@ -187,34 +207,11 @@
         font-size: 14px;
     }
 
-    .login-social-buttons {
-        display: flex;
-        flex-direction: row;
-        gap: 12px;
-        margin-bottom: 16px;
-    }
-
+    /* Кнопки соцсетей */
     .login-social-btn {
         flex: 1;
         display: flex !important;
         align-items: center !important;
-        gap: 12px !important;
         justify-content: center !important;
-        background: #000000 !important;
-        color: #ffffff !important;
-    }
-
-    .login-register {
-        text-align: center;
-        margin-top: 24px;
-        font-size: 16px;
-    }
-
-    .login-register a {
-        text-decoration: none;
-    }
-
-    .login-register a:hover {
-        text-decoration: underline;
     }
 </style>

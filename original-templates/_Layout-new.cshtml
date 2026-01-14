@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <title>@ViewData["Title"]</title>
+    
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="~/css/site.css"/>
+    
+    @* Vue компоненты стили *@
+    <link rel="stylesheet" href="~/dist/main.css"/>
+</head>
+<body>
+    @* Vue app монтируется сюда *@
+
+    <header id="header"></header>
+
+        <div class="login-container">
+            @RenderBody()
+        </div>
+        
+    <footer id="footer"></footer>
+
+    @* Старые скрипты (можно убрать если не используются) *@
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @* Vue приложение - подключается после сборки (npm run build) *@
+    <script type="module" src="~/dist/main.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
