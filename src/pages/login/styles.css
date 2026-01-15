@@ -1,0 +1,78 @@
+/* Стили страницы Login (БЭМ методология) */
+
+/* Блок: login-page */
+.login-page {
+    min-height: 60vh;
+}
+
+/* Элемент: карточка */
+.login-page__card {
+    max-width: 524px;
+}
+
+/* Элемент: текст alert (Desktop - с ограничением ширины) */
+.login-page__alert-text {
+    max-width: 350px;
+}
+
+/* Элемент: кнопки соцсетей */
+.login-page__social {
+    gap: 12px;
+}
+
+.login-social-btn {
+    background: #000000;
+    flex: 1;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.login-social-btn .button {
+    padding: 16px 24px;
+}
+
+/* Разделитель "или" */
+.login-divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    gap: 12px;
+}
+
+.login-divider-line {
+    flex: 1;
+    height: 1px;
+    background: #dbe0e5;
+}
+
+/* Текст кнопок: по умолчанию показываем desktop */
+.login-social-btn__text-desktop {
+    display: inline;
+}
+.login-social-btn__text-mobile {
+    display: none;
+}
+
+@media (max-width: 1023px) {
+    .login-page__social {
+        gap: 20px;
+    }
+
+    .login-social-btn__text {
+        font-size: 17px;
+    }
+    
+    /* Alert: убираем ограничение ширины */
+    .login-page__alert-text {
+        max-width: none;
+    }
+    
+    /* Яндекс: скрываем длинный текст, показываем короткий */
+    .login-social-btn__text-desktop {
+        display: none;
+    }
+    .login-social-btn__text-mobile {
+        display: inline;
+    }
+}

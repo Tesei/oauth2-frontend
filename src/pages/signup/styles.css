@@ -1,0 +1,54 @@
+/* Стили страницы Signup (БЭМ методология) */
+
+.login-page__card {
+    max-width: 524px;
+}
+
+.signup-agreement a {
+    text-decoration: none;
+}
+
+.signup-agreement a:hover {
+    text-decoration: underline;
+}
+
+/* Desktop тултип - показываем */
+.tooltip-desktop {
+    display: inline-block;
+}
+
+/* Mobile тултип - скрываем */
+.tooltip-mobile {
+    display: none;
+}
+
+/* Переопределяем стили тултипа */
+.tooltip-desktop .tooltip2,
+.tooltip-mobile .tooltip2 {
+    max-width: max-content;
+    text-align: left;
+}
+
+.base-input-phone__select {
+    max-width: 93px;
+}
+.base-select__icon {
+    display: none;
+}
+
+@media (max-width: 375px) {
+    /* Desktop тултип - скрываем */
+    .tooltip-desktop {
+        display: none;
+    }
+    
+    /* Mobile тултип - показываем */
+    .tooltip-mobile {
+        display: inline-block;
+    }
+    
+    /* Текст подсказки - уменьшаем шрифт */
+    .signup-hint-text {
+        font-size: 10px;
+    }
+}

@@ -1,0 +1,208 @@
+@page
+@using FunSun.Auth.Extensions
+@using FunSun.Auth.Pages.Login
+@inject IHtmlLocalizer<IndexModel> Localizer
+@model IndexModel
+@{
+    ViewData["Title"] = Localizer["Title"];
+}
+
+<div class="login-page flex flex-d-c jc-center ai-c px-20 py-40 bg-gray-5 md3-p-16">
+    <h2 class="login-page__title m-0 mb-24 md3-mb-32">@Localizer["Title"]</h2>
+
+    <div class="login-page__card bg-white radius-16 shadow-5dp py-32 px-24 w-100p md3-py-24 md3-px-16">
+        <form id="account" method="post">
+            
+            <web-input
+                class="mb-20 md3-mb-16"
+                name="LoginInput.Email"
+                type="email"
+                placeholder="@Localizer["EmailPlaceholder"]"
+                label="@Localizer["EmailLabel"]"
+                autocomplete="username"
+                model-value="@Model.Email"
+                error-text="@Model.Errors?.Email"
+            ></web-input>
+
+            <web-input-password
+                name="LoginInput.Password"
+                placeholder="@Localizer["PasswordPlaceholder"]"
+                label="@Localizer["PasswordLabel"]"
+                autocomplete="current-password"
+                error-text="@Model.Errors?.Password"
+            ></web-input-password>
+
+            <div class="mt-8">
+                <a
+                    class="c-gray"
+                    id="forgot-password"
+                    href="@Url.PageWithoutNormalizeQuery("/ForgotPassword/Index", new { returnUrl = HttpContext.Request.Query["returnUrl"] })"
+                >
+                    @Localizer["ForgotPasswordLink"]
+                </a>
+            </div>
+
+            @if (Model.Lockout)
+            {
+                <web-alert class="mb-4 mt-8 md3-mt-16">
+                    <span slot="subtitle">
+                        <span class="login-page__alert-text block">
+                            <span class="login-page__alert-title flex jc-center">@Localizer["LockoutTitle"]</span>
+                            <span>@Localizer["LockoutMessage"]</span>
+                        </span>
+                        <br />
+                        <p class="font-button_S c-gray">@Model.LockoutTimeRemaining мин</p>
+                    </span>
+                </web-alert>
+            }
+
+            <div class="login-submit mt-32 md3-mt-20">
+                <web-button
+                    id="login-submit"
+                    type="submit"
+                    class="button_yellow w-100p"
+                    disabled="@Model.IsSubmitting"
+                >
+                    @Localizer["LoginButton"]
+                </web-button>
+            </div>
+
+            <div class="login-divider">
+                <span class="login-divider-line"></span>
+                <span class="login-divider-text">или</span>
+                <span class="login-divider-line"></span>
+            </div>
+
+            <div class="login-page__social flex flex-d-r md3-flex-d-c mb-16">
+                @foreach (var provider in Model.ExternalLogins.Schemes)
+                {
+                    <web-button
+                        class="login-social-btn c-white radius-8 w-100p"
+                        custom-class="login-social-btn"
+                        name="provider"
+                        value="@provider.Name"
+                    >
+                        @if (provider.Name == "Yandex")
+                        {
+                            <img class="mr-12" src="~/icons/yandex.svg" alt="Yandex" width="24" height="24" />
+                            <span class="login-social-btn__text login-social-btn__text-desktop">Войти с Яндекс ID</span>
+                            <span class="login-social-btn__text login-social-btn__text-mobile">Яндекс ID</span>
+                        }
+                        else
+                        {
+                            <span class="login-social-btn__text">Войти с</span>
+                            <img class="ml-8" src="~/icons/@(provider.Name.ToLower()).svg" alt="@provider.DisplayName" />
+                        }
+                    </web-button>
+                }
+            </div>
+
+            <div class="login_register mt-20" style="text-align: center">
+                <a
+                    id="register"
+                    href="@Url.PageWithoutNormalizeQuery("/SignUp/Index", new { returnUrl = HttpContext.Request.Query["returnUrl"] })"
+                    class="c-cornflower"
+                >
+                    @Localizer["RegisterLink"]
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .login-page {
+        min-height: 60vh;
+    }
+
+    .login-page__title {
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 48px;
+        text-align: center;
+    }
+
+    .login-page__card {
+        max-width: 524px;
+    }
+
+    .login-page__alert-text {
+        max-width: 350px;
+    }
+
+    .login-page__social {
+        gap: 12px;
+    }
+
+    .login-social-btn {
+        background: #000000;
+    }
+    
+    .login-social-btn .button {
+        padding: 16px 24px;
+    }
+
+    .c-cornflower {
+        font-size: 16px;
+    }
+
+    .login-divider {
+        display: flex;
+        align-items: center;
+        margin: 20px 0;
+        gap: 12px;
+    }
+
+    .login-divider-line {
+        flex: 1;
+        height: 1px;
+        background: #dbe0e5;
+    }
+
+    .login-divider-text {
+        color: #7e8389;
+        font-size: 14px;
+    }
+
+    .login-social-btn__text-desktop {
+        display: inline;
+    }
+    .login-social-btn__text-mobile {
+        display: none;
+    }
+
+    .login-social-btn {
+        flex: 1;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    @media (max-width: 1023px) {
+        .login-page__title {
+            font-size: 24px;
+            line-height: 32px;
+        }
+        .login-page__social {
+            gap: 20px;
+        }
+        .c-cornflower {
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 22px;
+        }
+        .login-social-btn__text {
+            font-size: 17px;
+        }
+        .login-page__alert-text {
+            max-width: none;
+        }
+        .login-social-btn__text-desktop {
+            display: none;
+        }
+        .login-social-btn__text-mobile {
+            display: inline;
+        }
+    }
+</style>

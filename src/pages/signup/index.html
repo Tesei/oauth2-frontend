@@ -1,258 +1,139 @@
 <div class="login-page flex flex-d-c jc-center ai-c px-20 py-40 bg-gray-5 md3-p-16">
-    <!-- @Localizer["Title"] -->
-    <h2 class="login-page__title m-0 mb-24 md3-mb-32">Войдите в профиль</h2>
+    <h2 class="Heading_1 m-0 mb-24 md3-mb-32">Регистрация</h2>
 
     <div class="login-page__card bg-white radius-16 shadow-5dp py-32 px-24 w-100p md3-py-24 md3-px-16">
         <form
-            id="account"
+            id="registerForm"
             method="post"
         >
-
-            <!-- required можно поставить если нужно (убрал из-за того что звездочка подставляется" /> -->
-            <web-input
+            <web-input-phone
                 class="mb-20 md3-mb-16"
-                name="LoginInput.Email"
+                name="SignUpInput.Phone"
+                label="Телефон"
+                include-codes='["RU"]'
+                placeholder="(960) 123-12-12"
+                error-text="Укажите номер телефона"
+            ></web-input-phone>
+
+            <web-input
+                class="mb-8 md3-mb-16"
+                name="SignUpInput.Email"
                 type="email"
                 placeholder="name@example.com"
                 label="Email"
                 autocomplete="username"
-                model-value="fstravel@mail.ru"
-                error-text="текст ошибки"
+                error-text="Укажите почту, чтобы мы могли с вами связаться"
             ></web-input>
 
-            <!-- required можно поставить если нужно (убрал из-за того что звездочка подставляется" /> -->
+            <div class="mb-20 md3-mb-16 footnote_M c-gray signup-hint-text">
+                Разрешены российские домены @yandex.ru, @vk.com, @mail.ru и другие
+
+                <!-- Desktop: центрируется по иконке -->
+                <web-tooltip
+                    location-side="top"
+                    align="center"
+                    class="tooltip-desktop"
+                >
+                    <img
+                        src="/icons/question.svg"
+                        alt="info"
+                        width="20"
+                        height="20"
+                        class="pointer"
+                        style="vertical-align: middle; margin-left: 4px"
+                    />
+                    <span slot="main">
+                        <div
+                            class="signup-tooltip footnote_M"
+                            style="width: 343px; text-align: left"
+                        >
+                            <span class="c-base"
+                                >С 1 января 2025 года вступил в силу ФЗ "О внесении изменения в статью 8 Федерального
+                                закона "Об информации, информационных технологиях и о защите информации".</span
+                            >
+                            <span class="c-gray"
+                                >В связи с этим мы просим использовать почту с российским доменом, например @yandex.ru,
+                                @vk.com, @mail.ru и другие</span
+                            >
+                        </div>
+                    </span>
+                </web-tooltip>
+
+                <!-- Mobile: смещен влево для адаптива (375px) -->
+                <web-tooltip
+                    location-side="top"
+                    align="start"
+                    align-offset="-100"
+                    class="tooltip-mobile"
+                >
+                    <img
+                        src="/icons/question.svg"
+                        alt="info"
+                        width="20"
+                        height="20"
+                        class="pointer"
+                        style="vertical-align: middle; margin-left: 4px"
+                    />
+                    <span slot="main">
+                        <div
+                            class="signup-tooltip-mobile footnote_M flex flex-d-c"
+                            style="width: 248px; max-height: 114px; font-size: 10px; text-align: left"
+                        >
+                            <span class="c-base"
+                                >С 1 января 2025 года вступил в силу ФЗ "О внесении изменения в статью 8 Федерального
+                                закона "Об информации, информационных технологиях и о защите информации".</span
+                            >
+                            <span class="c-gray"
+                                >В связи с этим мы просим использовать почту с российским доменом, например @yandex.ru,
+                                @vk.com, @mail.ru и другие</span
+                            >
+                        </div>
+                    </span>
+                </web-tooltip>
+            </div>
+
             <web-input-password
-                name="LoginInput.Password"
+                class="mb-20 md3-mb-16"
+                name="SignUpInput.Password"
                 placeholder="password"
                 label="Пароль"
-                autocomplete="current-password"
-                error-text="текст ошибки"
+                autocomplete="new-password"
+                error-text="Укажите пароль"
             ></web-input-password>
 
-            <!-- ОТСУТСТВУЕТ: Remember Me checkbox (закомментирован - нет в дизайне) -->
-            <!-- Если нужно для CSHTML - раскомментировать:
-            <web-checkbox
-                name="LoginInput.RememberMe"
-                label="@Localizer["RememberMeLabel"]"
-                checked="@Model.RememberMe"
-            ></web-checkbox>
-            -->
+            <web-input-password
+                class="mb-20 md3-mb-16"
+                name="SignUpInput.ConfirmPassword"
+                placeholder="password"
+                label="Подтвердить пароль"
+                autocomplete="new-password"
+                error-text="Укажите пароль"
+            ></web-input-password>
 
-            <!-- CSHTML: href="@Url.PageWithoutNormalizeQuery("/ForgotPassword/Index", ...)" текст: @Localizer["ForgotPasswordLink"] -->
-            <div class="mt-8">
-                <a
-                    class="c-gray"
-                    id="forgot-password"
-                    href="/forgot-password"
-                >
-                    Не помню пароль
-                </a>
-            </div>
-
-            <web-alert class="mb-4 mt-8 md3-mt-16">
-                <span slot="subtitle">
-                    <!-- Desktop: текст с ограничением ширины, Mobile: обычный текст -->
-                    <span class="login-page__alert-text block">
-                        <span class="login-page__alert-title flex jc-center">Превышено количество попыток</span>
-                        <span>ввода пароля. Ваша учетная запись заблокирована на 15 минут</span>
-                    </span>
-
-                    <br />
-                    <p class="font-button_S c-gray">14:58 мин</p>
-                </span>
-            </web-alert>
-
-            <!-- CSHTML: class доп.атрибуты disabled="@Model.IsSubmitting" loading="@Model.IsLoading", текст: @Localizer["LoginButton"] -->
-            <div class="login-submit mt-32 md3-mt-20">
+            <div class="mb-16">
                 <web-button
-                    id="login-submit"
+                    disabled
+                    id="registerSubmit"
                     type="submit"
                     class="button_yellow w-100p"
-                    disabled
-                >
-                    Войти
-                </web-button>
-            </div>
-
-            <div class="login-divider">
-                <span class="login-divider-line"></span>
-                <span class="login-divider-text">или</span>
-                <span class="login-divider-line"></span>
-            </div>
-
-            <!-- External Providers - @foreach (var provider in Model.ExternalLogins.Schemes) -->
-            <div class="login-page__social flex flex-d-r md3-flex-d-c mb-16">
-                <web-button
-                    class="login-social-btn c-white radius-8 w-100p"
-                    custom-class="login-social-btn"
-                >
-                    <img
-                        class="mr-12"
-                        src="/icons/yandex.svg"
-                        alt="Yandex"
-                        width="24"
-                        height="24"
-                    />
-                    <!--костыль снизу для соответсвия дизайну, все что
-                    в span первом по иерархии - можно удалить, как и класс и атрибут стиля -->
-                    <span class="login-social-btn__text login-social-btn__text-desktop">Войти с Яндекс ID</span>
-                    <span class="login-social-btn__text login-social-btn__text-mobile ">Яндекс ID</span>
-                </web-button>
-
-                <web-button
-                    class="login-social-btn c-white radius-8 w-100p"
-                    custom-class="login-social-btn"
-                >
-                    <span class="login-social-btn__text">Войти с</span>
-                    <img
-                        class="ml-8"
-                        src="/icons/wildberries.svg"
-                        alt="Wildberries"
-                        width="40"
-                        height="20"
-                    />
-                </web-button>
-            </div>
-            <!-- CSHTML: динамические провайдеры из Model.ExternalLogins.Schemes
-                 @foreach (var provider in Model.ExternalLogins.Schemes) {
-                     <web-button 
-                         name="provider" 
-                         value="@provider.Name"
-                         title="@Localizer["ExternalLoginButton", provider.DisplayName]"
-                     >
-                         <span>Войти с</span>
-                         <img src="/icons/@(provider.Name.ToLower()).svg" />
-                     </web-button>
-                 }
-            -->
-
-            <!-- CSHTML: href="@Url.PageWithoutNormalizeQuery("/SignUp/Index", ...)" текст: @Localizer["RegisterLink"] -->
-            <div
-                class="login_register mt-20"
-                style="text-align: center"
-            >
-                <a
-                    id="register"
-                    href="/signup"
-                    class="c-cornflower"
                 >
                     Зарегистрироваться
-                </a>
+                </web-button>
             </div>
 
-            <!-- ОТСУТСТВУЕТ: Секция "Используйте другой сервис для входа" (была справа в двух колонках) -->
-            <!-- В дизайне кнопки соцсетей внутри основной формы, поэтому отдельная секция не нужна -->
+            <div class="signup-agreement footnote_L c-gray">
+                Нажимая на кнопку, я даю
+                <a
+                    href="/privacy"
+                    class="c-cornflower"
+                    >«Согласие на обработку персональных данных»</a
+                >, ознакомлен и принимаю условия
+                <a
+                    href="/terms"
+                    class="c-cornflower"
+                    >Пользовательского соглашения</a
+                >
+            </div>
         </form>
     </div>
 </div>
-
-<!-- Стили страницы Login (БЭМ методология) -->
-<style>
-    /* Блок: login-page */
-    .login-page {
-        min-height: 60vh;
-    }
-
-    /* Элемент: заголовок */
-    .login-page__title {
-        font-size: 36px;
-        font-weight: 600;
-        line-height: 48px;
-        text-align: center;
-    }
-
-    /* Элемент: карточка */
-    .login-page__card {
-        max-width: 524px;
-    }
-
-    /* Элемент: текст alert (Desktop - с ограничением ширины) */
-    .login-page__alert-text {
-        max-width: 350px;
-    }
-
-    /* Элемент: кнопки соцсетей */
-    .login-page__social {
-        gap: 12px;
-    }
-
-    .login-social-btn {
-        background: #000000;
-
-    }
-    .login-social-btn .button {
-        padding: 16px 24px;
-    }
-
-    .c-cornflower {
-        font-size: 16px;
-    }
-
-    /* Разделитель "или" */
-    .login-divider {
-        display: flex;
-        align-items: center;
-        margin: 20px 0;
-        gap: 12px;
-    }
-
-    .login-divider-line {
-        flex: 1;
-        height: 1px;
-        background: #dbe0e5;
-    }
-
-    .login-divider-text {
-        color: #7e8389;
-        font-size: 14px;
-    }
-
-    /* Текст кнопок: по умолчанию показываем desktop */
-    .login-social-btn__text-desktop {
-        display: inline;
-    }
-    .login-social-btn__text-mobile {
-        display: none;
-    }
-
-    /* Модификатор для кнопок соцсетей */
-    .login-social-btn {
-        flex: 1;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }
-
-    @media (max-width: 1023px) {
-        .login-page__title {
-            font-size: 24px;
-            line-height: 32px;
-        }
-        .login-page__social {
-            gap: 20px;
-        }
-        .c-cornflower {
-            font-size: 12px;
-            font-style: normal;
-            font-weight: 600;
-            line-height: 22px;
-        }
-
-        .login-social-btn__text {
-            font-size: 17px;
-        }
-        
-        /* Alert: убираем ограничение ширины, текст одной строкой */
-        .login-page__alert-text {
-            max-width: none;
-        }
-        /* Яндекс: скрываем длинный текст, показываем короткий */
-        .login-social-btn__text-desktop {
-            display: none;
-        }
-        .login-social-btn__text-mobile {
-            display: inline;
-        }
-    }
-
-</style>
