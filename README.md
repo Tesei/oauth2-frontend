@@ -4,17 +4,41 @@
 
 ---
 
-## 🚀 Быстрый старт
+## 🚀 Быстрый старт (для тестеров)
 
+### Требования:
+- **Node.js:** v22.21.1 (или >= 18.0.0)
+- **npm:** 10.x
+
+### Команды:
 ```bash
-# Установка зависимостей
+# 1. Клонировать проект
+git clone <repository-url>
+cd oauth2-frontend
+
+# 2. Установить зависимости
 npm install
 
-# Запуск dev сервера
+# 3. Запустить dev сервер
 npm run dev
-
-# Откроется: http://localhost:5174/login
 ```
+
+### Доступные страницы:
+- http://localhost:5174/login - Вход
+- http://localhost:5174/signup - Регистрация
+- http://localhost:5174/forgot-password - Восстановление пароля
+- http://localhost:5174/reset-password - Изменение пароля (форма)
+- http://localhost:5174/reset-password-success - Успешное изменение
+- http://localhost:5174/reset-password-error - Ошибка изменения
+
+### Файлы для просмотра:
+- `src/pages/login/index.html` - Login страница
+- `src/pages/signup/index.html` - Signup страница
+- `dist/` - Скомпилированные файлы для бэкенда
+
+---
+
+## 🚀 Быстрый старт (для разработчиков)
 
 ---
 
@@ -263,7 +287,7 @@ touch src/pages/signup/index.html
             >
                 Зарегистрироваться
             </web-button>
-        </form>
+</form>
     </div>
 </div>
 
@@ -480,6 +504,22 @@ HTML файлы с веб-компонентами и стилями:
 
 **Для CSHTML:** Бэкенд может легко передавать данные через атрибуты!
 
+---
+
+
+## 🐛 Частые проблемы
+
+### Header/Footer не отображаются
+
+**Причина:** Не переданы обязательные props
+
+**Решение:**
+```javascript
+const headerApp = createApp(HeaderBlock, {
+    locale: 'ru'  // Обязательно!
+})
+```
+
 ## 🎯 Статус проекта
 
 - ✅ Архитектура настроена
@@ -489,3 +529,7 @@ HTML файлы с веб-компонентами и стилями:
 - ⏳ Signup страница
 - ⏳ ForgotPassword страница
 - ⏳ Остальные страницы
+
+---
+
+**Проект готов к разработке и демонстрации!** 🚀
