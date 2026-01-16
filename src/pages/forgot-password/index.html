@@ -1,0 +1,35 @@
+<div class="login-page flex flex-d-c jc-center ai-c px-20 py-40 bg-gray-5 md3-p-16">
+    <h2 class="Heading_1 m-0 mb-24 md3-mb-32">Восстановление пароля</h2>
+
+    <div class="login-page__card bg-white radius-16 shadow-5dp py-32 px-24 w-100p md3-py-24 md3-px-16">
+        <form id="forgot-password-form" method="post">
+
+            <!-- Текст инструкции -->
+            <p class="forgot-password__text c-black mb-24" style="text-align: center;">
+                Пожалуйста, укажите вашу почту, мы отправим электронное письмо для восстановления пароля. Если оно не придет, обязательно проверьте папку со спамом
+            </p>
+
+            <!-- Email input -->
+            <web-input
+                class="mb-24"
+                name="Email"
+                type="email"
+                placeholder="Введите email для восстановления*"
+                label="Email"
+                autocomplete="email"
+                error-text="Такая почта еще не зарегистрирована"
+            ></web-input>
+
+            <!-- Кнопка отправить -->
+            <web-button
+                id="submit-reset"
+                type="submit"
+                class="button_yellow w-100p"
+            >
+                Отправить
+            </web-button>
+        </form>
+    </div>
+</div>
+
+<!-- Стили вынесены в src/pages/forgot-password/styles.css -->

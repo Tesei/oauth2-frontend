@@ -24,6 +24,14 @@ onMounted(() => {
         loadPage('login')
     } else if (path.includes('signup')) {
         loadPage('signup')
+    } else if (path.includes('forgot-password')) {
+        loadPage('forgot-password')
+    } else if (path.includes('reset-password-success')) {
+        loadPage('reset-password-success')
+    } else if (path.includes('reset-password-error')) {
+        loadPage('reset-password-error')
+    } else if (path.includes('reset-password')) {
+        loadPage('reset-password')
     } else {
         loadPage('login')
     }

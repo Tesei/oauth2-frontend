@@ -1,0 +1,13 @@
+/* Стили страницы Forgot Password */
+
+.forgot-password__text {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+@media (max-width: 1023px) {
+    .forgot-password__text {
+        font-size: 14px;
+        line-height: 20px;
+    }
+}
