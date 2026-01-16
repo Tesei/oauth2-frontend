@@ -29,13 +29,6 @@
     text-align: left;
 }
 
-.base-input-phone__select {
-    max-width: 93px;
-}
-.base-select__icon {
-    display: none;
-}
-
 @media (max-width: 375px) {
     /* Desktop тултип - скрываем */
     .tooltip-desktop {
