@@ -31,11 +31,6 @@ npm run dev
 - http://localhost:5174/reset-password-success - Успешное изменение
 - http://localhost:5174/reset-password-error - Ошибка изменения
 
-### Файлы для просмотра:
-- `src/pages/login/index.html` - Login страница
-- `src/pages/signup/index.html` - Signup страница
-- `dist/` - Скомпилированные файлы для бэкенда
-
 ---
 
 ## 🚀 Быстрый старт (для разработчиков)
@@ -526,9 +521,8 @@ const headerApp = createApp(HeaderBlock, {
 - ✅ Header/Footer интегрированы
 - ✅ Веб-компоненты работают
 - ✅ Login страница готова
-- ⏳ Signup страница
-- ⏳ ForgotPassword страница
-- ⏳ Остальные страницы
+- ✅ Signup страница
+- ✅ ForgotPassword страница
 
 ---
 
