@@ -2,12 +2,11 @@
 
 .back-button-container {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 183px;
+    left: -4px;
     right: 0;
     max-width: 1170px;
     margin: 0 auto;
-    padding: 16px 20px;
 }
 
 .back-button {
