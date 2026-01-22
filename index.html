@@ -1,29 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
+    <head>
+        <meta charset="UTF-8" />
         <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0"
         />
         <title>FunSun.Auth</title>
-        
+
         <!-- Стили Header и Footer (скопированы в public) -->
-        <link rel="stylesheet" href="/css/footer.css" />
-        <link rel="stylesheet" href="/css/header.css" />
+        <link
+            rel="stylesheet"
+            href="/css/footer.css"
+        />
+        <link
+            rel="stylesheet"
+            href="/css/header.css"
+        />
 
         <style>
             body {
                 margin: 0;
             }
         </style>
-  </head>
-  <body>
+    </head>
+    <body>
         <!-- Header (Vue компонент) -->
         <header id="header"></header>
 
-        <!-- Main (HTML с веб-компонентами) -->
-        <main id="main"></main>
+        <!-- Контейнер для main с кнопкой -->
+            <!-- Кнопка "Назад" -->
+            <div class="back-button-container">
+                <button class="back-button" onclick="window.history.back()">
+                    <!-- Desktop: круглая иконка -->
+                    <img
+                        src="/icons/arrow-back-circle.svg"
+                        alt="Назад"
+                        width="40"
+                        height="40"
+                        class="back-button__icon-desktop"
+                    />
+                    
+                    <!-- Mobile: стрелка + текст -->
+                    <span class="back-button__mobile">
+                        <img
+                            src="/icons/arrow-back.svg"
+                            alt="←"
+                            width="6"
+                            height="10"
+                        />
+                        <span class="footnote_M c-cornflower">Назад</span>
+                    </span>
+                </button>
+            </div>
+
+            <!-- Main (HTML с веб-компонентами) -->
+            <main
+                id="main"
+                class="main-container px-20 pt-60 pb-40 bg-gray-5 md3-pb-44 md3-pt-0"
+                style="min-height: 60vh;"
+            ></main>
 
         <!-- Footer (Vue компонент) -->
         <footer id="footer"></footer>
@@ -37,13 +73,13 @@
 
             // Импорт всего через index.ts (централизованно)
             import { HeaderBlock, AppFooter, vOutside } from '/src/index.ts'
-            
+
             // Импорт веб-компонентов (автоматически регистрируются)
             import '@fun-sun/vue-components/web-components'
 
             // Создаем Pinia (общая для всех приложений)
             const pinia = createPinia()
-            
+
             // Создаем Router (общий для всех приложений)
             const router = createRouter({
                 history: createWebHistory(),
@@ -54,24 +90,23 @@
                     { path: '/forgot-password', component: { template: '<div></div>' } },
                     { path: '/reset-password', component: { template: '<div></div>' } },
                     { path: '/reset-password-success', component: { template: '<div></div>' } },
-                    { path: '/reset-password-error', component: { template: '<div></div>' } }
-                ]
+                    { path: '/reset-password-error', component: { template: '<div></div>' } },
+                ],
             })
-            
+
             // === Header приложение ===
             const headerApp = createApp(HeaderBlock, {
-                locale: 'ru',           // Локаль (обязательно)
-
+                locale: 'ru', // Локаль (обязательно)
             })
             headerApp.use(pinia)
             headerApp.use(router)
             headerApp.directive('click-outside', vOutside)
             headerApp.mount('#header')
-            
+
             // === Main приложение (используем App.vue) ===
             const mainApp = createApp(App)
             mainApp.mount('#main')
-            
+
             // === Footer приложение ===
             const footerApp = createApp(AppFooter)
             footerApp.use(pinia)
@@ -79,5 +114,5 @@
             footerApp.directive('click-outside', vOutside)
             footerApp.mount('#footer')
         </script>
-  </body>
+    </body>
 </html>

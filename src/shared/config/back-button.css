@@ -1,0 +1,50 @@
+/* Кнопка "Назад" (глобальная) */
+
+.back-button-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-width: 1170px;
+    margin: 0 auto;
+    padding: 16px 20px;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* Desktop: только иконка (круглая) */
+.back-button__icon-desktop {
+    display: block;
+}
+
+.back-button__mobile {
+    display: none;
+}
+
+/* Mobile: стрелка + текст */
+@media (max-width: 1023px) {
+    .back-button-container {
+        padding: 18px 21px 16px 21px;
+        position: relative;
+        top: 0;
+        background: #eff2f6;
+    }
+    
+    .back-button__icon-desktop {
+        display: none;
+    }
+    
+    .back-button__mobile {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+}

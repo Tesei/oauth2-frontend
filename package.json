@@ -15,7 +15,7 @@
         "@fun-sun/footer": "^1.1.19",
         "@fun-sun/header": "^1.4.5",
         "@fun-sun/style": "^1.1.0",
-        "@fun-sun/vue-components": "^2.1.2",
+        "@fun-sun/vue-components": "^2.1.3",
         "pinia": "^2.2.0",
         "universal-cookie": "^8.0.1",
         "uuid": "^9.0.0",

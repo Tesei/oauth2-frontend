@@ -1,6 +1,8 @@
 <template>
     <div
         id="page-content"
+        class="flex flex-d-c jc-center ai-c"
+        style="position: relative; z-index: 1;"
         v-html="pageContent"
     ></div>
 </template>

@@ -3,6 +3,10 @@ import '@fun-sun/vue-components/vue-components.css'
 import '@fun-sun/vue-components/web-components.css'
 import '@fun-sun/style/dist/style.css'
 
+// Глобальные стили
+import './shared/config/styles.css'
+import './shared/config/back-button.css'
+
 // Импорт стилей страниц (FSD)
 import './pages/login/styles.css'
 import './pages/signup/styles.css'

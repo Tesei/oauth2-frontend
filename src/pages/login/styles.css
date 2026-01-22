@@ -1,14 +1,6 @@
 /* Стили страницы Login (БЭМ методология) */
 
 /* Блок: login-page */
-.login-page {
-    min-height: 60vh;
-}
-
-/* Элемент: карточка */
-.login-page__card {
-    max-width: 524px;
-}
 
 /* Элемент: текст alert (Desktop - с ограничением ширины) */
 .login-page__alert-text {
@@ -55,6 +47,11 @@
 }
 
 @media (max-width: 1023px) {
+
+    .Heading_1 {
+        font-size: 24px;
+    }
+    
     .login-page__social {
         gap: 20px;
     }
