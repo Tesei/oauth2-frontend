@@ -27,9 +27,12 @@ npm run dev
 - http://localhost:5174/login - Вход
 - http://localhost:5174/signup - Регистрация
 - http://localhost:5174/forgot-password - Восстановление пароля
+- http://localhost:5174/forgot-password-sent - Письмо отправлено
 - http://localhost:5174/reset-password - Изменение пароля (форма)
 - http://localhost:5174/reset-password-success - Успешное изменение
 - http://localhost:5174/reset-password-error - Ошибка изменения
+- http://localhost:5174/wb-auth-confirm - Подтверждение WB ID
+- http://localhost:5174/wb-auth-register - Регистрация через WB ID
 
 ---
 

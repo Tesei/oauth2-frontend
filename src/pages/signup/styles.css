@@ -1,6 +1,6 @@
 /* Стили страницы Signup (БЭМ методология) */
 
-.login-page__card {
+.auth-card {
     max-width: 524px;
 }
 

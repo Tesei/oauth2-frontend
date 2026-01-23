@@ -1,0 +1,46 @@
+/* Стили страницы WB Auth Register */
+/* Используем готовые классы: Heading_1, body_S */
+
+/* Кнопки: если вторая кнопка показана - первая не на всю ширину */
+.wb-register-buttons__main {
+    flex: 1;
+}
+
+/* Если вторая кнопка скрыта - первая на всю ширину */
+.wb-register-buttons:has(.wb-register-buttons__secondary[style*="display: none"]) .wb-register-buttons__main {
+    width: 100%;
+    flex: 1 1 100%;
+}
+
+/* Тултип стили (скопированы из signup) */
+.tooltip-desktop {
+    display: inline-block;
+}
+
+.tooltip-mobile {
+    display: none;
+}
+
+.tooltip-desktop .tooltip2,
+.tooltip-mobile .tooltip2 {
+    max-width: max-content;
+    text-align: left;
+}
+
+@media (max-width: 375px) {
+    .tooltip-desktop {
+        display: none;
+    }
+    
+    .tooltip-mobile {
+        display: inline-block;
+    }
+    
+    .signup-hint-text {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 1023px) {
+    /* Классы Heading_1 и body_S автоматически адаптируются */
+}

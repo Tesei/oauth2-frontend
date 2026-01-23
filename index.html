@@ -57,8 +57,8 @@
             <!-- Main (HTML с веб-компонентами) -->
             <main
                 id="main"
-                class="main-container px-20 pt-60 pb-40 bg-gray-5 md3-pb-44 md3-pt-0"
-                style="min-height: 60vh;"
+                class="main-container px-20 pt-60 pb-80 bg-gray-5 md3-pb-44 md3-pt-0"
+                style="min-height: 44vh;"
             ></main>
 
         <!-- Footer (Vue компонент) -->
@@ -88,9 +88,12 @@
                     { path: '/login', component: { template: '<div></div>' } },
                     { path: '/signup', component: { template: '<div></div>' } },
                     { path: '/forgot-password', component: { template: '<div></div>' } },
+                    { path: '/forgot-password-sent', component: { template: '<div></div>' } },
                     { path: '/reset-password', component: { template: '<div></div>' } },
                     { path: '/reset-password-success', component: { template: '<div></div>' } },
                     { path: '/reset-password-error', component: { template: '<div></div>' } },
+                    { path: '/wb-auth-confirm', component: { template: '<div></div>' } },
+                    { path: '/wb-auth-register', component: { template: '<div></div>' } },
                 ],
             })
 

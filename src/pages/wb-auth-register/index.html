@@ -1,0 +1,80 @@
+<h2 class="Heading_1 c-base m-0 mb-24 md3-mb-32">Вход WB ID</h2>
+
+<div class="auth-card bg-white radius-16 shadow-5dp py-32 px-24 w-100p md3-py-24 md3-px-16">
+    <form id="wb-register-form" method="post">
+        
+        <p class="body_S c-base mb-24" style="text-align: center;">
+            Вы вошли через WB ID. Укажите email и нажмите «Зарегистрироваться», чтобы завершить вход
+        </p>
+
+        <web-input
+            class="mb-8 md3-mb-16"
+            name="Email"
+            type="email"
+            placeholder="name@example.com"
+            label="Email"
+            autocomplete="username"
+        ></web-input>
+
+        <div class="mb-20 md3-mb-16 footnote_M c-gray signup-hint-text">
+            Разрешены российские домены @yandex.ru, @vk.com, @mail.ru и другие
+
+            <!-- Desktop: тултип -->
+            <web-tooltip location-side="top" align="center" class="tooltip-desktop">
+                <img
+                    src="/icons/question.svg"
+                    alt="info"
+                    width="20"
+                    height="20"
+                    class="pointer"
+                    style="vertical-align: middle; margin-left: 4px"
+                />
+                <span slot="main">
+                    <div class="signup-tooltip footnote_M" style="width: 343px; text-align: left">
+                        <span class="c-base">С 1 января 2025 года вступил в силу ФЗ "О внесении изменения в статью 8 Федерального закона "Об информации, информационных технологиях и о защите информации".</span>
+                        <span class="c-gray">В связи с этим мы просим использовать почту с российским доменом, например @yandex.ru, @vk.com, @mail.ru и другие</span>
+                    </div>
+                </span>
+            </web-tooltip>
+
+            <!-- Mobile: тултип смещен влево -->
+            <web-tooltip location-side="top" align="start" align-offset="-100" class="tooltip-mobile">
+                <img
+                    src="/icons/question.svg"
+                    alt="info"
+                    width="20"
+                    height="20"
+                    class="pointer"
+                    style="vertical-align: middle; margin-left: 4px"
+                />
+                <span slot="main">
+                    <div class="signup-tooltip-mobile footnote_M flex flex-d-c" style="width: 248px; max-height: 114px; font-size: 10px; text-align: left">
+                        <span class="c-base">С 1 января 2025 года вступил в силу ФЗ "О внесении изменения в статью 8 Федерального закона "Об информации, информационных технологиях и о защите информации".</span>
+                        <span class="c-gray">В связи с этим мы просим использовать почту с российским доменом, например @yandex.ru, @vk.com, @mail.ru и другие</span>
+                    </div>
+                </span>
+            </web-tooltip>
+        </div>
+
+        <!-- Кнопки (адаптивные) -->
+        <div class="wb-register-buttons flex ai-c" style="gap: 16px;">
+            <web-button
+                id="wb-register-submit"
+                type="submit"
+                class="button_yellow wb-register-buttons__main"
+            >
+                Зарегистрироваться
+            </web-button>
+
+            <!-- Опциональная кнопка (если нужно - показывается) -->
+            <web-button
+                class="button_transparent wb-register-buttons__secondary"
+                style="display: none;"
+            >
+                Войти
+            </web-button>
+        </div>
+    </form>
+</div>
+
+<!-- Стили вынесены в src/pages/wb-auth-register/styles.css -->
