@@ -29,6 +29,13 @@
     text-align: left;
 }
 
+@media (max-width: 1023px) {
+    /* Кнопки в столбик на мобилке */
+    .signup-buttons {
+        flex-direction: column;
+    }
+}
+
 @media (max-width: 375px) {
     /* Desktop тултип - скрываем */
     .tooltip-desktop {

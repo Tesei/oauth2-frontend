@@ -109,14 +109,19 @@
                 error-text="Укажите пароль"
             ></web-input-password>
 
-            <div class="mb-16">
+            <!-- Кнопки -->
+            <div class="signup-buttons flex ai-c mb-16" style="gap: 16px;">
                 <web-button
-                    disabled
                     id="registerSubmit"
                     type="submit"
-                    class="button_yellow w-100p"
+                    class="button_yellow radius-8 w-100p"
+                    disabled
                 >
                     Зарегистрироваться
+                </web-button>
+
+                <web-button class="button_alternate button_no-border radius-8 w-100p">
+                    Войти
                 </web-button>
             </div>
 
