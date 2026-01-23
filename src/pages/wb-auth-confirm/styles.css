@@ -1,22 +1,5 @@
-.button_alternate {
-    background: #fff;
-    color: #4872F2;
-    border: 1px solid #4872F2;
-}
-.button_alternate .button {
-    border: none;
-}
-
-.button_alternate:hover {
-    color: #3965ee;
-    border-color: #3965ee;
-}
-
 @media (max-width: 1023px) {
-    .button_alternate {
-        padding: 0;
-    }
-    .button_alternate .button {
-        padding: 12px 13px;
+    .wb-auth-confirm-buttons {
+        flex-direction: column;
     }
 }
