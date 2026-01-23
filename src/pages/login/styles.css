@@ -1,5 +1,11 @@
 /* Стили страницы Login (БЭМ методология) */
 
+.auth-register-link {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+    text-decoration: none;
+}
 /* Блок: login-page */
 
 /* Элемент: текст alert (Desktop - с ограничением ширины) */
@@ -58,6 +64,11 @@
 
     .login-social-btn__text {
         font-size: 17px;
+    }
+
+    .auth-register-link {
+        font-size: 12px;
+        line-height: 22px;
     }
     
     /* Alert: убираем ограничение ширины */

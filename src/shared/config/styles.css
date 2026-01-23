@@ -28,4 +28,9 @@ body {
     .button_alternate .button {
         padding: 12px 13px;
     }
+    
+    /* Heading_1 на мобилке */
+    h2.Heading_1 {
+        line-height: 32px;
+    }
 }
