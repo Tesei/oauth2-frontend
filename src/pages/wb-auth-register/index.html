@@ -3,17 +3,18 @@
 <div class="auth-card bg-white radius-16 shadow-5dp py-32 px-24 w-100p md3-py-24 md3-px-16">
     <form id="wb-register-form" method="post">
         
-        <p class="body_S c-base mb-24" style="text-align: center;">
+        <p class="body_S c-base mb-24 md3-mb-16" style="text-align: left;">
             Вы вошли через WB ID. Укажите email и нажмите «Зарегистрироваться», чтобы завершить вход
         </p>
 
         <web-input
-            class="mb-8 md3-mb-16"
+            class="mb-8 md3-mb-8"
             name="Email"
             type="email"
             placeholder="name@example.com"
             label="Email"
             autocomplete="username"
+            error-text="Укажите email"
         ></web-input>
 
         <div class="mb-20 md3-mb-16 footnote_M c-gray signup-hint-text">
@@ -56,20 +57,19 @@
             </web-tooltip>
         </div>
 
-        <!-- Кнопки (адаптивные) -->
+        <!-- Кнопки-->
         <div class="wb-register-buttons flex ai-c" style="gap: 16px;">
             <web-button
                 id="wb-register-submit"
                 type="submit"
-                class="button_yellow wb-register-buttons__main"
+                class="button_yellow wb-register-buttons__main radius-8  w-100p"
             >
                 Зарегистрироваться
             </web-button>
 
             <!-- Опциональная кнопка (если нужно - показывается) -->
             <web-button
-                class="button_transparent wb-register-buttons__secondary"
-                style="display: none;"
+                class="button_alternate button_no-border radius-8 w-100p"
             >
                 Войти
             </web-button>

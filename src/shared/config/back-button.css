@@ -1,9 +1,11 @@
 /* Кнопка "Назад" (глобальная) */
 
 .back-button-container {
-    position: absolute;
-    top: 183px;
-    left: -4px;
+    height: 0;
+    width: 0;
+    position: relative;
+    top: 61px;
+    left: -588px;
     right: 0;
     max-width: 1170px;
     margin: 0 auto;
@@ -29,12 +31,21 @@
     display: none;
 }
 
+@media (max-width: 1183px) {
+    .back-button-container {
+        left: -49%;
+    }
+}
+
 /* Mobile: стрелка + текст */
 @media (max-width: 1023px) {
     .back-button-container {
+        width: auto;
+        height: auto;
         padding: 18px 21px 16px 21px;
         position: relative;
         top: 0;
+        left: 0;
         background: #eff2f6;
     }
     
