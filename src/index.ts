@@ -6,6 +6,7 @@ import '@fun-sun/style/dist/style.css'
 // Глобальные стили
 import './shared/config/styles.css'
 import './shared/config/back-button.css'
+import './shared/config/auth-footer.css'
 
 // Импорт стилей страниц (FSD)
 import './pages/login/styles.css'

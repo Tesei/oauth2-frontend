@@ -1,0 +1,23 @@
+/* Footer для страниц авторизации */
+
+.auth-footer {
+    text-align: center;
+}
+
+.auth-footer p {
+    margin: 0 0 8px 0;
+}
+
+.auth-footer a {
+    text-decoration: underline;
+}
+
+.auth-footer a:hover {
+    opacity: 0.8;
+}
+
+@media (max-width: 1023px) {
+    .auth-footer {
+        width: 101%;
+    }
+}
