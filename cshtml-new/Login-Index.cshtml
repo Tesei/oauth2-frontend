@@ -1,0 +1,78 @@
+@page
+@using FunSun.Auth.Pages.Login
+@inject IHtmlLocalizer<IndexModel> Localizer
+@model IndexModel
+@{
+    ViewData["Title"] = Localizer["Title"];
+}
+
+<h2 class="Heading_1 m-0 mb-32">@Localizer["Title"]</h2>
+
+<div class="auth-card bg-white radius-16 shadow-5dp py-32 px-24 w-100p md3-py-24 md3-px-16">
+    <form id="account" method="post">
+
+        <web-input
+            class="mb-20 md3-mb-16"
+            name="LoginInput.Email"
+            type="email"
+            placeholder="name@example.com"
+            label="Email"
+            autocomplete="username"
+        ></web-input>
+
+        <web-input-password
+            name="LoginInput.Password"
+            placeholder="password"
+            label="Пароль"
+            autocomplete="current-password"
+        ></web-input-password>
+
+        <div class="mt-8">
+            <a class="body_S c-gray" id="forgot-password" href="/forgot-password">
+                Не помню пароль
+            </a>
+        </div>
+
+        <web-alert class="mb-4 mt-8 md3-mt-16">
+            <span slot="subtitle">
+                <span class="login-page__alert-text block">
+                    <span class="login-page__alert-title flex jc-center">Превышено количество попыток</span>
+                    <span>ввода пароля. Ваша учетная запись заблокирована на 15 минут</span>
+                </span>
+                <br />
+                <p class="font-button_S c-gray">14:58 мин</p>
+            </span>
+        </web-alert>
+
+        <div class="login-submit mt-32 md3-mt-20">
+            <web-button id="login-submit" type="submit" class="button_yellow w-100p">
+                Войти
+            </web-button>
+        </div>
+
+        <div class="login-divider">
+            <span class="login-divider-line"></span>
+            <span class="body_S c-gray">или</span>
+            <span class="login-divider-line"></span>
+        </div>
+
+        <div class="login-page__social flex flex-d-r md3-flex-d-c mb-16">
+            <web-button class="login-social-btn c-white radius-8 w-100p" custom-class="login-social-btn">
+                <img class="mr-12" src="~/dist/icons/yandex.svg" alt="Yandex" width="24" height="24" />
+                <span class="login-social-btn__text login-social-btn__text-desktop">Войти с Яндекс ID</span>
+                <span class="login-social-btn__text login-social-btn__text-mobile">Яндекс ID</span>
+            </web-button>
+
+            <web-button class="login-social-btn c-white radius-8 w-100p" custom-class="login-social-btn">
+                <span class="login-social-btn__text">Войти с</span>
+                <img class="ml-8" src="~/dist/icons/wildberries.svg" alt="Wildberries" width="40" height="20" />
+            </web-button>
+        </div>
+
+        <div class="login_register mt-20" style="text-align: center">
+            <a id="register" href="/signup" class="auth-register-link c-cornflower">
+                Зарегистрироваться
+            </a>
+        </div>
+    </form>
+</div>

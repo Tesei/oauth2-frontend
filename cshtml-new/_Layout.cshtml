@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    
+   <!-- Стили Header и Footer-->
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/header.css" />
+
+     @* Vue компоненты стили *@
+    <script type="module" crossorigin src="~/dist/assets/index-DFUGDvAF.js" asp-append-version="true"></script>
+    <link rel="stylesheet" crossorigin href="~/dist/assets/index-DIHVuZju.css" asp-append-version="true" />
+            
+
+    
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header id="header"></header>
+
+    @* Кнопка "Назад" *@
+    <div class="back-button-container">
+        <button class="back-button" onclick="window.history.back()">
+            <img
+                src="~/dist/icons/arrow-back-circle.svg"
+                alt="Назад"
+                width="40"
+                height="40"
+                class="back-button__icon-desktop"
+            />
+            
+            <span class="back-button__mobile">
+                <img
+                    src="~/dist/icons/arrow-back.svg"
+                    alt="←"
+                    width="6"
+                    height="10"
+                />
+                <span class="footnote_M c-cornflower">Назад</span>
+            </span>
+        </button>
+    </div>
+
+    <main id="main" class="main-content flex flex-d-c jc-center ai-c px-20 py-40 bg-gray-5 md3-p-16" style="min-height: 60vh;">
+        @RenderBody()
+    </main>
+
+    <footer id="footer"></footer>
+</body>
+</html>
