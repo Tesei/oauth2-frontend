@@ -29,11 +29,17 @@ export function initPageAnalytics(pageName: string) {
     
     // Reset Password Success
     if (pageName === 'reset-password-success') {
-        import('../../pages/reset-password-success/analytics').then(module => {
-            setTimeout(() => {
-                module.initResetPasswordSuccessAnalytics();
-            }, 200);
-        });
+        console.log('Загружаем модуль аналитики для reset-password-success');
+        import('../../pages/reset-password-success/analytics')
+            .then(module => {
+                console.log('Модуль загружен, вызываем функцию');
+                setTimeout(() => {
+                    module.initResetPasswordSuccessAnalytics();
+                }, 200);
+            })
+            .catch(err => {
+                console.error('Ошибка загрузки модуля:', err);
+            });
     }
     
     // Forgot Password
@@ -43,5 +49,20 @@ export function initPageAnalytics(pageName: string) {
                 module.initForgotPasswordAnalytics();
             }, 200);
         });
+    }
+    
+    // Forgot Password Sent (Письмо отправлено)
+    if (pageName === 'forgot-password-sent') {
+        console.log('Загружаем модуль аналитики для forgot-password-sent');
+        import('../../pages/forgot-password-sent/analytics')
+            .then(module => {
+                console.log('Модуль загружен');
+                setTimeout(() => {
+                    module.initForgotPasswordSentAnalytics();
+                }, 200);
+            })
+            .catch(err => {
+                console.error('Ошибка загрузки модуля:', err);
+            });
     }
 }

@@ -1,5 +1,10 @@
 <script>
-// На странице "Письмо отправлено" события НЕ отправляем
+// Автоматически отправляем событие при загрузке страницы
+if (window.dataLayer) {
+    dataLayer.push({
+        event: "success_restore_password"
+    });
+}
 </script>
 
 <h2 class="Heading_1 m-0 mb-32">Восстановление пароля</h2>
