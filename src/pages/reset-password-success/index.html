@@ -1,7 +1,20 @@
 <!-- Аналитика: Успешная смена пароля -->
 <script>
-// Событие уже отправлено на предыдущей странице
-// На этой странице события НЕ отправляем (избегаем дубликатов)
+// Отправляем событие ТОЛЬКО при первой загрузке (не при F5)
+(function() {
+    const eventKey = 'reset_password_success_sent';
+    const eventSent = sessionStorage.getItem(eventKey);
+    
+    if (!eventSent && window.dataLayer) {
+        dataLayer.push({
+            event: "success_restore_password"
+        });
+        sessionStorage.setItem(eventKey, 'true');
+        console.log('Событие отправлено: success_restore_password');
+    } else {
+        console.log('Событие уже было отправлено (повтор заблокирован)');
+    }
+})();
 </script>
 
 <h2 class="Heading_1 m-0 mb-32">Изменение пароля</h2>
