@@ -6,6 +6,62 @@
     ViewData["Title"] = Localizer["Title"];
 }
 
+<script>
+// Функция хэширования (двойное SHA-256)
+async function js_hash(input_value, salt) {
+    const concat1 = input_value.concat(salt);
+    const textAsBuffer = new TextEncoder().encode(concat1);
+    const hashBuffer = await window.crypto.subtle.digest('SHA-256', textAsBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const sha256_hex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+    
+    const concat2 = sha256_hex.concat(salt);
+    const textAsBuffer2 = new TextEncoder().encode(concat2);
+    const hashBuffer2 = await window.crypto.subtle.digest('SHA-256', textAsBuffer2);
+    const hashArray2 = Array.from(new Uint8Array(hashBuffer2));
+    const sha256_hex2 = hashArray2.map((b) => b.toString(16).padStart(2, '0')).join('');
+    
+    return sha256_hex2;
+}
+
+// Событие: успешная авторизация
+async function sendSuccessAuth(method, email, phone) {
+    const salt = 'T_I-*umiW#_FRuBrIfR0cr-Get';
+    const euid = await js_hash(email, salt);
+    const puid = await js_hash(phone, salt);
+    
+    dataLayer.push({
+        event: "form_submit",
+        form_id: "auth",
+        eventAction: "submit_success",
+        euid: euid,
+        puid: puid,
+        param: method  // "authorization", "yandexid", "wbid"
+    });
+}
+
+// Событие: ошибка авторизации
+function sendFailedAuth(method, errorText) {
+    dataLayer.push({
+        event: "failed_auth",
+        param: method,
+        event_action: errorText
+    });
+}
+</script>
+
+@* 
+ИНСТРУКЦИЯ ДЛЯ БЭКЕНДА:
+
+При успешной авторизации вызвать:
+await sendSuccessAuth("authorization", "@Model.Email", "@Model.Phone")
+await sendSuccessAuth("yandexid", "@Model.Email", "@Model.Phone")
+await sendSuccessAuth("wbid", "@Model.Email", "@Model.Phone")
+
+При ошибке:
+sendFailedAuth("authorization", "@Model.ErrorMessage")
+*@
+
 <h2 class="Heading_1 m-0 mb-32">@Localizer["Title"]</h2>
 
 <div class="auth-card bg-white radius-16 shadow-5dp py-32 px-24 w-100p md3-py-24 md3-px-16">
@@ -33,19 +89,28 @@
             </a>
         </div>
 
-        <web-alert class="mb-4 mt-8 md3-mt-16">
-            <span slot="subtitle">
-                <span class="login-page__alert-text block">
-                    <span class="login-page__alert-title flex jc-center">Превышено количество попыток</span>
-                    <span>ввода пароля. Ваша учетная запись заблокирована на 15 минут</span>
+        @* TODO: Показывать только при блокировке *@
+        @if (Model.IsLockedOut)
+        {
+            <web-alert class="mb-4 mt-8 md3-mt-16">
+                <span slot="subtitle">
+                    <span class="login-page__alert-text block">
+                        <span class="login-page__alert-title flex jc-center">Превышено количество попыток</span>
+                        <span>ввода пароля. Ваша учетная запись заблокирована на 15 минут</span>
+                    </span>
+                    <br />
+                    <p class="font-button_S c-gray">@Model.LockoutMinutes мин</p>
                 </span>
-                <br />
-                <p class="font-button_S c-gray">14:58 мин</p>
-            </span>
-        </web-alert>
+            </web-alert>
+        }
 
         <div class="login-submit mt-32 md3-mt-20">
-            <web-button id="login-submit" type="submit" class="button_yellow w-100p">
+            <web-button 
+                id="login-submit" 
+                type="submit" 
+                class="button_yellow w-100p"
+                onclick="dataLayer.push({event: 'login_attempt', method: 'authorization'})"
+            >
                 Войти
             </web-button>
         </div>
@@ -57,13 +122,21 @@
         </div>
 
         <div class="login-page__social flex flex-d-r md3-flex-d-c mb-16">
-            <web-button class="login-social-btn c-white radius-8 w-100p" custom-class="login-social-btn">
+            <web-button 
+                class="login-social-btn c-white radius-8 w-100p" 
+                custom-class="login-social-btn"
+                onclick="dataLayer.push({event: 'login_attempt', method: 'yandexid'})"
+            >
                 <img class="mr-12" src="~/dist/icons/yandex.svg" alt="Yandex" width="24" height="24" />
                 <span class="login-social-btn__text login-social-btn__text-desktop">Войти с Яндекс ID</span>
                 <span class="login-social-btn__text login-social-btn__text-mobile">Яндекс ID</span>
             </web-button>
 
-            <web-button class="login-social-btn c-white radius-8 w-100p" custom-class="login-social-btn">
+            <web-button 
+                class="login-social-btn c-white radius-8 w-100p" 
+                custom-class="login-social-btn"
+                onclick="dataLayer.push({event: 'login_attempt', method: 'wbid'})"
+            >
                 <span class="login-social-btn__text">Войти с</span>
                 <img class="ml-8" src="~/dist/icons/wildberries.svg" alt="Wildberries" width="40" height="20" />
             </web-button>

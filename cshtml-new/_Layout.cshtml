@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-P7DMFQ2');</script>
+    <!-- End Google Tag Manager -->
+    
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     
-   <!-- Стили Header и Footer-->
-    <link rel="stylesheet" href="/css/footer.css" />
-    <link rel="stylesheet" href="/css/header.css" />
-
-     @* Vue компоненты стили *@
+    @* Стили из dist *@
     <script type="module" crossorigin src="~/dist/assets/index-DFUGDvAF.js" asp-append-version="true"></script>
     <link rel="stylesheet" crossorigin href="~/dist/assets/index-DIHVuZju.css" asp-append-version="true" />
-            
-
     
     <style>
         body {
@@ -22,6 +20,10 @@
     </style>
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P7DMFQ2" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
     <header id="header"></header>
 
     @* Кнопка "Назад" *@
@@ -47,7 +49,7 @@
         </button>
     </div>
 
-    <main id="main" class="main-content flex flex-d-c jc-center ai-c px-20 py-40 bg-gray-5 md3-p-16" style="min-height: 60vh;">
+    <main class="main-content flex flex-d-c jc-center ai-c px-20 py-40 bg-gray-5 md3-p-16" style="min-height: 60vh;">
         @RenderBody()
     </main>
 
