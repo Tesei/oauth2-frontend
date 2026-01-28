@@ -9,6 +9,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { initPageAnalytics } from './shared/utils/analytics-handlers'
 
 const pageContent = ref('')
 
@@ -17,22 +18,11 @@ const loadPage = async (pageName: string) => {
     const response = await fetch(`/src/pages/${pageName}/index.html`)
     const html = await response.text()
     pageContent.value = html
-
-  // Отправляем события в зависимости от страницы
-  setTimeout(() => {
-        if (pageName === 'reset-password-success') {
-            const eventKey = 'reset_password_success_sent';
-            const eventSent = sessionStorage.getItem(eventKey);
-            
-            if (!eventSent) {
-                console.log('Отправляем событие: success_restore_password');
-                window.dataLayer.push({ event: 'success_restore_password' });
-                sessionStorage.setItem(eventKey, 'true');
-            } else {
-                console.log('Событие уже было отправлено (повтор заблокирован)');
-            }
-        }
-    }, 100)
+    
+    // Инициализация аналитики для страницы
+    setTimeout(() => {
+        initPageAnalytics(pageName)
+    }, 200)
 }
 
 // Определяем какую страницу загрузить

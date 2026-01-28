@@ -8,13 +8,35 @@
         });
     }
 
-    // Событие: ошибка при смене пароля
+    // Событие: ошибка при восстановлении
     function sendErrorRestorePassword(errorText) {
         dataLayer.push({
             event: "error_restore_password",
-            event_action:  "Такая почта еще не зарегистрирована"
+            event_action: errorText
         });
     }
+    
+    // Автоматический tracking ошибок (client-side и server-side)
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.querySelector('#forgot-password-form');
+        if (!form) return;
+        
+        // Проверяем server-side ошибку сразу при загрузке
+        const errorOnLoad = form.querySelector('.input__error-text')?.textContent.trim();
+        if (errorOnLoad) {
+            sendErrorRestorePassword(errorOnLoad);
+        }
+        
+        // Слушаем submit для client-side ошибок
+        form.addEventListener('submit', () => {
+            setTimeout(() => {
+                const errorAfterSubmit = form.querySelector('.input__error-text')?.textContent.trim();
+                if (errorAfterSubmit) {
+                    sendErrorRestorePassword(errorAfterSubmit);
+                }
+            }, 100);
+        });
+    });
 </script>
 
 <h2 class="Heading_1 m-0 mb-32">Восстановление пароля</h2>
