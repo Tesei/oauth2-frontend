@@ -5,6 +5,15 @@
 export function initPageAnalytics(pageName: string) {
     console.log('Инициализация аналитики для:', pageName)
 
+    // Login
+    if (pageName === 'login') {
+        import('../../pages/login/analytics').then((module) => {
+            setTimeout(() => {
+                module.initLoginAnalytics()
+            }, 200)
+        })
+    }
+
     // Reset Password Success
     if (pageName === 'reset-password-success') {
         console.log('Загружаем модуль аналитики для reset-password-success')
