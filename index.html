@@ -3,13 +3,24 @@
     <head>
         <!-- Инициализация dataLayer -->
         <script>
-        window.dataLayer = window.dataLayer || [];
+            window.dataLayer = window.dataLayer || []
         </script>
-        
+
         <!-- Google Tag Manager -->
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-P7DMFQ2');</script>
+        <script>
+            ;(function (w, d, s, l, i) {
+                w[l] = w[l] || []
+                w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+                var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s),
+                    dl = l != 'dataLayer' ? '&l=' + l : ''
+                j.async = true
+                j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
+                f.parentNode.insertBefore(j, f)
+            })(window, document, 'script', 'dataLayer', 'GTM-P7DMFQ2')
+        </script>
         <!-- End Google Tag Manager -->
-        
+
         <meta charset="UTF-8" />
         <meta
             name="viewport"
@@ -35,43 +46,53 @@
     </head>
     <body>
         <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P7DMFQ2" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <noscript
+            ><iframe
+                src="https://www.googletagmanager.com/ns.html?id=GTM-P7DMFQ2"
+                height="0"
+                width="0"
+                style="display: none; visibility: hidden"
+            ></iframe
+        ></noscript>
         <!-- End Google Tag Manager (noscript) -->
-        
+
         <!-- Header (Vue компонент) -->
         <header id="header"></header>
 
         <!-- Контейнер для main с кнопкой -->
-            <!-- Кнопка "Назад" -->
-            <div class="back-button-container">
-                <button class="back-button" onclick="window.history.back()">
-                    <!-- Desktop: круглая иконка -->
-                    <img
-                        src="/icons/arrow-back-circle.svg"
-                        alt="Назад"
-                        width="40"
-                        height="40"
-                        class="back-button__icon-desktop"
-                    />
-                    
-                    <!-- Mobile: стрелка + текст -->
-                    <span class="back-button__mobile">
-                        <img
-                            src="/icons/arrow-back.svg"
-                            alt="←"
-                            width="6"
-                            height="10"
-                        />
-                        <span class="footnote_M c-cornflower">Назад</span>
-                    </span>
-                </button>
-            </div>
+        <!-- Кнопка "Назад" -->
+        <div class="back-button-container">
+            <button
+                class="back-button"
+                onclick="window.history.back()"
+            >
+                <!-- Desktop: круглая иконка -->
+                <img
+                    src="/icons/arrow-back-circle.svg"
+                    alt="Назад"
+                    width="40"
+                    height="40"
+                    class="back-button__icon-desktop"
+                />
 
-            <!-- Main (HTML с веб-компонентами) -->
-            <main
-                id="main"
-                class="main-container px-20 pt-60 pb-80 bg-gray-5 md3-pb-44 md3-pt-0"
-            ></main>
+                <!-- Mobile: стрелка + текст -->
+                <span class="back-button__mobile">
+                    <img
+                        src="/icons/arrow-back.svg"
+                        alt="←"
+                        width="6"
+                        height="10"
+                    />
+                    <span class="footnote_M c-cornflower">Назад</span>
+                </span>
+            </button>
+        </div>
+
+        <!-- Main (HTML с веб-компонентами) -->
+        <main
+            id="main"
+            class="main-container px-20 pt-60 pb-80 bg-gray-5 md3-pb-44 md3-pt-0"
+        ></main>
 
         <!-- Footer (Vue компонент) -->
         <footer id="footer"></footer>
@@ -110,9 +131,14 @@
             })
 
             // === Header приложение ===
-            const headerApp = createApp(HeaderBlock, {
-                locale: 'ru', // Локаль (обязательно)
-            })
+            const headerApp = createApp(HeaderBlock, 
+                window.__HEADER_PROPS__ || {
+                    locale: 'ru',
+                    baseUrl: 'https://fstravel.com',
+                    authType: 'oidc',
+                    oidcAuthorityUrl: 'https://auth2.fstravel.com',
+                }
+            )
             headerApp.use(pinia)
             headerApp.use(router)
             headerApp.directive('click-outside', vOutside)
@@ -123,7 +149,11 @@
             mainApp.mount('#main')
 
             // === Footer приложение ===
-            const footerApp = createApp(AppFooter)
+            const footerApp = createApp(AppFooter, 
+                window.__FOOTER_PROPS__ || {
+                    baseUrl: 'https://fstravel.com',
+                }
+            )
             footerApp.use(pinia)
             footerApp.use(router)
             footerApp.directive('click-outside', vOutside)

@@ -15,8 +15,8 @@
     <title>@ViewData["Title"]</title>
     
     @* Стили из dist *@
-    <script type="module" crossorigin src="~/dist/assets/index-DwnOamrd.js" asp-append-version="true"></script>
-    <link rel="stylesheet" crossorigin href="~/dist/assets/index-B7bNXxTn.css" asp-append-version="true" />
+    <script type="module" crossorigin src="~/dist/assets/index-k45NtZAi.js" asp-append-version="true"></script>
+    <link rel="stylesheet" crossorigin href="~/dist/assets/index-ByhHnyag.css" asp-append-version="true" />
     
     <style>
         body {
@@ -59,5 +59,20 @@
     </main>
 
     <footer id="footer"></footer>
+    
+    @* Props для компонентов (читаются из скомпилированного кода) *@
+    <script>
+        // Глобальные props для Header/Footer
+        window.__HEADER_PROPS__ = {
+            locale: 'ru',
+            baseUrl: 'https://fstravel.com',
+            authType: 'oidc',
+            oidcAuthorityUrl: 'https://auth2.fstravel.com'
+        };
+        
+        window.__FOOTER_PROPS__ = {
+            baseUrl: 'https://fstravel.com'
+        };
+    </script>
 </body>
 </html>
