@@ -1,8 +1,6 @@
 /**
  * Главный обработчик аналитики для страниц
  * Загружает модули аналитики для каждой страницы
- *
- * Хэширование импортируется из ./hash.ts при необходимости
  */
 export function initPageAnalytics(pageName: string) {
     console.log('Инициализация аналитики для:', pageName)
@@ -31,7 +29,7 @@ export function initPageAnalytics(pageName: string) {
         })
     }
 
-    // Forgot Password Sent (Письмо отправлено)
+    // Forgot Password Sent
     if (pageName === 'forgot-password-sent') {
         console.log('Загружаем модуль аналитики для forgot-password-sent')
         import('../../pages/forgot-password-sent/analytics')
@@ -44,5 +42,14 @@ export function initPageAnalytics(pageName: string) {
             .catch((err) => {
                 console.error('Ошибка загрузки модуля:', err)
             })
+    }
+    
+    // WB Auth Confirm
+    if (pageName === 'wb-auth-confirm') {
+        import('../../pages/wb-auth-confirm/analytics').then((module) => {
+            setTimeout(() => {
+                module.initWbAuthConfirmHandlers()
+            }, 200)
+        })
     }
 }
