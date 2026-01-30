@@ -1,54 +1,41 @@
 
 <!-- Скрипт для обработки событий аналитики -->
 <script>
-// Функция хэширования (из fun_and_sun проекта)
-async function js_hash(input_value, salt) {
-    const concat1 = input_value.concat(salt);
-    const textAsBuffer = new TextEncoder().encode(concat1);
-    const hashBuffer = await window.crypto.subtle.digest('SHA-256', textAsBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const sha256_hex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-    
-    const concat2 = sha256_hex.concat(salt);
-    const textAsBuffer2 = new TextEncoder().encode(concat2);
-    const hashBuffer2 = await window.crypto.subtle.digest('SHA-256', textAsBuffer2);
-    const hashArray2 = Array.from(new Uint8Array(hashBuffer2));
-    const sha256_hex2 = hashArray2.map((b) => b.toString(16).padStart(2, '0')).join('');
-    
-    return sha256_hex2;
-}
-
-// Событие: успешная авторизация
-async function sendSuccessAuth(method, email, phone) {
-    const salt = 'T_I-*umiW#_FRuBrIfR0cr-Get';
-    const euid = await js_hash(email, salt);
-    const puid = await js_hash(phone, salt);
-    
-    dataLayer.push({
-        event: "form_submit",
-        form_id: "auth",
-        eventAction: "submit_success",
-        euid: euid,
-        puid: puid,
-        param: method  // "authorization", "yandexid", "wbid"
-    });
-}
-
 // Событие: ошибка авторизации
-function sendFailedAuth(method, errorText) {
+function sendFailedAuth(errorText) {
     dataLayer.push({
         event: "failed_auth",
-        param: method,
+        param: 'authorization',
         event_action: errorText
     });
 }
+
+// Автоматический tracking ВСЕХ ошибок
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('#account');
+    if (!form) return;
+    
+    // Проверяем ВСЕ инпуты с ошибками
+    const inputs = form.querySelectorAll('[error-text], .input__error-text');
+    
+    inputs.forEach(input => {
+        let error = input.getAttribute?.('error-text');
+        
+        if (!error && input.textContent) {
+            error = input.textContent.trim();
+        }
+        
+        if (error) {
+            sendFailedAuth(error);
+        }
+    });
+});
 </script>
 
 <h2 class="Heading_1 m-0 mb-32">Войдите в профиль</h2>
 
 <div class="auth-card bg-white radius-16 shadow-5dp py-32 px-24 w-100p md3-py-24 md3-px-16">
-    <form id="account" method="post" onsubmit="event.preventDefault();">
-
+    <form id="account" method="post"> 
             <web-input
                 class="mb-20 md3-mb-16"
                 name="LoginInput.Email"
@@ -57,7 +44,7 @@ function sendFailedAuth(method, errorText) {
                 label="Email"
                 autocomplete="username"
                 model-value="fstravel@mail.ru"
-                error-text="текст ошибки"
+                error-text=""
             ></web-input>
 
             <web-input-password

@@ -7,60 +7,39 @@
 }
 
 <script>
-// Функция хэширования (двойное SHA-256)
-async function js_hash(input_value, salt) {
-    const concat1 = input_value.concat(salt);
-    const textAsBuffer = new TextEncoder().encode(concat1);
-    const hashBuffer = await window.crypto.subtle.digest('SHA-256', textAsBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const sha256_hex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-    
-    const concat2 = sha256_hex.concat(salt);
-    const textAsBuffer2 = new TextEncoder().encode(concat2);
-    const hashBuffer2 = await window.crypto.subtle.digest('SHA-256', textAsBuffer2);
-    const hashArray2 = Array.from(new Uint8Array(hashBuffer2));
-    const sha256_hex2 = hashArray2.map((b) => b.toString(16).padStart(2, '0')).join('');
-    
-    return sha256_hex2;
-}
-
-// Событие: успешная авторизация
-async function sendSuccessAuth(method, email, phone) {
-    const salt = 'T_I-*umiW#_FRuBrIfR0cr-Get';
-    const euid = await js_hash(email, salt);
-    const puid = await js_hash(phone, salt);
-    
-    dataLayer.push({
-        event: "form_submit",
-        form_id: "auth",
-        eventAction: "submit_success",
-        euid: euid,
-        puid: puid,
-        param: method  // "authorization", "yandexid", "wbid"
-    });
-}
-
 // Событие: ошибка авторизации
-function sendFailedAuth(method, errorText) {
+function sendFailedAuth(errorText) {
     dataLayer.push({
         event: "failed_auth",
-        param: method,
+        param: 'authorization',
         event_action: errorText
     });
 }
+
+// Автоматический tracking ошибок
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('#account');
+    if (!form) return;
+    
+    // Проверяем ВСЕ инпуты с ошибками
+    const inputs = form.querySelectorAll('[error-text], .input__error-text');
+    
+    inputs.forEach(input => {
+        // Способ 1: Через атрибут
+        let error = input.getAttribute?.('error-text');
+        
+        // Способ 2: Через textContent (fallback)
+        if (!error && input.textContent) {
+            error = input.textContent.trim();
+        }
+        
+        if (error) {
+            sendFailedAuth('authorization', error);
+        }
+    });
+});
 </script>
 
-@* 
-ИНСТРУКЦИЯ ДЛЯ БЭКЕНДА:
-
-При успешной авторизации вызвать:
-await sendSuccessAuth("authorization", "@Model.Email", "@Model.Phone")
-await sendSuccessAuth("yandexid", "@Model.Email", "@Model.Phone")
-await sendSuccessAuth("wbid", "@Model.Email", "@Model.Phone")
-
-При ошибке:
-sendFailedAuth("authorization", "@Model.ErrorMessage")
-*@
 
 <h2 class="Heading_1 m-0 mb-32">@Localizer["Title"]</h2>
 
@@ -109,7 +88,6 @@ sendFailedAuth("authorization", "@Model.ErrorMessage")
                 id="login-submit" 
                 type="submit" 
                 class="button_yellow w-100p"
-                onclick="dataLayer.push({event: 'login_attempt', method: 'authorization'})"
             >
                 Войти
             </web-button>
@@ -125,7 +103,6 @@ sendFailedAuth("authorization", "@Model.ErrorMessage")
             <web-button 
                 class="login-social-btn c-white radius-8 w-100p" 
                 custom-class="login-social-btn"
-                onclick="dataLayer.push({event: 'login_attempt', method: 'yandexid'})"
             >
                 <img class="mr-12" src="~/dist/icons/yandex.svg" alt="Yandex" width="24" height="24" />
                 <span class="login-social-btn__text login-social-btn__text-desktop">Войти с Яндекс ID</span>
@@ -135,7 +112,6 @@ sendFailedAuth("authorization", "@Model.ErrorMessage")
             <web-button 
                 class="login-social-btn c-white radius-8 w-100p" 
                 custom-class="login-social-btn"
-                onclick="dataLayer.push({event: 'login_attempt', method: 'wbid'})"
             >
                 <span class="login-social-btn__text">Войти с</span>
                 <img class="ml-8" src="~/dist/icons/wildberries.svg" alt="Wildberries" width="40" height="20" />
