@@ -43,8 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 placeholder="name@example.com"
                 label="Email"
                 autocomplete="username"
-                model-value="fstravel@mail.ru"
-                error-text=""
+                validate-on-blur
             ></web-input>
 
             <web-input-password
@@ -78,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     type="submit" 
                     class="button_yellow w-100p" 
                     onclick="dataLayer.push({event: 'login_attempt', method: 'authorization'})"
-                    disabled
+
                 >
                     Войти
                 </web-button>
