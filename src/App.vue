@@ -10,6 +10,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { initPageAnalytics } from './shared/utils/analytics-handlers'
+import { initFormValidation } from './shared/utils/form-validator'
 
 const pageContent = ref('')
 
@@ -19,9 +20,10 @@ const loadPage = async (pageName: string) => {
     const html = await response.text()
     pageContent.value = html
     
-    // Инициализация аналитики для страницы
+    // Инициализация аналитики и валидации для страницы
     setTimeout(() => {
-        initPageAnalytics(pageName)
+        initPageAnalytics(pageName);
+        initFormValidation();  // Универсальная валидация форм
     }, 200)
 }
 
