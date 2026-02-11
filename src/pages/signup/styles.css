@@ -12,21 +12,20 @@
     text-decoration: underline;
 }
 
-/* Desktop тултип - показываем */
-.tooltip-desktop {
-    display: inline-block;
+/* Иконка тултипа */
+.signup-tooltip-icon {
+    vertical-align: middle;
+    margin-left: 4px;
 }
-
-/* Mobile тултип - скрываем */
-.tooltip-mobile {
-    display: none;
+.tooltip2 {
+    max-width: max-content !important;
 }
-
-/* Переопределяем стили тултипа */
-.tooltip-desktop .tooltip2,
-.tooltip-mobile .tooltip2 {
-    max-width: max-content;
+/* Тултип */
+.signup-tooltip {
+    width: 343px;
     text-align: left;
+    font-size: 12px;
+    line-height: 18px;
 }
 
 @media (max-width: 1023px) {
@@ -37,18 +36,14 @@
 }
 
 @media (max-width: 375px) {
-    /* Desktop тултип - скрываем */
-    .tooltip-desktop {
-        display: none;
-    }
-    
-    /* Mobile тултип - показываем */
-    .tooltip-mobile {
-        display: inline-block;
-    }
-    
     /* Текст подсказки - уменьшаем шрифт */
     .signup-hint-text {
+        font-size: 10px;
+    }
+    
+    /* Тултип на мобилке */
+    .signup-tooltip {
+        width: 248px;
         font-size: 10px;
     }
 }

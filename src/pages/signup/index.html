@@ -27,65 +27,18 @@
             <div class="mb-20 md3-mb-16 footnote_M c-gray signup-hint-text">
                 Разрешены российские домены @yandex.ru, @vk.com, @mail.ru и другие
 
-                <!-- Desktop: центрируется по иконке -->
-                <web-tooltip
-                    location-side="top"
-                    align="center"
-                    class="tooltip-desktop"
-                >
+                <web-tooltip location-side="top" align="center" style="    max-width: max-content;">
                     <img
                         src="/icons/question.svg"
                         alt="info"
                         width="20"
                         height="20"
-                        class="pointer"
-                        style="vertical-align: middle; margin-left: 4px"
+                        class="pointer signup-tooltip-icon"
                     />
                     <span slot="main">
-                        <div
-                            class="signup-tooltip footnote_M"
-                            style="width: 343px; text-align: left"
-                        >
-                            <span class="c-base"
-                                >С 1 января 2025 года вступил в силу ФЗ "О внесении изменения в статью 8 Федерального
-                                закона "Об информации, информационных технологиях и о защите информации".</span
-                            >
-                            <span class="c-gray"
-                                >В связи с этим мы просим использовать почту с российским доменом, например @yandex.ru,
-                                @vk.com, @mail.ru и другие</span
-                            >
-                        </div>
-                    </span>
-                </web-tooltip>
-
-                <!-- Mobile: смещен влево для адаптива (375px) -->
-                <web-tooltip
-                    location-side="top"
-                    align="start"
-                    align-offset="-100"
-                    class="tooltip-mobile"
-                >
-                    <img
-                        src="/icons/question.svg"
-                        alt="info"
-                        width="20"
-                        height="20"
-                        class="pointer"
-                        style="vertical-align: middle; margin-left: 4px"
-                    />
-                    <span slot="main">
-                        <div
-                            class="signup-tooltip-mobile footnote_M flex flex-d-c"
-                            style="width: 248px; max-height: 114px; font-size: 10px; text-align: left"
-                        >
-                            <span class="c-base"
-                                >С 1 января 2025 года вступил в силу ФЗ "О внесении изменения в статью 8 Федерального
-                                закона "Об информации, информационных технологиях и о защите информации".</span
-                            >
-                            <span class="c-gray"
-                                >В связи с этим мы просим использовать почту с российским доменом, например @yandex.ru,
-                                @vk.com, @mail.ru и другие</span
-                            >
+                        <div class="signup-tooltip"    >
+                            <span class="c-base signup-hint-text">С 1 января 2025 года вступил в силу ФЗ "О внесении изменения в статью 8 Федерального закона "Об информации, информационных технологиях и о защите информации".</span>
+                            <span class="c-gray signup-hint-text">В связи с этим мы просим использовать почту с российским доменом, например @yandex.ru, @vk.com, @mail.ru и другие</span>
                         </div>
                     </span>
                 </web-tooltip>
