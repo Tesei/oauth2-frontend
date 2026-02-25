@@ -34,6 +34,18 @@ npm run dev
 - http://localhost:5174/wb-auth-confirm - Подтверждение WB ID
 - http://localhost:5174/wb-auth-register - Регистрация через WB ID
 
+### Query параметры:
+- `backUrl` - URL для кнопки "Назад" (только для Login)
+  - Пример: http://localhost:5174/login?backUrl=/booking
+  - С OIDC: Работает только для авторизованных пользователей
+  - Без авторизации: Редирект на `/forgot-password`
+
+### OIDC (OAuth2 + PKCE):
+- Используется библиотека `oidc-client-ts` (как в fun_and_sun)
+- Автоматическая проверка и обновление токенов
+- Интеграция с Header для авторизации
+- Настройки захардкожены для `https://auth2.fstravel.com`
+
 ---
 
 ## 🚀 Быстрый старт (для разработчиков)

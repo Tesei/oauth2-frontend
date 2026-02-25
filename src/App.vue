@@ -11,6 +11,7 @@
 import { ref, onMounted } from 'vue'
 import { initPageAnalytics } from './shared/utils/analytics-handlers'
 import { initFormValidation } from './shared/utils/form-validator'
+import { initLoginBackButton } from './pages/login/back-button-handler'
 
 const pageContent = ref('')
 
@@ -24,6 +25,11 @@ const loadPage = async (pageName: string) => {
     setTimeout(() => {
         initPageAnalytics(pageName);
         initFormValidation();  // Универсальная валидация форм
+        
+        // Инициализация back-button с backUrl только для login
+        if (pageName === 'login') {
+            initLoginBackButton();
+        }
     }, 200)
 }
 

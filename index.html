@@ -109,6 +109,14 @@
 
             // Импорт веб-компонентов (автоматически регистрируются)
             import '@fun-sun/vue-components/web-components'
+            
+            // Импорт и инициализация OIDC
+            import { checkAndRefreshToken } from '/src/shared/utils/oidc.ts'
+            
+            // Проверяем и обновляем токен при загрузке страницы
+            checkAndRefreshToken().catch(() => {
+                // Игнорируем ошибки - пользователь не авторизован
+            })
 
             // Создаем Pinia (общая для всех приложений)
             const pinia = createPinia()
