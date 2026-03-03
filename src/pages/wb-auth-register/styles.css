@@ -1,7 +1,7 @@
 /* Стили страницы WB Auth Register */
 
 /* Кнопки */
-.wb-register-buttons__main {
+.wb-register-buttons > web-button {
     flex: 1;
 }
 
