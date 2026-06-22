@@ -1,0 +1,33 @@
+@page
+@inject IHtmlLocalizer<IndexModel> Localizer
+@model IndexModel
+@{
+    ViewData["Title"] = "Вход WB ID";
+}
+
+<script>
+// Навешиваем onclick после рендера веб-компонента
+document.addEventListener('DOMContentLoaded', () => {
+    const backButton = document.querySelector('#back-button-wb .button');
+    if (backButton) {
+        backButton.addEventListener('click', () => window.history.back());
+    }
+});
+</script>
+
+<h2 class="Heading_1 c-base m-0 mb-32">Вход WB ID</h2>
+
+<div class="auth-card bg-white radius-16 shadow-5dp py-32 px-24 w-100p md3-py-24 md3-px-16">
+    <p class="body_S c-base mb-24" style="text-align: left;">
+        Необходимо предоставить данные от сервиса WB ID для регистрации, либо зарегистрироваться другим способом
+    </p>
+
+    <div class="wb-auth-confirm-buttons flex ai-c" style="gap: 16px;">
+        <web-button
+            class="button_yellow radius-8 w-100p"
+            id="back-button-wb"
+        >
+            Назад
+        </web-button>
+    </div>
+</div>

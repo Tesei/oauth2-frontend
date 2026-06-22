@@ -1,0 +1,13 @@
+﻿@page
+@using FunSun.Auth.Extensions
+@using FunSun.Auth.Pages.ResetPasswordConfirmation
+@inject IHtmlLocalizer<IndexModel> Localizer
+@model IndexModel
+@{
+    ViewData["Title"] = Localizer["Title"];
+}
+
+<h1>@Localizer["ResetPasswordConfirmationHeader"]</h1>
+<p>
+    @Localizer["PasswordResetMessage"] <a href="@Url.PageWithoutNormalizeQuery("/Login/Index", new { returnUrl = Model.ReturnUrl })">@Localizer["LoginLinkText"]</a>.
+</p>

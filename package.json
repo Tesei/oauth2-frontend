@@ -1,7 +1,7 @@
 {
     "name": "funsun-auth-dev",
     "private": true,
-    "version": "1.0.0",
+    "version": "2.0.0",
     "type": "module",
     "scripts": {
         "dev": "vite",
@@ -12,10 +12,8 @@
         "format": "prettier --write \"src/**/*.{js,vue,css,ts}\""
     },
     "dependencies": {
-        "@fun-sun/footer": "^1.1.26",
-        "@fun-sun/header": "^1.6.31",
-        "@fun-sun/style": "^1.2.7",
-        "@fun-sun/vue-components": "^2.4.23",
+        "@fun-sun/ui-kit": "=0.4.31",
+        "@fun-sun/ui-tokens": "=0.1.10",
         "oidc-client-ts": "^3.4.1",
         "pinia": "^2.2.0",
         "universal-cookie": "^8.0.1",
@@ -26,7 +24,7 @@
     "devDependencies": {
         "@eslint/js": "^9.39.2",
         "@tsconfig/node22": "^22.0.2",
-        "@types/node": "^25.0.3",
+        "@types/node": "^22.0.3",
         "@typescript-eslint/eslint-plugin": "^8.50.1",
         "@typescript-eslint/parser": "^8.50.1",
         "@typescript-eslint/utils": "^8.50.1",

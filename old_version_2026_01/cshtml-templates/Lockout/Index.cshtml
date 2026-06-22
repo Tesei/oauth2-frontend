@@ -1,0 +1,12 @@
+﻿@page
+@using FunSun.Auth.Pages.Lockout
+@inject IHtmlLocalizer<IndexModel> Localizer
+@model IndexModel
+@{
+    ViewData["Title"] = Localizer["Title"];
+}
+
+<div>
+    <h1 class="text-danger">@Localizer["Title"]</h1>
+    <p class="text-danger">@Localizer["Description"]</p>
+</div>

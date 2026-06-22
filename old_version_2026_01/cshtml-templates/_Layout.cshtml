@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <title>@ViewData["Title"]</title>
+    
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="~/css/site.css"/>
+    
+    @* Vue компоненты стили *@
+    <link rel="stylesheet" href="~/dist/main.css"/>
+</head>
+<body>
+    @* Vue app монтируется сюда *@
+    <div id="app">
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container">
+                    <a class="navbar-brand" href="~/">FunSun.Auth</a>
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        @if (!(ViewData["HideLoginPartial"] as bool? ?? false))
+                        {
+                            await Html.RenderPartialAsync("_LoginPartial");
+                        }
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="container">
+            <main role="main" class="pb-1">
+                @RenderBody()
+            </main>
+        </div>
+        
+        <footer class="footer border-top pl-3 text-muted">
+            <div class="container">
+                &copy; 2025 - FunSun.Auth
+            </div>
+        </footer>
+    </div>
+
+    @* Старые скрипты (можно убрать если не используются) *@
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @* Vue приложение - подключается после сборки (npm run build) *@
+    <script type="module" src="~/dist/main.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

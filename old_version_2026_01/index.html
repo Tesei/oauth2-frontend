@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <!-- Инициализация dataLayer -->
+        <script>
+            window.dataLayer = window.dataLayer || []
+        </script>
+
+        <!-- Google Tag Manager -->
+        <script>
+            ;(function (w, d, s, l, i) {
+                w[l] = w[l] || []
+                w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+                var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s),
+                    dl = l != 'dataLayer' ? '&l=' + l : ''
+                j.async = true
+                j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
+                f.parentNode.insertBefore(j, f)
+            })(window, document, 'script', 'dataLayer', 'GTM-P7DMFQ2')
+        </script>
+        <!-- End Google Tag Manager -->
+
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        <title>FunSun.Auth</title>
+
+        <!-- Стили Header и Footer (скопированы в public) -->
+        <link
+            rel="stylesheet"
+            href="/css/footer.css"
+        />
+        <link
+            rel="stylesheet"
+            href="/css/header.css"
+        />
+
+        <style>
+            body {
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Google Tag Manager (noscript) -->
+        <noscript
+            ><iframe
+                src="https://www.googletagmanager.com/ns.html?id=GTM-P7DMFQ2"
+                height="0"
+                width="0"
+                style="display: none; visibility: hidden"
+            ></iframe
+        ></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+
+        <!-- Header (Vue компонент) -->
+        <header id="header"></header>
+
+        <!-- Контейнер для main с кнопкой -->
+        <!-- Кнопка "Назад" -->
+        <div class="back-button-container">
+            <button
+                class="back-button"
+                onclick="window.history.back()"
+            >
+                <!-- Desktop: круглая иконка -->
+                <img
+                    src="/icons/arrow-back-circle.svg"
+                    alt="Назад"
+                    width="40"
+                    height="40"
+                    class="back-button__icon-desktop"
+                />
+
+                <!-- Mobile: стрелка + текст -->
+                <span class="back-button__mobile">
+                    <img
+                        src="/icons/arrow-back.svg"
+                        alt="←"
+                        width="6"
+                        height="10"
+                    />
+                    <span class="footnote_M c-cornflower">Назад</span>
+                </span>
+            </button>
+        </div>
+
+        <!-- Main (HTML с веб-компонентами) -->
+        <main
+            id="main"
+            class="main-container px-20 pt-60 pb-80 bg-gray-5 md3-pb-44 md3-pt-0"
+        ></main>
+
+        <!-- Footer (Vue компонент) -->
+        <footer id="footer"></footer>
+
+        <!-- Vue App -->
+        <script type="module">
+            import { createApp } from 'vue'
+            import { createPinia } from 'pinia'
+            import { createRouter, createWebHistory } from 'vue-router'
+            import App from '/src/App.vue'
+
+            // Импорт всего через index.ts (централизованно)
+            import { HeaderBlock, AppFooter, vOutside } from '/src/index.ts'
+
+            // Импорт веб-компонентов (автоматически регистрируются)
+            import '@fun-sun/vue-components/web-components'
+            
+            // Импорт и инициализация OIDC
+            import { checkAndRefreshToken } from '/src/shared/utils/oidc.ts'
+            
+            // Проверяем и обновляем токен при загрузке страницы
+            checkAndRefreshToken().catch(() => {
+                // Игнорируем ошибки - пользователь не авторизован
+            })
+
+            // Создаем Pinia (общая для всех приложений)
+            const pinia = createPinia()
+
+            // Создаем Router (общий для всех приложений)
+            const router = createRouter({
+                history: createWebHistory(),
+                routes: [
+                    { path: '/', redirect: '/login' },
+                    { path: '/login', component: { template: '<div></div>' } },
+                    { path: '/signup', component: { template: '<div></div>' } },
+                    { path: '/forgot-password', component: { template: '<div></div>' } },
+                    { path: '/forgot-password-sent', component: { template: '<div></div>' } },
+                    { path: '/reset-password', component: { template: '<div></div>' } },
+                    { path: '/reset-password-success', component: { template: '<div></div>' } },
+                    { path: '/reset-password-error', component: { template: '<div></div>' } },
+                    { path: '/wb-auth-confirm', component: { template: '<div></div>' } },
+                    { path: '/wb-auth-register', component: { template: '<div></div>' } },
+                ],
+            })
+
+            // === Header приложение ===
+            const headerApp = createApp(HeaderBlock, 
+                window.__HEADER_PROPS__ || {
+                    locale: 'ru',
+                    baseUrl: 'https://fstravel.com',
+                    authType: 'oidc',
+                    oidcAuthorityUrl: 'https://auth2.fstravel.com',
+                    blockedAuth: true,
+                }
+            )
+            headerApp.use(pinia)
+            headerApp.use(router)
+            headerApp.directive('click-outside', vOutside)
+            headerApp.mount('#header')
+
+            // === Main приложение (используем App.vue) ===
+            const mainApp = createApp(App)
+            mainApp.mount('#main')
+
+            // === Footer приложение ===
+            const footerApp = createApp(AppFooter, 
+                window.__FOOTER_PROPS__ || {
+                    baseUrl: 'https://fstravel.com',
+                }
+            )
+            footerApp.use(pinia)
+            footerApp.use(router)
+            footerApp.directive('click-outside', vOutside)
+            footerApp.mount('#footer')
+        </script>
+    </body>
+</html>

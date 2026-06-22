@@ -1,0 +1,37 @@
+<!-- Аналитика: Ошибка смены пароля -->
+<script>
+// При ошибке (недействительная ссылка) событие success_restore_password НЕ отправляем
+</script>
+
+<h2 class="Heading_1 m-0 mb-32">Изменение пароля</h2>
+
+<div class="auth-card bg-white radius-16 shadow-5dp py-32 px-24 w-100p md3-py-24 md3-px-16">
+        
+        <!-- Alert с ошибкой -->
+        <web-alert class="mb-24">
+            <span slot="subtitle">
+                Ссылка восстановления пароля недействительна. Восстановите пароль еще раз
+            </span>
+        </web-alert>
+
+        <!-- Кнопка восстановить -->
+        <web-button
+            id="go-to-forgot"
+            type="button"
+            class="button_yellow w-100p"
+        >
+            Восстановить
+        </web-button>
+</div>
+
+<!-- Footer текст -->
+<div class="auth-footer mt-32">
+    <p class="footnote_L c-gray">
+        Данный сайт защищен reCAPTCHA (<a href="https://policies.google.com/privacy" class="c-gray">конфиденциальность</a>, <a href="https://policies.google.com/terms" class="c-gray">условия обслуживания</a>)
+    </p>
+    <p class="footnote_L c-gray">
+        Все права защищены Ⓒ <a href="https://fstravel.com/" class="c-gray">FUN&SUN</a> 2026
+    </p>
+</div>
+
+<!-- Стили вынесены в src/pages/reset-password-error/styles.css -->

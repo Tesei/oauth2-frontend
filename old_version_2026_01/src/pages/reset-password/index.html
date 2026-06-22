@@ -1,0 +1,37 @@
+<h2 class="Heading_1 m-0 mb-32">Изменение пароля</h2>
+
+<div class="auth-card bg-white radius-16 shadow-5dp py-32 px-24 w-100p md3-py-24 md3-px-16">
+        <form id="reset-password-form" method="post">
+
+            <!-- Новый пароль -->
+            <web-input-password
+                class="mb-20 md3-mb-16"
+                name="NewPassword"
+                placeholder="password"
+                label="Новый пароль"
+                autocomplete="new-password"
+                error-text="Укажите пароль"
+            ></web-input-password>
+
+            <!-- Кнопка изменить -->
+            <web-button
+                id="submit-new-password"
+                type="submit"
+                class="button_yellow w-100p"
+            >
+                Изменить
+        </web-button>
+    </form>
+</div>
+
+<!-- Footer текст -->
+<div class="auth-footer mt-32">
+    <p class="footnote_L c-gray">
+        Данный сайт защищен reCAPTCHA (<a href="/privacy" class="c-gray">конфиденциальность</a>, <a href="/terms" class="c-gray">условия обслуживания</a>)
+    </p>
+    <p class="footnote_L c-gray">
+        Все права защищены Ⓒ <a href="/" class="c-gray">FUN&SUN</a> 2026
+    </p>
+</div>
+
+<!-- Стили вынесены в src/pages/reset-password/styles.css -->

@@ -1,0 +1,28 @@
+﻿@page
+@using FunSun.Auth.Pages.Consent
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.Extensions.Primitives
+@inject IHtmlLocalizer<IndexModel> Localizer
+@model IndexModel
+@{
+    ViewData["Title"] = Localizer["Title"];
+}
+
+<div class="jumbotron">
+    <h1>Authorization</h1>
+
+    <p class="lead text-left">Do you want to grant <strong>@Model.ApplicationName</strong> access to your data? (scopes requested: @Model.Scope)</p>
+
+    <form method="post">
+        @* Flow the request parameters so they can be received by the Accept/Reject actions: *@
+        @foreach (var parameter in Model.HttpContext.Request.HasFormContentType 
+            ? (IEnumerable<KeyValuePair<string, StringValues>>) Model.HttpContext.Request.Form 
+            : Model.HttpContext.Request.Query)
+        {
+            <input type="hidden" name="@parameter.Key" value="@parameter.Value" />
+        }
+
+        <input class="btn btn-lg btn-success" name="Accepted" type="submit" value="true" />
+        <input class="btn btn-lg btn-danger" name="Accepted" type="submit" value="false" />
+    </form>
+</div>

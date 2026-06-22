@@ -20,42 +20,43 @@ const loadPage = async (pageName: string) => {
     const response = await fetch(`/src/pages/${pageName}/index.html`)
     const html = await response.text()
     pageContent.value = html
-    
+
     // Инициализация аналитики и валидации для страницы
     setTimeout(() => {
-        initPageAnalytics(pageName);
-        initFormValidation();  // Универсальная валидация форм
-        
+        initPageAnalytics(pageName)
+        initFormValidation() // Универсальная валидация форм
+
         // Инициализация back-button с backUrl только для login
         if (pageName === 'login') {
-            initLoginBackButton();
+            initLoginBackButton()
         }
     }, 200)
 }
 
 // Определяем какую страницу загрузить
 onMounted(() => {
-    const path = window.location.pathname
-    if (path.includes('login')) {
-        loadPage('login')
-    } else if (path.includes('signup')) {
-        loadPage('signup')
-    } else if (path.includes('forgot-password-sent')) {
-        loadPage('forgot-password-sent')
-    } else if (path.includes('forgot-password')) {
-        loadPage('forgot-password')
-    } else if (path.includes('reset-password-success')) {
-        loadPage('reset-password-success')
-    } else if (path.includes('reset-password-error')) {
-        loadPage('reset-password-error')
-    } else if (path.includes('reset-password')) {
-        loadPage('reset-password')
-    } else if (path.includes('wb-auth-confirm')) {
-        loadPage('wb-auth-confirm')
-    } else if (path.includes('wb-auth-register')) {
-        loadPage('wb-auth-register')
-    } else {
-        loadPage('login')
-    }
+    // const path = window.location.pathname
+    // if (path.includes('login')) {
+    //     loadPage('login')
+    // } else if (path.includes('signup')) {
+    //     loadPage('signup')
+    // } else if (path.includes('forgot-password-sent')) {
+    //     loadPage('forgot-password-sent')
+    // } else if (path.includes('forgot-password')) {
+    //     loadPage('forgot-password')
+    // } else if (path.includes('reset-password-success')) {
+    //     loadPage('reset-password-success')
+    // } else if (path.includes('reset-password-error')) {
+    //     loadPage('reset-password-error')
+    // } else if (path.includes('reset-password')) {
+    //     loadPage('reset-password')
+    // } else if (path.includes('wb-auth-confirm')) {
+    //     loadPage('wb-auth-confirm')
+    // } else if (path.includes('wb-auth-register')) {
+    //     loadPage('wb-auth-register')
+    // } else {
+    //     loadPage('login')
+    // }
+    loadPage('login')
 })
 </script>

@@ -1,0 +1,10 @@
+﻿@page
+@inject IStringLocalizer<IndexModel> Localizer
+@using FunSun.Auth.Pages.Error
+@model FunSun.Auth.Pages.Error.IndexModel
+@{
+    ViewData["Title"] = Localizer["Title"];
+}
+<div>
+    <h1 class="text-danger">@Localizer["ErrorDetails"]</h1>
+</div>
