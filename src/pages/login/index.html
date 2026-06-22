@@ -12,122 +12,81 @@
     <a
         href="/"
         class="button_M auth-button auth-button--wb tr-all-2 mb-12"
+        onclick="dataLayer.push({ event: 'login_attempt', method: 'wbid' })"
     >
+        <img
+            class="ml-8"
+            src="/icons/wildberries.svg"
+            alt="Wildberries"
+            width="40"
+            height="20"
+        />
         <span>Войти с WB ID</span>
     </a>
     <a
         href="/"
         class="button_M auth-button auth-button--gray tr-all-2 mb-24"
+        onclick="dataLayer.push({ event: 'login_attempt', method: 'yandexid' })"
     >
+        <img
+            class="mr-12"
+            src="/icons/yandex.svg"
+            alt="Yandex"
+            width="24"
+            height="24"
+        />
         <span>Войти с Яндекс ID</span>
     </a>
-    <div class="caption_L mb-24">или</div>
+    <div class="flex f-center caption_L mb-24 c-text-secondary">или</div>
     <form
         id="account"
         method="post"
     >
-        <web-input
-            class="mb-20 md3-mb-16"
-            name="LoginInput.Email"
-            type="email"
-            placeholder="name@example.com"
-            label="Email"
-            autocomplete="username"
-            validate-on-blur
-        ></web-input>
-
-        <web-input-password
-            name="LoginInput.Password"
-            placeholder="password"
-            label="Пароль"
-            autocomplete="current-password"
+        <web-input-phone
+            name="LoginInput.Phone"
+            placeholder="+7 999 000 00 00"
+            autocomplete="current-phone"
             error-text="текст ошибки"
-        ></web-input-password>
+            model-value="+7"
+            class="mb-12"
+        ></web-input-phone>
 
-        <div class="mt-8">
-            <a
-                class="body_S c-gray"
-                id="forgot-password"
-                href="/forgot-password"
-            >
-                Не помню пароль
-            </a>
-        </div>
-
-        <web-alert class="mb-4 mt-8 md3-mt-16">
-            <span slot="subtitle">
-                <span class="login-page__alert-text block">
-                    <span class="login-page__alert-title flex jc-center">Превышено количество попыток</span>
-                    <span>ввода пароля. Ваша учетная запись заблокирована на 15 минут</span>
-                </span>
-                <br />
-                <p class="font-button_S c-gray">14:58 мин</p>
-            </span>
-        </web-alert>
-
-        <div class="login-submit mt-32 md3-mt-20">
-            <web-button
-                id="login-submit"
-                type="submit"
-                class="button_yellow w-100p"
-                onclick="dataLayer.push({ event: 'login_attempt', method: 'authorization' })"
-            >
-                Войти
-            </web-button>
-        </div>
-
-        <div class="login-divider">
-            <span class="login-divider-line"></span>
-            <span class="body_S c-gray">или</span>
-            <span class="login-divider-line"></span>
-        </div>
-
-        <div class="login-page__social flex flex-d-r md3-flex-d-c mb-16">
-            <web-button
-                class="login-social-btn c-white radius-8 w-100p"
-                custom-class="login-social-btn"
-                onclick="dataLayer.push({ event: 'login_attempt', method: 'yandexid' })"
-            >
-                <img
-                    class="mr-12"
-                    src="/icons/yandex.svg"
-                    alt="Yandex"
-                    width="24"
-                    height="24"
-                />
-                <span class="login-social-btn__text login-social-btn__text-desktop">Войти с Яндекс ID</span>
-                <span class="login-social-btn__text login-social-btn__text-mobile">Яндекс ID</span>
-            </web-button>
-
-            <web-button
-                class="login-social-btn c-white radius-8 w-100p"
-                custom-class="login-social-btn"
-                onclick="dataLayer.push({ event: 'login_attempt', method: 'wbid' })"
-            >
-                <span class="login-social-btn__text">Войти с</span>
-                <img
-                    class="ml-8"
-                    src="/icons/wildberries.svg"
-                    alt="Wildberries"
-                    width="40"
-                    height="20"
-                />
-            </web-button>
-        </div>
-
-        <div
-            class="login_register mt-20"
-            style="text-align: center"
+        <web-button
+            id="login-submit"
+            type="submit"
+            onclick="dataLayer.push({ event: 'login_attempt', method: 'authorization' })"
+            class="w-100p mb-24"
         >
-            <a
-                id="register"
-                href="/signup"
-                class="auth-register-link c-cornflower"
-            >
-                Зарегистрироваться
-            </a>
-        </div>
+            Продолжить
+        </web-button>
     </form>
+
+    <a
+        href="/"
+        class="mb-24 auth-button button_M c-text-brand-secondary"
+    >
+        Войти по почте
+    </a>
+
+    <div class="caption_M c-text-tertiary agreement-block">
+        <span
+            >Нажимая кнопку «Продолжить» я даю согласие на обработку и передачу персональных данных, ознакомлен и
+            принимаю
+        </span>
+        <a
+            href=""
+            class="auth-card__link"
+        >
+            условия пользовательского соглашения
+        </a>
+        <span>,&nbsp;а&nbsp;также принимаю </span>
+        <a
+            href=""
+            class="auth-card__link"
+        >
+            условия участия в программе лояльности
+        </a>
+    </div>
 </div>
 
 <script>

@@ -1,6 +1,14 @@
-.login_title {
-    text-align: center;
-    span {
-        display: block;
+.auth-card__link {
+    color: var(--link-brand, #ff6702);
+    text-decoration: underline;
+
+    .auth-card__link:hover {
+        color: var(--link-brand-hover, #fe4d00);
+        text-decoration: underline;
     }
+}
+
+.agreement-block {
+    text-align: center;
+    text-wrap: balance;
 }
