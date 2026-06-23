@@ -1,8 +1,17 @@
+import { initLoginAnalytics } from '../../pages/login/analytics'
+
+let cleanupFn: (() => void) | null = null
+
 /**
  * Главный обработчик аналитики для страниц
  */
 export function initPageAnalytics(pageName: string) {
-    console.log('Инициализация аналитики для:', pageName)
-    
-    // Пока пустой - модули были удалены
+    if (cleanupFn) {
+        cleanupFn()
+        cleanupFn = null
+    }
+
+    if (pageName === 'login') {
+        cleanupFn = initLoginAnalytics()
+    }
 }

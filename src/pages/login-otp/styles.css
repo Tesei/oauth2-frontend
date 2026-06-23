@@ -1,0 +1,29 @@
+.auth-card--otp {
+    max-width: 480px;
+}
+
+.otp-title {
+    text-align: center;
+}
+
+.otp-subtitle {
+    text-align: center;
+}
+
+.otp-form {
+    margin-bottom: 8px;
+}
+
+.otp-resend-button {
+    width: 100%;
+    color: var(--link-brand, #ff6702);
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.otp-resend-button:hover {
+    color: var(--link-brand-hover, #fe4d00);
+}

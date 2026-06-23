@@ -6,6 +6,8 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
+        "generate:cshtml": "node scripts/generate-cshtml.mjs",
+        "build:cshtml": "npm run build && npm run generate:cshtml",
         "preview": "vite preview",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",

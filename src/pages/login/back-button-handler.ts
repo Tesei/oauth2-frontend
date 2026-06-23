@@ -4,13 +4,12 @@
  * Использует OIDC для проверки авторизации
  */
 
-import { goBack } from '../../shared/utils/url-helper'
+import { goBack, getBackUrl } from '../../shared/utils/url-helper'
 import { isAuthenticated } from '../../shared/utils/oidc'
 
 export function initLoginBackButton() {
     // Ищем кнопку "Назад" только на странице login
     const backButtons = document.querySelectorAll('.js-back-button')
-    console.log('work back button 11111')
     if (!backButtons.length) {
         return
     }
@@ -32,7 +31,6 @@ export function initLoginBackButton() {
 
         button.addEventListener('click', async (event) => {
             event.preventDefault()
-            console.log('click back button')
             // Проверяем авторизацию через OIDC
             const authenticated = await isAuthenticated()
 
@@ -41,8 +39,7 @@ export function initLoginBackButton() {
                 goBack()
             } else {
                 // Если не авторизован - проверяем есть ли backUrl
-                const urlHelper = await import('../../shared/utils/url-helper')
-                const backUrl = urlHelper.getBackUrl()
+                const backUrl = getBackUrl()
 
                 if (backUrl) {
                     // Если backUrl есть - используем его даже без авторизации
@@ -54,6 +51,4 @@ export function initLoginBackButton() {
             }
         })
     })
-
-    console.log('work back button')
 }

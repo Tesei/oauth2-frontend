@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <!-- Инициализация dataLayer -->
+        <script>
+            window.dataLayer = window.dataLayer || []
+        </script>
+
+        <!-- Google Tag Manager -->
+        <script>
+            ;(function (w, d, s, l, i) {
+                w[l] = w[l] || []
+                w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+                var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s),
+                    dl = l != 'dataLayer' ? '&l=' + l : ''
+                j.async = true
+                j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
+                f.parentNode.insertBefore(j, f)
+            })(window, document, 'script', 'dataLayer', 'GTM-P7DMFQ2')
+        </script>
+        <!-- End Google Tag Manager -->
+
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        <title>FunSun.Auth</title>
+      <script type="module" crossorigin src="/assets/index.js"></script>
+      <link rel="stylesheet" crossorigin href="/assets/index.css">
+    </head>
+    <body>
+        <!-- Google Tag Manager (noscript) -->
+        <noscript
+            ><iframe
+                src="https://www.googletagmanager.com/ns.html?id=GTM-P7DMFQ2"
+                height="0"
+                width="0"
+                style="display: none; visibility: hidden"
+            ></iframe
+        ></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+
+        <!-- Контейнер для фигур заднего фона -->
+        <div class="layout-bg-images">
+            <div class="layout-bg-images__figure-1"></div>
+            <div class="layout-bg-images__figure-2"></div>
+            <div class="layout-bg-images__figure-3"></div>
+            <div class="layout-bg-images__figure-4"></div>
+            <svg
+                width="131"
+                height="258"
+                viewBox="-200 -100 200 400"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="layout-bg-images__figure-5"
+            >
+                <path
+                    d="M-399.253 30.7037C-395.902 -1.10345 -394.226 -17.007 -383.653 -29.9492C-373.08 -42.8914 -359.267 -47.2518 -331.641 -55.9726C-277.835 -72.9579 -196.385 -92.2116 -120.996 -84.2694C-45.6069 -76.3272 30.0432 -40.5228 79.1284 -12.698C104.331 1.58832 116.932 8.73147 124.576 23.5928C132.22 38.4542 130.544 54.3577 127.193 86.1649L121.532 139.905C118.223 171.31 116.569 187.013 106.141 199.896C95.7137 212.779 82.1596 217.193 55.0516 226.021C1.45652 243.475 -80.2878 263.431 -156.777 255.373C-233.267 247.315 -309.058 210.762 -357.839 182.523C-382.512 168.239 -394.849 161.098 -402.363 146.325C-409.877 131.552 -408.223 115.849 -404.914 84.4436L-399.253 30.7037Z"
+                    fill="#FEEA2F"
+                />
+            </svg>
+        </div>
+
+        <!-- FunSun лого для возврата на предыдущую страницу -->
+        <button
+            onclick="window.history.back()"
+            class="layout__link js-back-button"
+        >
+            <img
+                class="layout__link-logo"
+                src="/icons/funsun-logo.svg"
+                alt="Fun&Sun"
+                width="24"
+                height="24"
+            />
+        </button>
+
+        <!-- Main (HTML с веб-компонентами) -->
+        <main
+            id="main"
+            class="main-container"
+        ></main>
+
+        <div class="about-cookies shadow-20dp-bottom">
+            <div>
+                <span class="caption_L">Мы используем </span>
+                <a
+                    href="https://fstravel.com/agreement"
+                    class="caption_L about-cookies__link"
+                    target="_blank"
+                >
+                    файлы cookies,
+                </a>
+                <span class="caption_L"> чтобы всё работало как надо</span>
+            </div>
+            <web-button> Соглашаюсь </web-button>
+        </div>
+
+        <!-- Vue App -->
+    </body>
+</html>

@@ -6,223 +6,92 @@
     ViewData["Title"] = Localizer["Title"];
 }
 
-<h2 class="Heading_1 m-0 mb-32">@Localizer["Title"]</h2>
+<div class="auth-card">
+    <web-button-control
+        onclick="window.history.back()"
+        class="auth-card__close-button js-back-button"
+    ></web-button-control>
+    <h1 class="login_title heading_3 mb-24">
+        Зарегистрируйтесь
+        <span> или войдите </span>
+    </h1>
+    <a
+        href="/"
+        class="button_M auth-button auth-button--wb tr-all-2 mb-12"
+        onclick="dataLayer.push({ event: 'login_attempt', method: 'wbid' })"
+    >
+        <img
+            class="ml-8"
+            src="~/dist/icons/wildberries.svg"
+            alt="Wildberries"
+            width="40"
+            height="20"
+        />
+        <span>Войти с WB ID</span>
+    </a>
+    <a
+        href="/"
+        class="button_M auth-button auth-button--gray tr-all-2 mb-24"
+        onclick="dataLayer.push({ event: 'login_attempt', method: 'yandexid' })"
+    >
+        <img
+            class="mr-12"
+            src="~/dist/icons/yandex.svg"
+            alt="Yandex"
+            width="24"
+            height="24"
+        />
+        <span>Войти с Яндекс ID</span>
+    </a>
+    <div class="flex f-center caption_L mb-24 c-text-secondary">или</div>
+    <form
+        id="account"
+        method="post"
+    >
+        <web-input-phone
+            name="LoginInput.Phone"
+            placeholder="+7 999 000 00 00"
+            autocomplete="current-phone"
+            model-value="+7"
+            class="mb-12"
+        ></web-input-phone>
 
-<div class="auth-card bg-white radius-16 shadow-5dp py-32 px-24 w-100p md3-py-24 md3-px-16">
-    <form id="account" method="post">
-
-        <web-input
-            class="mb-20 md3-mb-16"
-            name="LoginInput.Email"
-            type="email"
-            placeholder="name@example.com"
-            label="Email"
-            autocomplete="username"
-            validate-on-blur
-        ></web-input>
-
-        <web-input-password
-            name="LoginInput.Password"
-            placeholder="password"
-            label="Пароль"
-            autocomplete="current-password"
-        ></web-input-password>
-
-        <div class="mt-8">
-            <a class="body_S c-gray" id="forgot-password" href="/forgot-password">
-                Не помню пароль
-            </a>
-        </div>
-
-        @* TODO: Показывать только при блокировке *@
-        @if (Model.IsLockedOut)
-        {
-            <web-alert class="mb-4 mt-8 md3-mt-16">
-                <span slot="subtitle">
-                    <span class="login-page__alert-text block">
-                        <span class="login-page__alert-title flex jc-center">Превышено количество попыток</span>
-                        <span>ввода пароля. Ваша учетная запись заблокирована на 15 минут</span>
-                    </span>
-                    <br />
-                    <p class="font-button_S c-gray">@Model.LockoutMinutes мин</p>
-                </span>
-            </web-alert>
-        }
-
-        <div class="login-submit mt-32 md3-mt-20">
-            <web-button 
-                id="login-submit" 
-                type="submit" 
-                class="button_yellow w-100p"
-            >
-                Войти
-            </web-button>
-        </div>
-
-        <div class="login-divider">
-            <span class="login-divider-line"></span>
-            <span class="body_S c-gray">или</span>
-            <span class="login-divider-line"></span>
-        </div>
-
-        <div class="login-page__social flex flex-d-r md3-flex-d-c mb-16">
-            <web-button 
-                class="login-social-btn c-white radius-8 w-100p" 
-                custom-class="login-social-btn"
-            >
-                <img class="mr-12" src="~/dist/icons/yandex.svg" alt="Yandex" width="24" height="24" />
-                <span class="login-social-btn__text login-social-btn__text-desktop">Войти с Яндекс ID</span>
-                <span class="login-social-btn__text login-social-btn__text-mobile">Яндекс ID</span>
-            </web-button>
-
-            <web-button 
-                class="login-social-btn c-white radius-8 w-100p" 
-                custom-class="login-social-btn"
-            >
-                <span class="login-social-btn__text">Войти с</span>
-                <img class="ml-8" src="~/dist/icons/wildberries.svg" alt="Wildberries" width="40" height="20" />
-            </web-button>
-        </div>
-
-        <div class="login_register mt-20" style="text-align: center">
-            <a id="register" href="/signup" class="auth-register-link c-cornflower">
-                Зарегистрироваться
-            </a>
-        </div>
+        <web-button
+            id="login-submit"
+            type="submit"
+            onclick="dataLayer.push({ event: 'login_attempt', method: 'authorization' })"
+            class="w-100p mb-24"
+        >
+            Продолжить
+        </web-button>
     </form>
+
+    <a
+        href="/"
+        class="mb-24 auth-button button_M c-text-brand-secondary"
+    >
+        Войти по почте
+    </a>
+
+    <div class="caption_M c-text-tertiary agreement-block">
+        <span
+            >Нажимая кнопку «Продолжить» я даю согласие на обработку и передачу персональных данных, ознакомлен и
+            принимаю
+        </span>
+        <a
+            href=""
+            class="auth-card__link"
+        >
+            условия пользовательского соглашения
+        </a>
+        <span>,&nbsp;а&nbsp;также принимаю </span>
+        <a
+            href=""
+            class="auth-card__link"
+        >
+            условия участия в программе лояльности
+        </a>
+    </div>
 </div>
 
-<script>
-    // Флаг для предотвращения дублирования событий
-    let failedAuthSent = false;
-
-    // Событие: ошибка авторизации
-    function sendFailedAuth(errorText) {
-        // Предотвращаем дублирование
-        if (failedAuthSent) return;
-        failedAuthSent = true;
-
-        if (window.dataLayer) {
-            window.dataLayer.push({
-                event: "failed_auth",
-                param: 'authorization',
-                event_action: errorText  // Текст ошибки
-            });
-        }
-    }
-
-    // Функция для проверки и отправки ошибок
-    function checkAndSendErrors() {
-        const form = document.querySelector('#account');
-        if (!form) return;
-
-        // Проверяем только веб-компоненты с атрибутом error-text
-        // Это гарантирует, что мы берем только реальные ошибки, установленные бэкендом
-        const webInputs = form.querySelectorAll('web-input[error-text], web-input-password[error-text]');
-
-        // Ищем первую реальную (непустую) ошибку
-        for (let input of webInputs) {
-            let error = input.getAttribute('error-text');
-
-            // Пропускаем пустые значения (пустая строка или null)
-            if (!error || error.trim() === '') {
-                continue;
-            }
-
-            error = error.trim();
-
-            // Проверяем, что это не label и не placeholder элемента
-            const label = input.getAttribute('label') || '';
-            const placeholder = input.getAttribute('placeholder') || '';
-
-            // Если ошибка совпадает с label или placeholder - это не ошибка, пропускаем
-            if (error === label || error === placeholder) {
-                continue;
-            }
-
-            // Это реальная ошибка - отправляем
-            sendFailedAuth(error);
-            return; // Выходим после первой найденной ошибки
-        }
-
-        // Fallback: проверяем элементы с классом .input__error-text
-        // Но только если они не являются label элементами
-        const errorTextElements = form.querySelectorAll('.input__error-text');
-        for (let element of errorTextElements) {
-            let error = element.textContent?.trim();
-
-            // Пропускаем пустые значения
-            if (!error || error === '') {
-                continue;
-            }
-
-            // Проверяем, что родительский элемент - это не label
-            const parent = element.closest('web-input, web-input-password');
-            if (parent) {
-                const label = parent.getAttribute('label') || '';
-                const placeholder = parent.getAttribute('placeholder') || '';
-
-                // Если текст совпадает с label или placeholder - пропускаем
-                if (error === label || error === placeholder) {
-                    continue;
-                }
-            }
-
-            // Это реальная ошибка - отправляем
-            sendFailedAuth(error);
-            return; // Выходим после первой ошибки
-        }
-    }
-
-    // Автоматический tracking ошибок
-    document.addEventListener('DOMContentLoaded', () => {
-        const form = document.querySelector('#account');
-        if (!form) return;
-
-        // Проверяем ошибки при загрузке страницы
-        checkAndSendErrors();
-
-        // Debounce для MutationObserver
-        let checkTimeout = null;
-        const debouncedCheck = () => {
-            if (checkTimeout) {
-                clearTimeout(checkTimeout);
-            }
-            checkTimeout = setTimeout(() => {
-                failedAuthSent = false; // Сбрасываем флаг перед проверкой
-                checkAndSendErrors();
-            }, 100);
-        };
-
-        // Отслеживаем динамические изменения
-        const observer = new MutationObserver((mutations) => {
-            let hasErrorTextChange = false;
-
-            mutations.forEach((mutation) => {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'error-text') {
-                    hasErrorTextChange = true;
-                }
-                if (mutation.addedNodes.length > 0) {
-                    mutation.addedNodes.forEach((node) => {
-                        if (node.nodeType === 1 && node.hasAttribute && node.hasAttribute('error-text')) {
-                            hasErrorTextChange = true;
-                        }
-                    });
-                }
-            });
-
-            // Вызываем проверку только если действительно изменился error-text
-            if (hasErrorTextChange) {
-                debouncedCheck();
-            }
-        });
-
-        // Наблюдаем за изменениями в форме
-        observer.observe(form, {
-            attributes: true,
-            childList: true,
-            subtree: true,
-            attributeFilter: ['error-text']
-        });
-    });
-</script>
+<!-- Стили вынесены в src/pages/login/styles.css -->

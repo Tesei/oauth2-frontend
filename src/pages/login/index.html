@@ -1,5 +1,3 @@
-<!-- Скрипт для обработки событий аналитики -->
-
 <div class="auth-card">
     <web-button-control
         onclick="window.history.back()"
@@ -46,7 +44,6 @@
             name="LoginInput.Phone"
             placeholder="+7 999 000 00 00"
             autocomplete="current-phone"
-            error-text="текст ошибки"
             model-value="+7"
             class="mb-12"
         ></web-input-phone>
@@ -89,142 +86,4 @@
     </div>
 </div>
 
-<script>
-    // Флаг для предотвращения дублирования событий
-    let failedAuthSent = false
-
-    // Событие: ошибка авторизации
-    function sendFailedAuth(errorText) {
-        // Предотвращаем дублирование
-        if (failedAuthSent) return
-        failedAuthSent = true
-
-        if (window.dataLayer) {
-            window.dataLayer.push({
-                event: 'failed_auth',
-                param: 'authorization',
-                event_action: errorText, // Текст ошибки
-            })
-        }
-    }
-
-    // Функция для проверки и отправки ошибок
-    function checkAndSendErrors() {
-        const form = document.querySelector('#account')
-        if (!form) return
-
-        // Проверяем только веб-компоненты с атрибутом error-text
-        // Это гарантирует, что мы берем только реальные ошибки, установленные бэкендом
-        const webInputs = form.querySelectorAll('web-input[error-text], web-input-password[error-text]')
-
-        // Ищем первую реальную (непустую) ошибку
-        for (let input of webInputs) {
-            let error = input.getAttribute('error-text')
-
-            // Пропускаем пустые значения (пустая строка или null)
-            if (!error || error.trim() === '') {
-                continue
-            }
-
-            error = error.trim()
-
-            // Проверяем, что это не label и не placeholder элемента
-            const label = input.getAttribute('label') || ''
-            const placeholder = input.getAttribute('placeholder') || ''
-
-            // Если ошибка совпадает с label или placeholder - это не ошибка, пропускаем
-            if (error === label || error === placeholder) {
-                continue
-            }
-
-            // Это реальная ошибка - отправляем
-            sendFailedAuth(error)
-            return // Выходим после первой найденной ошибки
-        }
-
-        // Fallback: проверяем элементы с классом .input__error-text
-        // Но только если они не являются label элементами
-        const errorTextElements = form.querySelectorAll('.input__error-text')
-        for (let element of errorTextElements) {
-            let error = element.textContent?.trim()
-
-            // Пропускаем пустые значения
-            if (!error || error === '') {
-                continue
-            }
-
-            // Проверяем, что родительский элемент - это не label
-            const parent = element.closest('web-input, web-input-password')
-            if (parent) {
-                const label = parent.getAttribute('label') || ''
-                const placeholder = parent.getAttribute('placeholder') || ''
-
-                // Если текст совпадает с label или placeholder - пропускаем
-                if (error === label || error === placeholder) {
-                    continue
-                }
-            }
-
-            // Это реальная ошибка - отправляем
-            sendFailedAuth(error)
-            return // Выходим после первой ошибки
-        }
-    }
-
-    // Автоматический tracking ошибок
-    document.addEventListener('DOMContentLoaded', () => {
-        const form = document.querySelector('#account')
-        if (!form) return
-
-        // Проверяем ошибки при загрузке страницы
-        checkAndSendErrors()
-
-        // Debounce для MutationObserver
-        let checkTimeout = null
-        const debouncedCheck = () => {
-            if (checkTimeout) {
-                clearTimeout(checkTimeout)
-            }
-            checkTimeout = setTimeout(() => {
-                failedAuthSent = false // Сбрасываем флаг перед проверкой
-                checkAndSendErrors()
-            }, 100)
-        }
-
-        // Отслеживаем динамические изменения
-        const observer = new MutationObserver((mutations) => {
-            let hasErrorTextChange = false
-
-            mutations.forEach((mutation) => {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'error-text') {
-                    hasErrorTextChange = true
-                }
-                if (mutation.addedNodes.length > 0) {
-                    mutation.addedNodes.forEach((node) => {
-                        if (node.nodeType === 1 && node.hasAttribute && node.hasAttribute('error-text')) {
-                            hasErrorTextChange = true
-                        }
-                    })
-                }
-            })
-
-            // Вызываем проверку только если действительно изменился error-text
-            if (hasErrorTextChange) {
-                debouncedCheck()
-            }
-        })
-
-        // Наблюдаем за изменениями в форме
-        observer.observe(form, {
-            attributes: true,
-            childList: true,
-            subtree: true,
-            attributeFilter: ['error-text'],
-        })
-    })
-
-    const el = document.querySelector('.test-b')
-    console.log('find el', el)
-    el?.addEventListener('click', () => console.log('workkk'))
-</script>
 <!-- Стили вынесены в src/pages/login/styles.css -->

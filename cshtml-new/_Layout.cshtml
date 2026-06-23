@@ -14,9 +14,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     
-    @* Стили из dist *@
-    <script type="module" crossorigin src="~/dist/assets/index-BVxHbGax.js" asp-append-version="true"></script>
-    <link rel="stylesheet" crossorigin href="~/dist/assets/index-7m7CaXNW.css" asp-append-version="true" />
+    @* Стили и скрипты из dist (стабильные имена без hash) *@
+    <link rel="stylesheet" href="~/dist/css/ui-tokens.css" asp-append-version="true" />
+    <script type="module" crossorigin src="~/dist/assets/index.js" asp-append-version="true"></script>
+    <link rel="stylesheet" crossorigin href="~/dist/assets/index.css" asp-append-version="true" />
     
     <style>
         body {
@@ -29,6 +30,9 @@
     
     @* Обработчик кнопки "Назад" с backUrl и OIDC (только для Login) *@
     <script src="~/back-button-handler-oidc.js"></script>
+
+    @* Аналитика ошибок авторизации для Login *@
+    <script src="~/login-analytics.js"></script>
 </head>
 <body>
     <!-- Google Tag Manager (noscript) -->

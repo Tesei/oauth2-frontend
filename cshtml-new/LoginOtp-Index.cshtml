@@ -1,0 +1,51 @@
+@page
+@using FunSun.Auth.Pages.LoginOtp
+@inject IHtmlLocalizer<IndexModel> Localizer
+@model IndexModel
+@{
+    ViewData["Title"] = Localizer["Title"];
+}
+
+<div class="auth-card auth-card--otp">
+    <web-button-control
+        onclick="window.history.back()"
+        class="auth-card__close-button js-back-button"
+    ></web-button-control>
+
+    <h1 class="heading_3 mb-12 otp-title">Введите код из СМС</h1>
+    <p class="caption_L c-text-secondary mb-24 otp-subtitle">
+        Мы отправили код подтверждения на номер
+        <span class="c-text-primary">+7 999 000 00 00</span>
+    </p>
+
+    <form
+        id="otp-account"
+        method="post"
+        class="otp-form"
+    >
+        <web-input
+            name="OtpInput.Code"
+            label="Код подтверждения"
+            placeholder="000000"
+            autocomplete="one-time-code"
+            inputmode="numeric"
+            maxlength="6"
+            class="mb-16"
+        ></web-input>
+
+        <web-button
+            id="otp-submit"
+            type="submit"
+            class="w-100p mb-16"
+        >
+            Подтвердить
+        </web-button>
+    </form>
+
+    <button
+        type="button"
+        class="button_M otp-resend-button"
+    >
+        Отправить код повторно
+    </button>
+</div>

@@ -8,14 +8,7 @@ import './shared/config/back-button.css'
 
 // Импорт стилей страниц (FSD)
 import './pages/login/styles.css'
-// import './pages/signup/styles.css'
-// import './pages/forgot-password/styles.css'
-// import './pages/forgot-password-sent/styles.css'
-// import './pages/reset-password/styles.css'
-// import './pages/reset-password-success/styles.css'
-// import './pages/reset-password-error/styles.css'
-// import './pages/wb-auth-confirm/styles.css'
-// import './pages/wb-auth-register/styles.css'
+import './pages/login-otp/styles.css'
 
 // Экспорты директив
 export { vOutside } from '@fun-sun/ui-kit/directives'

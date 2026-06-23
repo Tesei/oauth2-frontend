@@ -7,24 +7,20 @@ import { existsSync, mkdirSync, copyFileSync } from 'node:fs'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-// Функция для копирования sprite.svg
-function copySpriteFile() {
-    const spriteSourcePath = resolve(__dirname, 'node_modules/@fun-sun/ui-tokens/dist/assets/sprite.svg')
-    const publicDir = resolve(__dirname, 'public')
-    const spriteDestPath = resolve(publicDir, 'sprite.svg')
-
-    if (!existsSync(spriteSourcePath)) {
-        console.warn(`⚠️  Файл не найден: ${spriteSourcePath}`)
+function copyAsset(sourcePath: string, destinationPath: string) {
+    if (!existsSync(sourcePath)) {
+        console.warn(`⚠️  Файл не найден: ${sourcePath}`)
         return
     }
 
-    if (!existsSync(publicDir)) {
-        mkdirSync(publicDir, { recursive: true })
+    const destinationDir = dirname(destinationPath)
+    if (!existsSync(destinationDir)) {
+        mkdirSync(destinationDir, { recursive: true })
     }
 
     try {
-        copyFileSync(spriteSourcePath, spriteDestPath)
-        console.log(`✅ Файл скопирован: ${spriteDestPath}`)
+        copyFileSync(sourcePath, destinationPath)
+        console.log(`✅ Файл скопирован: ${destinationPath}`)
     } catch (error) {
         if (error instanceof Error) {
             console.error(`❌ Ошибка при копировании файла: ${error.message}`)
@@ -34,27 +30,38 @@ function copySpriteFile() {
     }
 }
 
-// Плагин для копирования sprite.svg из @fun-sun/style в папку public
-function copySpritePlugin() {
+// Синхронизация css и sprite из @fun-sun/ui-tokens в public
+function syncUiTokensAssets() {
+    const spriteSourcePath = resolve(__dirname, 'node_modules/@fun-sun/ui-tokens/dist/assets/sprite.svg')
+    const cssSourcePath = resolve(__dirname, 'node_modules/@fun-sun/ui-tokens/dist/css/ui-tokens.css')
+    const publicDir = resolve(__dirname, 'public')
+
+    copyAsset(spriteSourcePath, resolve(publicDir, 'sprite.svg'))
+    copyAsset(spriteSourcePath, resolve(publicDir, 'icons/sprite/sprite.svg'))
+    copyAsset(cssSourcePath, resolve(publicDir, 'css/ui-tokens.css'))
+}
+
+// Плагин для копирования ассетов из @fun-sun/ui-tokens в папку public
+function copyUiTokensAssetsPlugin() {
     return {
-        name: 'copy-sprite-plugin',
-        enforce: 'pre',
+        name: 'copy-ui-tokens-assets-plugin',
+        enforce: 'pre' as const,
         configResolved() {
-            copySpriteFile()
+            syncUiTokensAssets()
         },
         buildStart() {
-            copySpriteFile()
+            syncUiTokensAssets()
         },
     }
 }
 
 export default defineConfig(({ command }) => {
     const isBuild = command === 'build'
-    return {
+    const baseConfig = {
         define: {
             __VUE_PROD_DEVTOOLS__: !isBuild,
         },
-        plugins: [vue(), copySpritePlugin()],
+        plugins: [vue(), copyUiTokensAssetsPlugin()],
         css: {
             preprocessorOptions: {
                 scss: {
@@ -68,18 +75,31 @@ export default defineConfig(({ command }) => {
                 '@': fileURLToPath(new URL('./src', import.meta.url)),
             },
         },
-        ...(isBuild
-            ? {
-                  build: {
-                      minify: 'esbuild',
-                      sourcemap: true,
-                  },
-              }
-            : {
-                  server: {
-                      open: true,
-                      // port: 8080,
-                  },
-              }),
+    }
+
+    if (isBuild) {
+        return {
+            ...baseConfig,
+            build: {
+                minify: 'esbuild',
+                sourcemap: true,
+                manifest: true,
+                rollupOptions: {
+                    output: {
+                        entryFileNames: 'assets/[name].js',
+                        chunkFileNames: 'assets/chunks/[name].js',
+                        assetFileNames: 'assets/[name][extname]',
+                    },
+                },
+            },
+        }
+    }
+
+    return {
+        ...baseConfig,
+        server: {
+            open: true,
+            // port: 8080,
+        },
     }
 })

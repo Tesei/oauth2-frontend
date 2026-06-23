@@ -14,6 +14,10 @@ import { initFormValidation } from './shared/utils/form-validator'
 import { initLoginBackButton } from './pages/login/back-button-handler'
 
 const pageContent = ref('')
+const pageRoutes: Array<{ path: string; pageName: string }> = [
+    { path: '/login-otp', pageName: 'login-otp' },
+    { path: '/login', pageName: 'login' },
+]
 
 // Загрузка контента страницы (FSD: pages/)
 const loadPage = async (pageName: string) => {
@@ -35,28 +39,9 @@ const loadPage = async (pageName: string) => {
 
 // Определяем какую страницу загрузить
 onMounted(() => {
-    // const path = window.location.pathname
-    // if (path.includes('login')) {
-    //     loadPage('login')
-    // } else if (path.includes('signup')) {
-    //     loadPage('signup')
-    // } else if (path.includes('forgot-password-sent')) {
-    //     loadPage('forgot-password-sent')
-    // } else if (path.includes('forgot-password')) {
-    //     loadPage('forgot-password')
-    // } else if (path.includes('reset-password-success')) {
-    //     loadPage('reset-password-success')
-    // } else if (path.includes('reset-password-error')) {
-    //     loadPage('reset-password-error')
-    // } else if (path.includes('reset-password')) {
-    //     loadPage('reset-password')
-    // } else if (path.includes('wb-auth-confirm')) {
-    //     loadPage('wb-auth-confirm')
-    // } else if (path.includes('wb-auth-register')) {
-    //     loadPage('wb-auth-register')
-    // } else {
-    //     loadPage('login')
-    // }
-    loadPage('login')
+    const currentPath = window.location.pathname.toLowerCase()
+    const activeRoute = pageRoutes.find(({ path }) => currentPath.startsWith(path))
+
+    loadPage(activeRoute?.pageName ?? 'login')
 })
 </script>
