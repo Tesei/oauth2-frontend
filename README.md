@@ -1,544 +1,175 @@
-# OAuth2 Frontend - Техническая документация
+# OAuth2 Frontend
 
-Проект авторизации для интеграции в ASP.NET Core с использованием Vue 3, TypeScript и веб-компонентов.
+Фронтенд проекта авторизации для интеграции с ASP.NET Core/Razor Pages.
 
----
+Основная задача репозитория — хранить source-of-truth разметку страниц авторизации в `src/pages/*/index.html`, собирать web-components UI и генерировать итоговые `*.cshtml` для backend.
 
-## 🚀 Быстрый старт (для тестеров)
+## Технологии
 
-### Требования:
-- **Node.js:** v22.21.1 (или >= 18.0.0)
-- **npm:** 10.x
+- Vue 3 + TypeScript + Vite
+- Web Components из `@fun-sun/ui-kit`
+- Дизайн-токены и спрайты из `@fun-sun/ui-tokens`
+- CSHTML-шаблоны для ASP.NET Core
 
-### Команды:
+## Актуальная архитектура
+
+- `src/pages/*/index.html` — source-of-truth HTML-страниц
+- `src/pages/*/styles.css` — page-level стили
+- `src/App.vue` — загрузка нужной страницы по `pathname`
+- `src/index.ts` — подключение токенов, web-components CSS и page styles
+- `cshtml-ready/` — итоговые backend-файлы (результат генерации)
+- `cshtml-templates/` — reference-паттерны (ручные примеры Razor, не источник разметки)
+- `scripts/generate-cshtml.mjs` — генерация `cshtml-ready/*.cshtml` из `src/pages`
+
+## Структура
+
+```text
+oauth2-frontend/
+├── cshtml-ready/                    # итоговые .cshtml для backend
+├── cshtml-templates/              # reference-паттерны Razor
+├── public/
+│   ├── css/ui-tokens.css          # копия из @fun-sun/ui-tokens
+│   ├── icons/                     # иконки и sprite
+│   ├── form-validator.js
+│   ├── back-button-handler-oidc.js
+│   └── login-analytics.js
+├── scripts/
+│   └── generate-cshtml.mjs        # генерация cshtml из src/pages
+├── src/
+│   ├── pages/
+│   │   ├── login/
+│   │   │   ├── index.html
+│   │   │   ├── styles.css
+│   │   │   ├── analytics.ts
+│   │   │   └── back-button-handler.ts
+│   │   └── login-otp/
+│   │       ├── index.html
+│   │       └── styles.css
+│   ├── shared/
+│   ├── App.vue
+│   └── index.ts
+├── index.html
+├── vite.config.ts
+└── package.json
+```
+
+## Быстрый старт
+
+### Требования
+
+- Node.js 22+
+- npm 10+
+
+### Установка
+
 ```bash
-# 1. Клонировать проект
-git clone <repository-url>
-cd oauth2-frontend
-
-# 2. Установить зависимости
 npm install
+```
 
-# 3. Запустить dev сервер
+### Локальная разработка
+
+```bash
 npm run dev
 ```
 
-### Доступные страницы:
-- http://localhost:5174/login - Вход
-- http://localhost:5174/signup - Регистрация
-- http://localhost:5174/forgot-password - Восстановление пароля
-- http://localhost:5174/forgot-password-sent - Письмо отправлено
-- http://localhost:5174/reset-password - Изменение пароля (форма)
-- http://localhost:5174/reset-password-success - Успешное изменение
-- http://localhost:5174/reset-password-error - Ошибка изменения
-- http://localhost:5174/wb-auth-confirm - Подтверждение WB ID
-- http://localhost:5174/wb-auth-register - Регистрация через WB ID
+Доступные роуты в текущем состоянии:
 
-### Query параметры:
-- `backUrl` - URL для кнопки "Назад" (только для Login)
-  - Пример: http://localhost:5174/login?backUrl=/booking
-  - С OIDC: Работает только для авторизованных пользователей
-  - Без авторизации: Редирект на `/forgot-password`
+- `http://localhost:5174/login`
+- `http://localhost:5174/login-otp`
 
-### OIDC (OAuth2 + PKCE):
-- Используется библиотека `oidc-client-ts` (как в fun_and_sun)
-- Автоматическая проверка и обновление токенов
-- Интеграция с Header для авторизации
-- Настройки захардкожены для `https://auth2.fstravel.com`
-
----
-
-## 🚀 Быстрый старт (для разработчиков)
-
----
-
-## 🏗️ Архитектура проекта
-
-### Гибридный подход (3 независимых приложения)
-
-Проект использует **3 отдельных Vue приложения**, которые монтируются в разные контейнеры:
-
-```
-┌────────────────────────────────────┐
-│  <header id="header">              │ ← HeaderApp (Vue)
-│    @fun-sun/header                 │
-└────────────────────────────────────┘
-
-┌────────────────────────────────────┐
-│  <main id="main">                  │ ← MainApp (Vue)
-│    └── загружает HTML              │
-│        └── веб-компоненты          │
-└────────────────────────────────────┘
-
-┌────────────────────────────────────┐
-│  <footer id="footer">              │ ← FooterApp (Vue)
-│    @fun-sun/footer                 │
-└────────────────────────────────────┘
-```
-
-**Почему так:**
-- **Header/Footer** - сложные (меню, поиск, корзина) → используем готовые Vue компоненты из npm
-- **Main (формы)** - простые, часто меняются → используем веб-компоненты (работают из HTML)
-
----
-
-## 📂 Структура проекта (FSD)
-
-```
-oauth2-frontend/
-├── index.html              # Точка входа (3 Vue app)
-│
-├── src/
-│   ├── pages/             # Страницы (HTML + веб-компоненты)
-│   │   └── login/
-│   │       └── index.html # Login страница
-│   │
-│   ├── App.vue            # Компонент загрузки страниц
-│   ├── index.ts           # Главный файл (стили + экспорты)
-│   │
-│   └── shared/            # Переиспользуемый код
-│       ├── config/        # Конфигурация
-│       │   └── styles.css # Глобальные стили
-│       └── ui/icons/      # SVG иконки
-│
-├── public/                # Статические файлы
-│   ├── icons/            # SVG иконки соцсетей
-│   └── css/              # CSS Header/Footer
-│
-├── original-templates/    # Reference CSHTML файлы
-│
-└── package.json          # Зависимости
-```
-
----
-
-## 🔄 Как работает (пошагово)
-
-### 1. Браузер открывает `index.html`
-
-```html
-<body>
-    <header id="header"></header>
-    <main id="main"></main>
-    <footer id="footer"></footer>
-    
-    <script type="module">
-        // Создается 3 Vue приложения
-    </script>
-</body>
-```
-
-### 2. Создаются 3 Vue приложения
-
-```javascript
-// Header app
-const headerApp = createApp(HeaderBlock, { locale: 'ru' })
-headerApp.mount('#header')
-
-// Main app (загружает HTML)
-const mainApp = createApp(App)
-mainApp.mount('#main')
-
-// Footer app
-const footerApp = createApp(AppFooter)
-footerApp.mount('#footer')
-```
-
-### 3. Main загружает HTML страницу
-
-```javascript
-// App.vue
-fetch('/src/pages/login/index.html')
-    .then(html => вставляет в DOM)
-```
-
-### 4. Веб-компоненты работают автоматически
-
-```html
-<!-- pages/login/index.html -->
-<web-input name="Email" />   ← Работает сразу!
-<web-button>Войти</web-button>
-```
-
-**Не нужен Vue app!** Веб-компоненты автоматически регистрируются при импорте!
-
----
-
-## 📦 Веб-компоненты
-
-### Что это?
-
-**Веб-компоненты** - это кастомные HTML теги (как `<input>`, `<button>`, но свои).
-
-Работают **прямо из HTML** без необходимости создавать Vue приложение!
-
-### Доступные компоненты
-
-Из пакета `@fun-sun/vue-components`:
-
-```html
-<!-- Поля ввода -->
-<web-input type="email" label="Email" name="Email" />
-<web-input-password label="Пароль" name="Password" />
-
-<!-- Кнопка -->
-<web-button class="button_yellow">Войти</web-button>
-
-<!-- Чекбокс -->
-<web-checkbox label="Запомнить меня" name="RememberMe" />
-```
-
-### Передача данных
-
-**Все через HTML атрибуты:**
-
-```html
-<web-input
-    name="LoginInput.Email"      ← Имя для формы
-    label="Email"                ← Текст лейбла
-    placeholder="test@mail.com"  ← Плейсхолдер
-    value="john@example.com"     ← Значение
-    error-text="Неверный email"  ← Текст ошибки
-    disabled                     ← Заблокировать
-    required                     ← Обязательное поле
-/>
-```
-
----
-
-## 🎨 Стили
-
-### Подключены автоматически
-
-Все стили импортируются в `src/index.ts`:
-
-```typescript
-import '@fun-sun/vue-components/vue-components.css'  // Стили компонентов
-import '@fun-sun/vue-components/web-components.css'  // Стили веб-компонентов
-import '@fun-sun/style/dist/style.css'               // UI Kit базовые стили
-```
-
-### Утилитарные классы
-
-Из `@fun-sun/style` доступны готовые классы:
-
-```html
-<!-- Цвета -->
-<div class="bg-black c-white">Черный фон, белый текст</div>
-<a class="c-cornflower">Синяя ссылка</a>
-
-<!-- Отступы -->
-<div class="mt-8 mb-16 px-24">margin-top: 8px, margin-bottom: 16px, padding: 0 24px</div>
-
-<!-- Размеры -->
-<button class="w-100p">width: 100%</button>
-
-<!-- Радиусы -->
-<div class="radius-12">border-radius: 12px</div>
-
-<!-- Кнопки -->
-<web-button class="button_yellow">Желтая кнопка</web-button>
-<web-button class="button_transparent">Прозрачная кнопка</web-button>
-```
-
-### Кастомные стили страниц
-
-Каждая страница может иметь свои стили внутри `<style>`:
-
-```html
-<!-- pages/login/index.html -->
-<div class="login-card">...</div>
-
-<style>
-    .login-card {
-        background: white;
-        border-radius: 16px;
-        padding: 40px;
-    }
-</style>
-```
-
----
-
-## 📝 Создание новой страницы
-
-### Шаг 1: Создай HTML файл
+## Команды
 
 ```bash
-mkdir -p src/pages/signup
-touch src/pages/signup/index.html
+npm run dev              # dev-сервер
+npm run build            # сборка фронтенда в dist
+npm run generate:cshtml  # генерация cshtml-ready/* из src/pages/*
+npm run build:cshtml     # build + generate:cshtml
+npm run preview          # предпросмотр dist
+npm run lint             # eslint
+npm run lint:fix         # eslint --fix
+npm run format           # prettier
 ```
 
-### Шаг 2: Напиши разметку с веб-компонентами
+## Pipeline для backend (`.cshtml`)
 
-```html
-<!-- src/pages/signup/index.html -->
-<div class="signup-container">
-    <h2>Регистрация</h2>
-    
-    <div class="signup-card">
-        <form method="post">
-            <web-input
-                name="Email"
-                type="email"
-                label="Email"
-                required
-            />
-            
-            <web-input-password
-                name="Password"
-                label="Пароль"
-                required
-            />
-            
-            <web-button
-                type="submit"
-                class="button_yellow w-100p"
-            >
-                Зарегистрироваться
-            </web-button>
-</form>
-    </div>
-</div>
-
-<style>
-    .signup-container { /* стили */ }
-    .signup-card { /* стили */ }
-</style>
-```
-
-### Шаг 3: Добавь роут в App.vue
-
-```typescript
-// src/App.vue
-onMounted(() => {
-    const path = window.location.pathname
-    if (path.includes('login')) {
-        loadPage('login')
-    } else if (path.includes('signup')) {
-        loadPage('signup')  // ← Добавить
-    }
-})
-```
-
-### Шаг 4: Добавь роут в Router (index.html)
-
-```javascript
-const router = createRouter({
-    routes: [
-        { path: '/login', component: { template: '<div></div>' } },
-        { path: '/signup', component: { template: '<div></div>' } }  // ← Добавить
-    ]
-})
-```
-
-### Шаг 5: Открой в браузере
-
-```
-http://localhost:5174/signup
-```
-
----
-
-## 🔗 Интеграция с CSHTML
-
-### Как передавать данные из бэкенда
-
-Веб-компоненты работают через HTML атрибуты:
-
-```cshtml
-@page
-@model LoginModel
-
-<web-input
-    name="LoginInput.Email"
-    label="@Localizer["EmailLabel"]"           ← Переводы
-    value="@Model.Email"                       ← Значение от модели
-    error-text="@Model.Errors.Email"           ← Ошибки валидации
-    placeholder="@Localizer["EmailPlaceholder"]"
-/>
-
-<web-button
-    type="submit"
-    class="button_yellow w-100p"
-    disabled="@Model.IsSubmitting"             ← Динамическое состояние
-    loading="@Model.IsLoading"
->
-    @Localizer["LoginButton"]                  ← Перевод текста
-</web-button>
-```
-
-### Dynamic External Providers
-
-```cshtml
-@foreach (var provider in Model.ExternalLogins.Schemes)
-{
-    <web-button
-        name="provider"
-        value="@provider.Name"
-        class="bg-black c-white radius-12"
-    >
-        <span>Войти с</span>
-        <img src="/icons/@(provider.Name.ToLower()).svg" />
-    </web-button>
-}
-```
-
----
-
-## 🛠️ Разработка
-
-### Команды
+Рекомендуемый сценарий перед передачей артефактов в backend:
 
 ```bash
-npm run dev        # Dev сервер с hot reload
-npm run build      # Production сборка
-npm run preview    # Просмотр production сборки
-npm run lint       # ESLint проверка
-npm run lint:fix   # ESLint автоисправление
-npm run format     # Prettier форматирование
+npm run build:cshtml
 ```
 
-### Правила кода
+Команда делает две вещи:
 
-**ESLint:**
-- `indent: 4` (4 пробела)
-- `quotes: 'single'` (одинарные кавычки)
-- `semi: never` (без точек с запятой)
+1. `vite build`:
+   - собирает `dist/assets/index.js` и `dist/assets/index.css` (стабильные имена без hash)
+   - копирует статику из `public` в `dist`
+2. `generate:cshtml`:
+   - генерирует `cshtml-ready/Login-Index.cshtml` из `src/pages/login/index.html`
+   - генерирует `cshtml-ready/LoginOtp-Index.cshtml` из `src/pages/login-otp/index.html`
 
-**Prettier:**
-- `tabWidth: 4`
-- `singleQuote: true`
-- `singleAttributePerLine: true`
+## `@fun-sun/ui-tokens`: css, sprite, шрифты
 
-### Hot Reload
+В `vite.config.ts` настроена синхронизация ассетов из пакета `@fun-sun/ui-tokens`:
 
-При изменении файлов проект автоматически перезагружается:
-- `src/**/*.vue` - Vue компоненты
-- `src/**/*.ts` - TypeScript файлы
-- `src/pages/**/*.html` - HTML страницы (через Ctrl+R в браузере)
+- `node_modules/@fun-sun/ui-tokens/dist/assets/sprite.svg` -> `public/sprite.svg`
+- `node_modules/@fun-sun/ui-tokens/dist/assets/sprite.svg` -> `public/icons/sprite/sprite.svg`
+- `node_modules/@fun-sun/ui-tokens/dist/css/ui-tokens.css` -> `public/css/ui-tokens.css`
 
----
+Далее при `build` эти файлы попадают в `dist`.
 
-## 🔧 Настройка пакетов @fun-sun
+### Что со шрифтами
 
-### Переустановка пакета (если нужна новая версия)
+Шрифты из `@fun-sun/ui-tokens` подтягиваются через CSS (`@font-face`) и кладутся Vite в `dist/assets/*.woff2`.
 
-```bash
-# 1. Удалить из package.json строку
-"@fun-sun/style": "^1.0.3"
+## Аналитика и вспомогательные скрипты
 
-# 2. Удалить папку
-rm -rf node_modules/@fun-sun/style
+- Dev-аналитика login: `src/pages/login/analytics.ts` через `initPageAnalytics()`
+- Backend-аналитика login: `public/login-analytics.js` (подключается в `cshtml-ready/_Layout.cshtml`)
+- Валидация формы: `public/form-validator.js`
+- Кнопка назад/OIDC для backend: `public/back-button-handler-oidc.js`
 
-# 3. Установить заново
-npm install @fun-sun/style@latest
-```
+## Правила source-of-truth
 
-### Обновление всех пакетов
+- Изменения дизайна и структуры форм вносятся в `src/pages/*`.
+- `cshtml-ready/*` не редактируются вручную как первичный источник — они должны обновляться через `npm run generate:cshtml` (или `npm run build:cshtml`).
+- `cshtml-templates/*` используются как reference-паттерны Razor.
 
-```bash
-npm install @fun-sun/header@latest @fun-sun/footer@latest @fun-sun/style@latest @fun-sun/vue-components@latest
-```
+## Как добавить новую auth-страницу
 
----
+1. Создать страницу:
+   - `src/pages/<page>/index.html`
+   - `src/pages/<page>/styles.css`
+2. Подключить стиль в `src/index.ts`
+3. Добавить роут в `index.html` (router routes)
+4. Добавить сопоставление пути в `src/App.vue` (`pageRoutes`)
+5. Добавить генерацию в `scripts/generate-cshtml.mjs` (map `sourcePath -> targetPath`)
 
-## 📋 Структура файлов
+## Примечания
 
-### index.html - точка входа
+- В проекте используются web-components (`@fun-sun/ui-kit/web-components`), поэтому разметка в `index.html`/`cshtml` остается близкой к обычному HTML.
+- Для backend layout сейчас используются стабильные пути:
+  - `~/dist/assets/index.js`
+  - `~/dist/assets/index.css`
+  - `~/dist/css/ui-tokens.css`
 
-Создает 3 Vue приложения и монтирует их:
+## Чеклист перед передачей в backend
 
-```javascript
-const headerApp = createApp(HeaderBlock, { locale: 'ru' })
-const mainApp = createApp(App)
-const footerApp = createApp(AppFooter)
-
-headerApp.mount('#header')
-mainApp.mount('#main')
-footerApp.mount('#footer')
-```
-
-### App.vue - загрузчик HTML
-
-Загружает HTML страницы через fetch:
-
-```vue
-<template>
-    <div v-html="pageContent"></div>
-</template>
-
-<script setup>
-const loadPage = async (name) => {
-    const html = await fetch(`/src/pages/${name}/index.html`)
-    pageContent.value = await html.text()
-}
-</script>
-```
-
-### pages/*/index.html - страницы
-
-HTML файлы с веб-компонентами и стилями:
-
-```html
-<div class="page-container">
-    <web-input />
-    <web-button />
-</div>
-
-<style>
-    .page-container { /* стили */ }
-</style>
-```
-
----
-
-## 🎯 Принципы работы
-
-### Почему 3 отдельных приложения?
-
-**Проблема:** Vue при `mount` **ЗАМЕНЯЕТ** содержимое контейнера.
-
-**Решение:** 3 независимых контейнера → Header/Footer не перерисовываются при смене Main!
-
-### Почему веб-компоненты для форм?
-
-**Проблема:** Vue компоненты **не работают из чистого HTML** (нужен Vue app).
-
-**Решение:** Веб-компоненты = обычные HTML теги → работают везде!
-
-```html
-<!-- Работает в любом HTML! -->
-<web-input name="Email" />
-```
-
-**Для CSHTML:** Бэкенд может легко передавать данные через атрибуты!
-
----
-
-
-## 🐛 Частые проблемы
-
-### Header/Footer не отображаются
-
-**Причина:** Не переданы обязательные props
-
-**Решение:**
-```javascript
-const headerApp = createApp(HeaderBlock, {
-    locale: 'ru'  // Обязательно!
-})
-```
-
-## 🎯 Статус проекта
-
-- ✅ Архитектура настроена
-- ✅ Header/Footer интегрированы
-- ✅ Веб-компоненты работают
-- ✅ Login страница готова
-- ✅ Signup страница
-- ✅ ForgotPassword страница
-
----
-
-**Проект готов к разработке и демонстрации!** 🚀
+1. Обновить зависимости:
+   - `npm install`
+2. Сгенерировать финальные артефакты:
+   - `npm run build:cshtml`
+3. Проверить, что обновились frontend-ассеты:
+   - `dist/assets/index.js`
+   - `dist/assets/index.css`
+   - `dist/css/ui-tokens.css`
+   - `dist/sprite.svg` и `dist/icons/sprite/sprite.svg`
+   - `dist/assets/*.woff2` (шрифты)
+4. Проверить, что обновились backend-шаблоны:
+   - `cshtml-ready/Login-Index.cshtml`
+   - `cshtml-ready/LoginOtp-Index.cshtml`
+5. Проверить layout для backend:
+   - в `cshtml-ready/_Layout.cshtml` пути указывают на стабильные файлы (`~/dist/assets/index.js`, `~/dist/assets/index.css`, `~/dist/css/ui-tokens.css`)
+6. Выполнить быструю smoke-проверку:
+   - открыть `/login` и `/login-otp`
+   - проверить отображение web-components, иконок/sprite и шрифтов
+   - убедиться, что нет ошибок в консоли браузера

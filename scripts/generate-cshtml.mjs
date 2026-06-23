@@ -1,21 +1,27 @@
-import { readFileSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const scriptDirectory = resolve(fileURLToPath(new URL('.', import.meta.url)))
 const projectRoot = resolve(scriptDirectory, '..')
+const cshtmlReadyDir = resolve(projectRoot, 'cshtml-ready')
+
+function cleanCshtmlReadyDir() {
+    rmSync(cshtmlReadyDir, { recursive: true, force: true })
+    mkdirSync(cshtmlReadyDir, { recursive: true })
+}
 
 const pages = [
     {
         pageName: 'login',
         sourcePath: 'src/pages/login/index.html',
-        targetPath: 'cshtml-new/Login-Index.cshtml',
+        targetPath: 'cshtml-ready/Login-Index.cshtml',
         modelNamespace: 'FunSun.Auth.Pages.Login',
     },
     {
         pageName: 'login-otp',
         sourcePath: 'src/pages/login-otp/index.html',
-        targetPath: 'cshtml-new/LoginOtp-Index.cshtml',
+        targetPath: 'cshtml-ready/LoginOtp-Index.cshtml',
         modelNamespace: 'FunSun.Auth.Pages.LoginOtp',
     },
 ]
@@ -35,6 +41,9 @@ function buildCshtmlPreamble(modelNamespace) {
     ViewData["Title"] = Localizer["Title"];
 }`
 }
+
+cleanCshtmlReadyDir()
+console.log('Cleaned cshtml-ready/')
 
 for (const page of pages) {
     const sourceAbsolutePath = resolve(projectRoot, page.sourcePath)
