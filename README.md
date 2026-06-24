@@ -173,3 +173,29 @@ npm run build:cshtml
    - открыть `/login` и `/login-otp`
    - проверить отображение web-components, иконок/sprite и шрифтов
    - убедиться, что нет ошибок в консоли браузера
+
+
+## Как указывать иконки в HTML
+Id иконки: {папка}--{имя-файла} (без .svg).
+
+Пример: /sprite.svg#search--normal
+
+<link rel="stylesheet" href="/css/ui-tokens.css">
+<!-- иконка из спрайта -->
+<svg class="icon" width="24" height="24" aria-hidden="true">
+  <use href="/sprite.svg#search--normal"></use>
+</svg>
+
+Backend (Razor):
+<link rel="stylesheet" href="~/dist/css/ui-tokens.css">
+<svg class="icon" width="24" height="24" aria-hidden="true">
+  <use href="~/dist/sprite.svg#common--like"></use>
+</svg>
+
+Стили:
+
+.icon {
+  width: 24px;
+  height: 24px;
+  color: #397ee0; /* для одноцветных иконок (currentColor) */
+}
