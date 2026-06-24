@@ -7,14 +7,14 @@
  */
 export function initWbAuthConfirmHandlers() {
     // Навешиваем onclick на кнопку "Назад"
-    const backButtonWrapper = document.querySelector('#back-button-wb');
+    const backButtonWrapper = document.querySelector('#back-button-wb')
     if (backButtonWrapper) {
-        const backButton = backButtonWrapper.querySelector('.button');
+        const backButton = backButtonWrapper.querySelector('.button')
         if (backButton) {
             backButton.addEventListener('click', () => {
-                console.log('Кнопка "Назад" нажата');
-                window.history.back();
-            });
+                console.log('Кнопка "Назад" нажата')
+                window.history.back()
+            })
         }
     }
 }

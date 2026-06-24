@@ -8,8 +8,8 @@
 export function initResetPasswordSuccessAnalytics() {
     if (window.dataLayer) {
         window.dataLayer.push({
-            event: "success_restore_password"
-        });
-        console.log('Событие отправлено: success_restore_password');
+            event: 'success_restore_password',
+        })
+        console.log('Событие отправлено: success_restore_password')
     }
 }

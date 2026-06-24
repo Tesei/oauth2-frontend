@@ -10,20 +10,20 @@ import { isAuthenticated } from '../../shared/utils/oidc'
 export function initLoginBackButton() {
     // Ищем кнопку "Назад" только на странице login
     const backButton = document.querySelector('.back-button')
-    
+
     if (!backButton) {
         return
     }
-    
+
     // Заменяем стандартное поведение onclick
     backButton.removeAttribute('onclick')
-    
+
     backButton.addEventListener('click', async (event) => {
         event.preventDefault()
-        
+
         // Проверяем авторизацию через OIDC
         const authenticated = await isAuthenticated()
-        
+
         if (authenticated) {
             // Если авторизован - используем backUrl
             goBack()
@@ -31,7 +31,7 @@ export function initLoginBackButton() {
             // Если не авторизован - проверяем есть ли backUrl
             const urlHelper = await import('../../shared/utils/url-helper')
             const backUrl = urlHelper.getBackUrl()
-            
+
             if (backUrl) {
                 // Если backUrl есть - используем его даже без авторизации
                 window.location.href = backUrl
