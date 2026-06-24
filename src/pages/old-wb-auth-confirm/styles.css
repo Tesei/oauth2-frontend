@@ -1,0 +1,5 @@
+@media (max-width: 1023px) {
+    .wb-auth-confirm-buttons {
+        flex-direction: column;
+    }
+}
