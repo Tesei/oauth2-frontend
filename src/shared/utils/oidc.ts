@@ -124,7 +124,7 @@ export async function checkAndRefreshToken() {
             }
         }
     } catch (error) {
-        // Игнорируем ошибки, если пользователь не авторизован через OIDC
+        console.debug('OIDC: Пользователь не авторизован или ошибка getUser', error)
         return null
     }
 
@@ -148,7 +148,7 @@ export async function getAccessToken(): Promise<string | null> {
             return user.access_token
         }
     } catch (error) {
-        // Игнорируем ошибки
+        console.debug('OIDC: Не удалось получить access token', error)
     }
 
     return null
@@ -235,6 +235,7 @@ export async function isAuthenticated(): Promise<boolean> {
         const user = await manager.getUser()
         return user !== null && !user.expired
     } catch (error) {
+        console.debug('OIDC: Ошибка проверки авторизации', error)
         return false
     }
 }

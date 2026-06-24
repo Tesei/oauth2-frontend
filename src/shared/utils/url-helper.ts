@@ -13,6 +13,38 @@ export function getQueryParam(param: string): string | null {
 }
 
 /**
+ * Валидирует backUrl для безопасности
+ */
+function validateBackUrl(backUrl: string): string | null {
+    try {
+        // Если это относительный путь - возвращаем как есть
+        if (backUrl.startsWith('/')) {
+            return backUrl
+        }
+
+        // Если это полный URL - проверяем домен
+        const url = new URL(backUrl)
+        const currentDomain = window.location.hostname
+
+        // Разрешаем fstravel.com и все его поддомены
+        if (
+            url.hostname === currentDomain ||
+            url.hostname.endsWith('.fstravel.com') ||
+            url.hostname === 'fstravel.com'
+        ) {
+            return backUrl
+        }
+
+        // Если домен не совпадает - не используем
+        console.warn('backUrl домен не разрешен:', url.hostname)
+        return null
+    } catch (error) {
+        console.warn('Невалидный backUrl:', backUrl, error)
+        return null
+    }
+}
+
+/**
  * Получить backUrl из query параметров
  * Пытается найти backUrl в двух местах:
  * 1. Прямой параметр ?backUrl=...
@@ -43,39 +75,6 @@ export function getBackUrl(): string | null {
 
     // Валидация backUrl
     return validateBackUrl(backUrl)
-}
-
-/**
- * Валидирует backUrl для безопасности
- */
-function validateBackUrl(backUrl: string): string | null {
-    try {
-        // Если это относительный путь - возвращаем как есть
-        if (backUrl.startsWith('/')) {
-            return backUrl
-        }
-
-        // Если это полный URL - проверяем домен
-        const url = new URL(backUrl)
-        const currentDomain = window.location.hostname
-
-        // Разрешаем fstravel.com и все его поддомены
-        if (
-            url.hostname === currentDomain ||
-            url.hostname.endsWith('.fstravel.com') ||
-            url.hostname === 'fstravel.com'
-        ) {
-            return backUrl
-        }
-
-        // Если домен не совпадает - не используем
-        console.warn('backUrl домен не разрешен:', url.hostname)
-        return null
-    } catch (error) {
-        // Если URL невалиден - не используем
-        console.warn('Невалидный backUrl:', backUrl)
-        return null
-    }
 }
 
 /**
