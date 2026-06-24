@@ -6,6 +6,7 @@ import pluginVue from 'eslint-plugin-vue'
 import pluginVitest from '@vitest/eslint-plugin'
 import sonarjs from 'eslint-plugin-sonarjs'
 import fsPlugin from './plugins/eslinter-plugin-fs/index.js'
+import prettierConfig from '@vue/eslint-config-prettier'
 
 export default defineConfigWithVueTs([
     { files: ['src/**/*.{ts,mts,js,mjs,cjs,vue,tsx}'] },
@@ -23,6 +24,7 @@ export default defineConfigWithVueTs([
         '**/*.bundle.js',
         '**/build/**',
         '**/build-ssr/**',
+        'old_version_2026_01/**',
     ]),
     { languageOptions: { globals: globals.browser } },
     pluginJs.configs.recommended,
@@ -70,9 +72,11 @@ export default defineConfigWithVueTs([
             'no-case-declarations': 2, //  запрет на объявление переменных в switch case и default
             'no-constant-condition': ['error', { checkLoops: false }], // Позволяет использовать константные выражения (true) в циклах
             '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^(props|ref|emit|apiClient)$' }],
-            '@typescript-eslint/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true }],
+            '@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
             '@typescript-eslint/no-explicit-any': 'warn',
             'vue/block-lang': 0, // разрешено не писать lang="ts" в шаблонах скриптов
+            'vue/enforce-style-attribute': ['error', { allow: ['scoped'] }], // обязательный scoped атрибут для style
         },
     },
+    prettierConfig, // должен быть последним, чтобы отключить конфликтующие правила ESLint
 ])

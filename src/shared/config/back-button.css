@@ -48,11 +48,11 @@
         left: 0;
         background: #eff2f6;
     }
-    
+
     .back-button__icon-desktop {
         display: none;
     }
-    
+
     .back-button__mobile {
         display: inline-flex;
         align-items: center;

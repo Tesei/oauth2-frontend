@@ -9,8 +9,8 @@
         "generate:cshtml": "node scripts/generate-cshtml.mjs",
         "build:cshtml": "npm run build && npm run generate:cshtml",
         "preview": "vite preview",
-        "lint": "eslint .",
-        "lint:fix": "eslint . --fix",
+        "lint": "eslint src",
+        "lint:fix": "eslint src --fix",
         "format": "prettier --write \"src/**/*.{js,vue,css,ts}\""
     },
     "dependencies": {

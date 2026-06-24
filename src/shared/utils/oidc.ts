@@ -34,7 +34,7 @@ const oidcConfig = {
     // Автоматическое обновление токена
     automaticSilentRenew: true,
     includeIdTokenInSilentRenew: true,
-    
+
     // За сколько секунд до истечения токена начинать обновление
     accessTokenExpiringNotificationTimeInSeconds: parseInt(import.meta.env.VITE_OIDC_TOKEN_RENEW_TIME || '30'),
 
@@ -51,8 +51,8 @@ const oidcConfig = {
         authorization_endpoint: `${authority}/connect/authorize`,
         token_endpoint: `${authority}/connect/token`,
         userinfo_endpoint: `${authority}/connect/userinfo`,
-        end_session_endpoint: `${authority}/connect/endsession`
-    }
+        end_session_endpoint: `${authority}/connect/endsession`,
+    },
 }
 
 let userManager: UserManager | null = null
@@ -186,7 +186,7 @@ export async function handleOidcCallback() {
         if (!manager) {
             throw new Error('Не удалось инициализировать OIDC')
         }
-        
+
         const user = await manager.signinRedirectCallback()
 
         // Получаем сохраненный URL для возврата

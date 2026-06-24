@@ -21,7 +21,7 @@ export function getQueryParam(param: string): string | null {
 export function getBackUrl(): string | null {
     // Сначала пробуем прямой backUrl
     let backUrl = getQueryParam('backUrl')
-    
+
     // Если нет прямого, пробуем извлечь из ReturnUrl
     if (!backUrl) {
         const returnUrl = getQueryParam('ReturnUrl')
@@ -36,11 +36,11 @@ export function getBackUrl(): string | null {
             }
         }
     }
-    
+
     if (!backUrl) {
         return null
     }
-    
+
     // Валидация backUrl
     return validateBackUrl(backUrl)
 }
@@ -54,18 +54,20 @@ function validateBackUrl(backUrl: string): string | null {
         if (backUrl.startsWith('/')) {
             return backUrl
         }
-        
+
         // Если это полный URL - проверяем домен
         const url = new URL(backUrl)
         const currentDomain = window.location.hostname
-        
+
         // Разрешаем fstravel.com и все его поддомены
-        if (url.hostname === currentDomain || 
-            url.hostname.endsWith('.fstravel.com') || 
-            url.hostname === 'fstravel.com') {
+        if (
+            url.hostname === currentDomain ||
+            url.hostname.endsWith('.fstravel.com') ||
+            url.hostname === 'fstravel.com'
+        ) {
             return backUrl
         }
-        
+
         // Если домен не совпадает - не используем
         console.warn('backUrl домен не разрешен:', url.hostname)
         return null
@@ -83,7 +85,7 @@ function validateBackUrl(backUrl: string): string | null {
  */
 export function goBack(): void {
     const backUrl = getBackUrl()
-    
+
     if (backUrl) {
         window.location.href = backUrl
     } else {
