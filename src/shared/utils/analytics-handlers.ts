@@ -19,9 +19,9 @@ export function initPageAnalytics(pageName: string) {
     if (pageName === 'login') {
         cleanupFn = initLoginAnalytics()
     } else if (pageName === 'old-login') {
-        cleanupFn = initOldLoginAnalytics()
+        initOldLoginAnalytics()
     } else if (pageName === 'old-forgot-password') {
-        cleanupFn = initForgotPasswordAnalytics()
+        initForgotPasswordAnalytics()
     } else if (pageName === 'old-forgot-password-sent') {
         initForgotPasswordSentAnalytics()
     } else if (pageName === 'old-reset-password-success') {
