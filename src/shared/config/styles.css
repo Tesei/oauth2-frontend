@@ -141,6 +141,10 @@ body {
     }
 }
 
+html.cookie-consent-accepted .about-cookies {
+    display: none;
+}
+
 .about-cookies {
     display: flex;
     align-items: center;

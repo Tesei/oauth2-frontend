@@ -4,6 +4,12 @@
 declare global {
     interface Window {
         dataLayer: any[]
+        __gtmLoaded?: boolean
+        FunSunCookieConsent?: {
+            hasConsent: () => boolean
+            accept: () => void
+            initBanner: () => void
+        }
     }
 }
 

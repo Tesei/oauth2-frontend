@@ -1,25 +1,7 @@
 <!doctype html>
 <html lang="ru">
     <head>
-        <!-- Инициализация dataLayer -->
-        <script>
-            window.dataLayer = window.dataLayer || []
-        </script>
-
-        <!-- Google Tag Manager -->
-        <script>
-            ;(function (w, d, s, l, i) {
-                w[l] = w[l] || []
-                w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
-                var f = d.getElementsByTagName(s)[0],
-                    j = d.createElement(s),
-                    dl = l != 'dataLayer' ? '&l=' + l : ''
-                j.async = true
-                j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
-                f.parentNode.insertBefore(j, f)
-            })(window, document, 'script', 'dataLayer', 'GTM-P7DMFQ2')
-        </script>
-        <!-- End Google Tag Manager -->
+        <script src="/cookie-consent.js"></script>
 
         <meta charset="UTF-8" />
         <meta
@@ -83,7 +65,7 @@
             class="main-container"
         ></main>
 
-        <div class="about-cookies shadow-20dp-bottom">
+        <div class="about-cookies shadow-20dp-bottom js-cookie-consent-banner">
             <div>
                 <span class="caption_L">Мы используем </span>
                 <a
@@ -95,7 +77,12 @@
                 </a>
                 <span class="caption_L"> чтобы всё работало как надо</span>
             </div>
-            <web-button> Соглашаюсь </web-button>
+            <web-button
+                size="S"
+                class="js-cookie-consent-accept"
+            >
+                Соглашаюсь
+            </web-button>
         </div>
 
         <!-- Vue App -->
