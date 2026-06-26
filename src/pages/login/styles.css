@@ -1,14 +1,19 @@
 .auth-card__link {
     color: var(--link-brand, #ff6702);
     text-decoration: underline;
-
-    .auth-card__link:hover {
-        color: var(--link-brand-hover, #fe4d00);
-        text-decoration: underline;
-    }
 }
+.auth-card__link:hover {
+    color: var(--link-brand-hover, #fe4d00);
+}
+.auth-card__link:visited {
+    color: var(--link-visited, #992b00);
+}
+
 
 .agreement-block {
     text-align: center;
     text-wrap: balance;
+}
+.text-center{
+    text-align: center;
 }

@@ -82,7 +82,7 @@ body {
 
 .layout__link {
     position: absolute;
-    top: 48px;
+    top: 87px;
     left: 50%;
     transform: translate(-50%, 0);
 }
@@ -104,7 +104,6 @@ body {
     width: 100%;
     height: 100%;
     min-height: 100vh;
-    min-height: 100dvh;
     padding-block: 121px;
 }
 @media (max-width: 1023px) {
@@ -162,7 +161,12 @@ body {
         color: var(--link-brand-hover);
     }
 }
-
+@media (max-width: 1023px) {
+    .about-cookies {
+        margin-inline: 16px;
+        gap: 16px;
+    }
+}
 .auth-button {
     display: flex;
     height: 56px;
@@ -174,12 +178,36 @@ body {
 
     &.auth-button--wb {
         gap: 8px;
-        background: linear-gradient(90deg, #d654d0 0%, #5024f9 100%);
+        background: linear-gradient(90deg, #d654d0 0%, #5024f9 50%, #d654d0 100%);
+        background-size: 200% 100%;
+        background-position: 0% 50%;
         color: #fff;
+        transition: background-position 0.4s ease;
+
+        &:hover {
+            background-position: 100% 50%;
+        }
     }
 
     &.auth-button--gray {
+        position: relative;
+        isolation: isolate;
         background: var(--surface-container, rgba(0, 0, 0, 0.05));
         color: var(--text-icon-primary, #202226);
+
+        &::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        &:hover::before {
+            opacity: 1;
+        }
     }
 }
