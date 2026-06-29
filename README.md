@@ -167,8 +167,11 @@ npm run build:cshtml
 4. Проверить, что обновились backend-шаблоны:
    - `cshtml-ready/Login-Index.cshtml`
    - `cshtml-ready/LoginOtp-Index.cshtml`
+   - Проверить что скрипты подключатся в шаблонах, а не написаны в самих шаблонах. (Просьба от бэкенда, что бы при правках менять не шаблоны, а папку dist)
 5. Проверить layout для backend:
    - в `cshtml-ready/_Layout.cshtml` пути указывают на стабильные файлы (`~/dist/assets/index.js`, `~/dist/assets/index.css`, `~/dist/css/ui-tokens.css`)
+   - [ ] `name` полей совпадают с C# Model
+   - [ ] GTM / dataLayer инициализированы в layout
 6. Выполнить быструю smoke-проверку:
    - открыть `/login` и `/login-otp`
    - проверить отображение web-components, иконок/sprite и шрифтов
