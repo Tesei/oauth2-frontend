@@ -15,7 +15,15 @@ import { initLoginBackButton } from './pages/login/back-button-handler'
 
 const pageContent = ref('')
 const pageRoutes: Array<{ path: string; pageName: string }> = [
-    { path: '/login-otp', pageName: 'login-otp' },
+    { path: '/login-otp-resend-support-and-email', pageName: 'login-otp-resend-support-and-email' },
+    { path: '/login-otp-resend-phone-and-email', pageName: 'login-otp-resend-phone-and-email' },
+    { path: '/login-otp-resend-phone-and-sms', pageName: 'login-otp-resend-phone-and-sms' },
+    { path: '/login-otp-resend-phone', pageName: 'login-otp-resend-phone' },
+    { path: '/login-otp-resend-email', pageName: 'login-otp-resend-email' },
+    { path: '/login-otp-resend-sms', pageName: 'login-otp-resend-sms' },
+    { path: '/login-otp-phone', pageName: 'login-otp-phone' },
+    { path: '/login-otp-email', pageName: 'login-otp-email' },
+    { path: '/conferme-email', pageName: 'conferme-email' },
     { path: '/login', pageName: 'login' },
 ]
 
