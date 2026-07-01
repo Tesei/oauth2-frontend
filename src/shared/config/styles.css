@@ -117,7 +117,6 @@ body {
     width: 480px;
     border-radius: 24px;
     background-color: var(--surface-background, #fff);
-    padding: 12px 32px 32px;
 }
 @media (max-width: 1023px) {
     .auth-card {
@@ -126,7 +125,6 @@ body {
         width: 100vw;
         min-height: 100vh;
         min-height: 100dvh;
-        padding: 12px 16px;
     }
 }
 
@@ -214,4 +212,7 @@ html.cookie-consent-accepted .about-cookies {
             opacity: 1;
         }
     }
+}
+.text-center{
+    text-align: center;
 }

@@ -1,43 +1,17 @@
-<div class="auth-card auth-card--otp">
-    <web-button-control
-        onclick="window.history.back()"
-        class="auth-card__close-button js-back-button"
-    ></web-button-control>
+<div class="auth-card auth-card--otp p-32 md3-p-16 md3-flex md3-flex-d-c md3-jc-c">    
+    <div class="heading_3 mb-12 text-center">Подтвердите Email</div>
+    <div class="body_S c-text-secondary mb-24 text-center">
+        Мы отправили вам письмо 
+        <p>на <span class="c-text-primary">exa••••••@mail.ru.</span> Пожалуйста, пройдите</p>
+        по ссылке для подтверждения email
+    </div>
 
-    <h1 class="heading_3 mb-12 otp-title">Введите код из СМС</h1>
-    <p class="caption_L c-text-secondary mb-24 otp-subtitle">
-        Мы отправили код подтверждения на номер
-        <span class="c-text-primary">+7 999 000 00 00</span>
-    </p>
-
-    <form
-        id="otp-account"
-        method="post"
-        class="otp-form"
+    <web-button
+        id="come-back-to-the-site"
+        class="w-100p"
+        link=""
+        linkTarget="_self"
     >
-        <web-input
-            name="OtpInput.Code"
-            label="Код подтверждения"
-            placeholder="000000"
-            autocomplete="one-time-code"
-            inputmode="numeric"
-            maxlength="6"
-            class="mb-16"
-        ></web-input>
-
-        <web-button
-            id="otp-submit"
-            type="submit"
-            class="w-100p mb-16"
-        >
-            Подтвердить
-        </web-button>
-    </form>
-
-    <button
-        type="button"
-        class="button_M otp-resend-button"
-    >
-        Отправить код повторно
-    </button>
+        Вернуться на сайт
+    </web-button>
 </div>
