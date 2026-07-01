@@ -6,14 +6,14 @@
     ViewData["Title"] = Localizer["Title"];
 }
 
-<div class="auth-card">
+<div class="auth-card pt-12 pb-32 px-32 md3-py-12 md3-px-16">
     <web-button-control
         onclick="window.history.back()"
         class="auth-card__close-button js-back-button"
     ></web-button-control>
-    <h1 class="login_title heading_3 mb-24">
+    <h1 class="text-center heading_3 mb-24">
         Зарегистрируйтесь
-        <span> или войдите </span>
+        <p>или войдите</p>
     </h1>
     <a
         href="/"
@@ -54,6 +54,7 @@
             autocomplete="current-phone"
             model-value="+7"
             class="mb-12"
+            error-text="Некорректный номер телефона"
         ></web-input-phone>
 
         <web-button
@@ -66,12 +67,14 @@
         </web-button>
     </form>
 
-    <a
-        href="/"
-        class="mb-24 auth-button button_M c-text-brand-secondary"
+    <web-button
+        color-type="Ghost"
+        class="w-100p mb-24"
+        link="/"
     >
         Войти по почте
-    </a>
+    </web-button>
+
 
     <div class="caption_M c-text-tertiary agreement-block">
         <span
