@@ -1,9 +1,5 @@
 /* Стили страницы Forgot Password Sent */
 
-.forgot-sent__text {
-    text-align: center;
-}
-
 @media (max-width: 1023px) {
     .forgot-sent__text {
         text-align: left;

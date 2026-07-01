@@ -15,16 +15,15 @@ import { initLoginBackButton } from './pages/login/back-button-handler'
 
 const pageContent = ref('')
 const pageRoutes: Array<{ path: string; pageName: string }> = [
-    { path: '/old-forgot-password-sent', pageName: 'old-forgot-password-sent' },
-    { path: '/old-forgot-password', pageName: 'old-forgot-password' },
-    { path: '/old-reset-password-success', pageName: 'old-reset-password-success' },
-    { path: '/old-reset-password-error', pageName: 'old-reset-password-error' },
-    { path: '/old-reset-password', pageName: 'old-reset-password' },
-    { path: '/old-wb-auth-register', pageName: 'old-wb-auth-register' },
-    { path: '/old-wb-auth-confirm', pageName: 'old-wb-auth-confirm' },
-    { path: '/old-signup', pageName: 'old-signup' },
-    { path: '/login-otp', pageName: 'login-otp' },
-    { path: '/old-login', pageName: 'old-login' },
+    { path: '/login-otp-resend-support-and-email', pageName: 'login-otp-resend-support-and-email' },
+    { path: '/login-otp-resend-phone-and-email', pageName: 'login-otp-resend-phone-and-email' },
+    { path: '/login-otp-resend-phone-and-sms', pageName: 'login-otp-resend-phone-and-sms' },
+    { path: '/login-otp-resend-phone', pageName: 'login-otp-resend-phone' },
+    { path: '/login-otp-resend-email', pageName: 'login-otp-resend-email' },
+    { path: '/login-otp-resend-sms', pageName: 'login-otp-resend-sms' },
+    { path: '/login-otp-phone', pageName: 'login-otp-phone' },
+    { path: '/login-otp-email', pageName: 'login-otp-email' },
+    { path: '/conferme-email', pageName: 'conferme-email' },
     { path: '/login', pageName: 'login' },
 ]
 
@@ -39,8 +38,8 @@ const loadPage = async (pageName: string) => {
         initPageAnalytics(pageName)
         initFormValidation() // Универсальная валидация форм
 
-        // Инициализация back-button с backUrl для login и old-login
-        if (pageName === 'login' || pageName === 'old-login') {
+        // Инициализация back-button с backUrl для login
+        if (pageName === 'login') {
             initLoginBackButton()
         }
     }, 200)

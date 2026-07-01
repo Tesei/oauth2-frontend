@@ -9,15 +9,15 @@
     "generate:cshtml": "node scripts/generate-cshtml.mjs",
     "build:cshtml": "npm run build && npm run generate:cshtml",
     "preview": "vite preview",
-        "lint": "eslint src",
-        "lint:fix": "eslint src --fix",
-        "format": "prettier --write \"src/**/*.{js,vue,css,ts}\"",
-        "typecheck": "vue-tsc --noEmit -p tsconfig.app.json",
-        "check": "npm run lint && npm run typecheck && npm run build",
-        "prepare": "husky"
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "format": "prettier --write \"src/**/*.{js,vue,css,ts}\"",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.app.json",
+    "check": "npm run lint && npm run typecheck && npm run build",
+    "prepare": "husky"
   },
   "dependencies": {
-    "@fun-sun/ui-kit": "=0.4.31",
+    "@fun-sun/ui-kit": "file:fun-sun-ui-kit-0.4.28.tgz",
     "@fun-sun/ui-tokens": "=0.1.10",
     "oidc-client-ts": "^3.4.1",
     "pinia": "^2.2.0",
